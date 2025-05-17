@@ -1,4 +1,4 @@
-# SSpa
+# SpatialSQL
 Overview
 =
 
