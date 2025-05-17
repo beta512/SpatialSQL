@@ -1,0 +1,102 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 苏州市最近的机场是哪座，距离有多远？ */
+Select airports.name, min(Distance(cities.Shape, airports.Location, 1))  as distance from cities inner join airports where cities.name = '苏州市' order by distance limit 1
+
+/* Answer the following: 距离河南省与湖北省交界最近的机场是哪座？距离有多远？ */
+Select airports.name, Distance(airports.Location, Intersection(a.Shape, b.Shape), 1)  as d from provinces a inner join provinces b On a.name = '河南省' and b.name = '湖北省' and Intersects(a.Shape, b.Shape) = 1  inner join airports order by d asc limit 1
+
+/* Answer the following: 北京市距离北京大学最近的985高校是哪所，距离是多少？北京大学除外。 */
+Select b.name,  Distance(a.Location, b.Location, 1) from universities a inner join universities b where a.name = '北京大学' and b.province = '北京市' and b.name != '北京大学' order by Distance(a.Location, b.Location, 1) asc limit 1
+
+/* Answer the following: 郑州市的中心与河南省的中心距离是多少米？ */
+Select Distance(Centroid(provinces.Shape), Centroid(cities.Shape), 1)  from provinces inner join cities where provinces.name = '河南省' and cities.name = '郑州市'
+
+/* Answer the following: 江苏省内距离太湖最近的机场是哪座？一个湖泊是由多个名称相同的湖泊区域组成。只需要给出机场名字。 */
+Select airports.name from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+distance DOUBLE,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape_Area DOUBLE, 
+Shape POLYGON)
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTILINESTRING)
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTIPOLYGON)
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+length DOUBLE,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY, 
+Shape LINESTRING)
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+adcode TEXT, 
+Location POINT,
+primary key(station, Line),
+foreign key(adcode) references districts(administrative_division_code),
+foreign key(Line) references subways(Line))
+
+
+/* Answer the following with no explanation: 江宁区内距离南京南站地铁站最近的宾馆是哪一家？相距多远？南京南站地铁站以'南京南站'为名称表示，江宁区以'江宁区'为名称表示。 */
+SELECT 

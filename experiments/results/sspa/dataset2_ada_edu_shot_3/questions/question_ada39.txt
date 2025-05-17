@@ -1,0 +1,98 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 哪个区拥有最多的地铁站，数量是多少？ */
+Select districts.name, count(*) as count from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1
+
+/* Answer the following: 面积最大的省是哪个，面积多少？一个省由多个城市构成。 */
+Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1
+
+/* Answer the following: 哪条地铁线路的站点数量最多？共有多少个站点？ */
+Select line, count(*) as count from subwaystations group by line order by count desc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "airports" (
+IATA TEXT  not null,
+runway_number INTEGER  not null,
+airfield_area_class TEXT not null,
+name TEXT PRIMARY KEY,
+location POINT  not null)
+
+表"airports"记录中国各个机场的信息。
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+eng_name TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+表"cities"记录中国各个城市的信息。
+
+CREATE TABLE "lakes" (
+HYD1_4M_ID INTEGER PRIMARY KEY,
+Perimeter DOUBLE not null,
+GBCODE TEXT  not null,
+name TEXT not null,
+level_lake INTEGER  not null, 
+shape POLYGON  not null)
+
+表"lakes"记录中国各块湖泊的信息。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+GDP_1994 DOUBLE not null,
+GDP_1997 DOUBLE not null,
+GDP_1998 DOUBLE not null,
+GDP_1999 DOUBLE not null,
+GDP_2000 DOUBLE not null,
+pinyin_name TEXT not null,
+Pop_0_14 DOUBLE not null,
+Pop_15_64 DOUBLE not null,
+Pop_65Plus DOUBLE not null,
+Pop_Female DOUBLE not null,
+Pop_Han DOUBLE not null,
+Pop_Male DOUBLE not null,
+Pop_Minori DOUBLE not null,
+Pop_Rural DOUBLE not null,
+Pop_Urban DOUBLE not null,
+POPU DOUBLE not null,
+administrative_divison_code TEXT not null,
+shape MULTIPOLYGON not null)
+
+表"provinces"记录中国各个省的GDP及人口等信息。
+
+CREATE TABLE "rails" (
+objectID INTEGER PRIMARY KEY,
+entityID TEXT not null,
+name TEXT not null,
+classID TEXT  not null, 
+shape MULTILINESTRING not null)
+
+表"rails"记录中国各段铁路的信息。
+
+CREATE TABLE "rivers" (
+HYD1_4M_ID INTEGER PRIMARY KEY,
+fnode INTEGER  not null,
+tnode INTEGER not null,
+lpoly INTEGER not null,
+rpoly INTEGER not null,
+GBCODE TEXT not null,
+name TEXT not null,
+level_river INTEGER  not null, 
+shape LINESTRING  not null)
+
+表"rivers"记录中国各段河流的信息。
+
+
+/* Answer the following with no explanation: 人口最多的省份是哪一个？该省有多少个机场？ */
+SELECT 

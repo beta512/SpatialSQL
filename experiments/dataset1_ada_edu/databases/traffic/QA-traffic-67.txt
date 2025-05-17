@@ -1,0 +1,736 @@
+label:G S 
+questionCHI:874路公交线路的全程长度是多少？
+evidenceCHI:
+nameCHI:874路公交线路以'874路'为名称表示。
+question:What is the total length of bus route 874?
+evidence:
+name:The bus route 874 is represented by the name '874路'.
+SQL:Select distance from buslines where name = '874路' %%% Select GLength(Shape, 1) from buslines where name = '874路'
+Eval:Select distance from buslines where name = '874路' %%% Select GLength(Shape, 1) from buslines where name = '874路'
+id: traffic01
+
+label:G S
+questionCHI:我想了解哪条公交线路最长，以及它的具体长度。
+evidenceCHI:
+nameCHI:
+question:I would like to know which bus route is the longest and its exact length.
+evidence:
+name:
+SQL:Select name, distance from buslines order by distance desc limit 1 %%% Select name, GLength(Shape, 1) as distance from buslines order by distance desc limit 1
+Eval:Select name, distance from buslines order by distance desc limit 1 %%% Select name, GLength(Shape, 1) as distance from buslines order by distance desc limit 1
+id: traffic02
+
+label:G S
+questionCHI:请列出长度最长的10条公交线路，包括起点站、终点站及其具体长度。
+evidenceCHI:
+nameCHI:
+question:Please list the 10 longest bus routes, including their start and end stops, as well as their exact lengths.
+evidence:
+name:
+SQL:Select name, start_stop, end_stop, distance from buslines order by distance desc limit 10 %%% Select name, start_stop, end_stop, GLength(Shape, 1) as distance from buslines order by distance desc limit 10
+Eval:Select name, start_stop, end_stop, distance from buslines order by distance desc limit 10 %%% Select name, start_stop, end_stop, GLength(Shape, 1) as distance from buslines order by distance desc limit 10
+id: traffic03
+
+label:G S Region
+questionCHI:南京市每条道路的总长度是多少？
+evidenceCHI:一条道路由所有名字相同的路段构成。
+nameCHI:
+question:What is the total length of each road in Nanjing?
+evidence:A road is composed of all segments that share the same name.
+name:
+SQL:Select name, Sum(length) from roads group by name %%% Select name, Sum(GLength(Shape, 1)) from roads group by name
+Eval:Select name, Sum(length) from roads group by name %%% Select name, Sum(GLength(Shape, 1)) from roads group by name
+id: traffic04
+
+label:G S Region
+questionCHI:南京市最长的道路是哪一条？它的具体长度是多少？
+evidenceCHI:一条道路由所有名字相同的路段构成。
+nameCHI:
+question:Which is the longest road in Nanjing, and what is its exact length?
+evidence:A road is composed of all segments that share the same name.
+name:
+SQL:Select name, Sum(length) as length from roads group by name order by length desc  limit 1 %%% Select name, Sum(GLength(Shape, 1)) as length from roads group by name order by length desc  limit 1
+Eval:Select name, Sum(length) as length from roads group by name order by length desc  limit 1 %%% Select name, Sum(GLength(Shape, 1)) as length from roads group by name order by length desc  limit 1
+id: traffic05
+
+label:G S Region
+questionCHI:南京市的绿地总面积是多少？
+evidenceCHI:
+nameCHI:
+question:What is the total green space area in Nanjing?
+evidence:
+name:
+SQL:Select Sum(Shape_Area) from greenspaces  %%% Select Sum(Area(Shape,1)) from greenspaces
+Eval:Select Sum(Shape_Area) from greenspaces  %%% Select Sum(Area(Shape,1)) from greenspaces
+id: traffic06
+
+label:G S Region
+questionCHI:南京市每块绿地的总面积是多少？
+evidenceCHI:一块绿地由名字相同的多个区域组成。
+nameCHI:
+question:What is the total area of each green space in Nanjing?
+evidence: A green space consists of multiple areas that share the same name.
+name:
+SQL:Select name, Sum(Shape_Area) from greenspaces  group by name %%% Select name, Sum(Area(Shape,1)) from greenspaces  group by name
+Eval:Select name, Sum(Shape_Area) from greenspaces  group by name %%% Select name, Sum(Area(Shape,1)) from greenspaces  group by name
+id: traffic07
+
+label:G S Region
+questionCHI:南京市面积最大的绿地是哪一块？它的具体面积是多少？
+evidenceCHI:一块绿地由名字相同的多个区域组成。
+nameCHI:
+question:Which green space in Nanjing has the largest area, and what is its exact size?
+evidence:A green space consists of multiple areas that share the same name.
+name:
+SQL:Select name, Sum(Shape_Area) as area from greenspaces  group by name order by area desc limit 1 %%% Select name, Sum(Area(Shape,1))  as area  from greenspaces  group by name order by area desc limit 1
+Eval:Select name, Sum(Shape_Area) as area from greenspaces  group by name order by area desc limit 1 %%% Select name, Sum(Area(Shape,1))  as area  from greenspaces  group by name order by area desc limit 1
+id: traffic08
+
+label:G S
+questionCHI:玄武湖公园的总面积是多少？
+evidenceCHI:玄武湖公园由名字相同的多个区域组成。
+nameCHI:玄武湖公园以'玄武湖公园'为名称表示。
+question:What is the total area of Xuanwu Lake Park?
+evidence:Xuanwu Lake Park consists of multiple areas that share the same name.
+name:Xuanwu Lake Park is represented by the name '玄武湖公园'.
+SQL:Select Sum(Shape_Area) from greenspaces where name = '玄武湖公园' %%% Select Sum(Area(Shape, 1)) from greenspaces where name = '玄武湖公园'
+Eval:Select Sum(Shape_Area) from greenspaces where name = '玄武湖公园' %%% Select Sum(Area(Shape, 1)) from greenspaces where name = '玄武湖公园'
+id: traffic09
+
+label:G S Intersection Region
+questionCHI:南京市各区的绿地面积是多少？
+evidenceCHI:应计算绿地与各区交叠部分的面积。
+nameCHI:
+question:What is the green space area in each district of Nanjing?
+evidence:The area of overlap between the green space and each district should be calculated.
+name:
+SQL:Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name %%% Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name
+Eval:Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name %%% Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name %%% Select districts.name, Sum(Area(Intersection(greenspaces.Shape, districts.Shape), 1)) from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name
+id: traffic10
+
+label:G S Intersection Region
+questionCHI:南京市绿地面积最大的区是哪一个？其绿地面积是多少？
+evidenceCHI:应计算绿地与各区交叠部分的面积。
+nameCHI:
+question:Which district in Nanjing has the largest green space area, and what is that area?
+evidence:The area of overlap between the green space and each district should be calculated.
+name:
+SQL:Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1 %%% Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) as area from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1
+Eval:Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1 %%% Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) as area from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1 %%% Select districts.name, Sum(Area(Intersection(greenspaces.Shape, districts.Shape), 1)) as area from districts inner join greenspaces where Intersects(greenspaces.Shape, districts.Shape) = 1 group by districts.name order by area desc limit 1
+id: traffic11
+
+label:G
+questionCHI:每条地铁线设有多少个站点？
+evidenceCHI:
+nameCHI:
+question:How many stations are there on each subway line?
+evidence:
+name:
+SQL:Select line, count(*) from subwaystations group by line order by line
+Eval:Select line, count(*) from subwaystations group by line order by line
+id: traffic12
+
+label:G Region
+questionCHI:南京市每条地铁线路设有多少个站点？
+evidenceCHI:
+nameCHI:
+question:How many stations are there on each subway line in Nanjing?
+evidence:
+name:
+SQL:Select line, count(*) from subwaystations group by line
+Eval:Select line, count(*) from subwaystations group by line
+id: traffic13
+
+label:G
+questionCHI:哪些公交线路的首班车在始发站于早上5点发车？
+evidenceCHI:
+nameCHI:早上5点钟以'0500'为名称表示。
+question:Which bus routes have their first buses departing from the starting station at 5:00 a.m.?
+evidence:
+name:5:00 a.m. is represented by the name '0500'.
+SQL:Select buslines.name from busstops inner join buslines where start_stop = busstops.name and start_time = '0500'
+Eval:Select buslines.name from busstops inner join buslines where start_stop = busstops.name and start_time = '0500'
+id: traffic14
+
+label:G S
+questionCHI:三元巷公交站附近最近的5家宾馆分别是什么？距离各是多少？
+evidenceCHI:
+nameCHI:三元巷公交站以'三元巷'为名称表示。
+question:What are the five nearest hotels to Sanyuan Lane Bus Stop, and how far are they from it?
+evidence:
+name:Sanyuan Lane Bus Stop is represented by the name '三元巷'.
+SQL:Select hotels.name, Distance(busstops.Location, hotels.Location, 1) as d from busstops inner join hotels on busstops.name = '三元巷' order by d asc limit 5
+Eval:Select hotels.name, Distance(busstops.Location, hotels.Location, 1) as d from busstops inner join hotels on busstops.name = '三元巷' order by d asc limit 5
+id: traffic15
+
+label:G
+questionCHI:哪条地铁线路的站点数量最多？共有多少个站点？
+evidenceCHI:
+nameCHI:
+question:Which subway line has the most stations, and how many stations does it have in total?
+evidence:
+name:
+SQL:Select line, count(*) as count from subwaystations group by line order by count desc limit 1
+Eval:Select line, count(*) as count from subwaystations group by line order by count desc limit 1
+id: traffic16
+
+label:S
+questionCHI:我想了解每条地铁线路经过了多少个区。
+evidenceCHI:
+nameCHI:
+question:I would like to know how many districts each subway line passes through.
+evidence:
+name:
+SQL:Select distinct subways.line, count(*) from subways inner join districts on Intersects(subways.Shape, districts.Shape) = 1 group by subways.line
+Eval:Select distinct subways.line, count(*) from subways inner join districts on Intersects(subways.Shape, districts.Shape) = 1 group by subways.line
+id: traffic17
+
+label:S
+questionCHI:我想了解地铁4号线的具体长度。
+evidenceCHI:
+nameCHI:地铁4号线以'line4'为名称表示。
+question:I would like to know the exact length of Subway Line 4.
+evidence:
+name:The Subway Line 4 is represented by the name 'line4'.
+SQL:Select GLength(Shape, 1) from subways where line = 'line4'
+Eval:Select GLength(Shape, 1) from subways where line = 'line4'
+id: traffic18
+
+label:S
+questionCHI:地铁十号线二期与哪些其它地铁线路有交汇？
+evidenceCHI:
+nameCHI:十号线二期表示为'line10二期'。
+question:Which other subway lines intersect with the second phase of Subway Line 10?
+evidence:
+name:The second phase of Subway Line 10 is represented by the name 'line10二期'.
+SQL:Select distinct b.line from subways a inner join subways b on Intersects(a.Shape, b.Shape) = 1 where a.line = 'line10二期' and b.line != a.line
+Eval:Select distinct b.line from subways a inner join subways b on Intersects(a.Shape, b.Shape) = 1 where a.line = 'line10二期' and b.line != a.line
+id: traffic19
+
+label:S Region
+questionCHI:南京市地铁的总长度是多少？
+evidenceCHI:
+nameCHI:
+question:What is the total length of the Nanjing subway system?
+evidence:
+name:
+SQL:Select Sum(GLength(Shape, 1)) from subways
+Eval:Select Sum(GLength(Shape, 1)) from subways
+id: traffic20
+
+label:S Region
+questionCHI:南京市文物局最近的地铁站是哪一站？相距多远？
+evidenceCHI:
+nameCHI:南京市文物局以'南京市文物局'为名称表示。
+question:Which subway station is closest to the Nanjing Municipal Bureau of Cultural Relics, and how far is it?
+evidence:
+name:The Nanjing Municipal Bureau of Cultural Relics is represented by the name '南京市文物局'.
+SQL:Select subwaystations.station,  Distance(agencies.Location, subwaystations.Location, 1) as distance from agencies inner join subwaystations where agencies.name = '南京市文物局' order by distance asc limit 1
+Eval:Select subwaystations.station,  Distance(agencies.Location, subwaystations.Location, 1) as distance from agencies inner join subwaystations where agencies.name = '南京市文物局' order by distance asc limit 1
+id: traffic21
+
+label:S
+questionCHI:地铁4号线鼓楼站一公里范围内有哪些宾馆？它们各自的距离是多少？
+evidenceCHI:
+nameCHI:地铁4号线以'line4'为名称表示，鼓楼站以'鼓楼'为名称表示。
+question:What hotels are located within one kilometer of Gulou Station on Subway Line 4, and how far is each of them?
+evidence:
+name:The Subway Line 4 is represented by the name 'line4,' and Gulou Station is represented by the name '鼓楼'.
+SQL:Select hotels.name, Distance(subwaystations.Location, hotels.Location, 1) from subwaystations inner join hotels on Distance(subwaystations.Location, hotels.Location, 1) < 1000 where subwaystations.station = '鼓楼' and subwaystations.line = 'line4'
+Eval:Select hotels.name, Distance(subwaystations.Location, hotels.Location, 1) from subwaystations inner join hotels on Distance(subwaystations.Location, hotels.Location, 1) < 1000 where subwaystations.station = '鼓楼' and subwaystations.line = 'line4'
+id: traffic22
+
+label:S Intersection
+questionCHI:公交874路与711路交汇处最近的地铁站是哪一站？
+evidenceCHI:
+nameCHI:公交874路表以'874路'为名称表示，711路以'711路'为名称表示。
+question:Which subway station is closest to the intersection of Bus Routes 874 and 711?
+evidence:
+name:Bus Route 874 is represented by the name '874路', and Bus Route 711 is represented by the name '711路'.
+SQL:Select subwaystations.station from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) asc limit 1
+Eval:Select subwaystations.station from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) asc limit 1 %%% Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as d from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by d asc limit 1 %%% Select subwaystations.station, Distance(Intersection(b.Shape, a.Shape), subwaystations.Location, 1) as d from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(b.Shape, a.Shape) = 1 order by d asc limit 1
+id: traffic23
+
+label:S Intersection
+questionCHI:秦淮路与将军大道交汇处最近的地铁站是哪一站？相距多远？
+evidenceCHI:
+nameCHI:秦淮路以'秦淮路'为名称表示，将军大道以'将军大道'为名称表示。
+question:Which subway station is closest to the intersection of Qinhuai Road and General Avenue, and how far is it?
+evidence:
+name:Qinhuai Road is represented by the name '秦淮路', and General Avenue is represented by the name '将军大道'.
+SQL:Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1
+Eval:Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1 %%% Select subwaystations.station, Distance(Intersection(b.Shape, a.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1
+id: traffic24
+
+label:S Region
+questionCHI:南京市内每条铁路线的长度是多少？
+evidenceCHI:一条铁路由所有名称相同的路段组成。
+nameCHI:
+question:What is the length of each railway line within Nanjing?
+evidence:A railway line is composed of all sections with the same name.
+name:
+SQL:Select name, Sum(GLength(Shape, 1))  from rails group by name
+Eval:Select name, Sum(GLength(Shape, 1))  from rails group by name
+id: traffic25
+
+label:S Region
+questionCHI:南京市内最长的铁路线是哪一条？长度是多少？
+evidenceCHI:一条铁路由所有名称相同的路段组成。
+nameCHI:
+question:Which railway line is the longest within Nanjing, and how long is it?
+evidence:A railway line is composed of all sections with the same name.
+name:
+SQL:Select name, Sum(GLength(Shape, 1)) as length from rails group by name order by length desc limit 1
+Eval:Select name, Sum(GLength(Shape, 1)) as length from rails group by name order by length desc limit 1
+id: traffic26
+
+label:S Region
+questionCHI:南京市内铁路的总长度是多少？
+evidenceCHI:
+nameCHI:
+question:What is the total length of the railway system within Nanjing?
+evidence:
+name:
+SQL:Select Sum(GLength(Shape, 1)) from rails
+Eval:Select Sum(GLength(Shape, 1)) from rails
+id: traffic27
+
+label:S
+questionCHI:哪个区的政府机构数量最多？具体有多少个？
+evidenceCHI:
+nameCHI:
+question:Which district has the most government institutions, and how many are there exactly?
+evidence:
+name:
+SQL:Select districts.name, count(*) as count from districts inner join agencies on Contains(districts.Shape, agencies.Location) = 1 group by districts.name order by count desc limit 1
+Eval:
+id: traffic28
+
+label:S
+questionCHI:大行宫地铁站位于哪个区？
+evidenceCHI:
+nameCHI:大行宫地铁站以'大行宫'为名称表示。
+question:Which district is Daxinggong Subway Station located in?
+evidence:
+name:Daxinggong Subway Station is represented by the name '大行宫'.
+SQL:Select distinct districts.name from districts inner join subwaystations on Within(subwaystations.Location, districts.Shape) = 1 where subwaystations.station = '大行宫'
+Eval:Select distinct districts.name from districts inner join subwaystations on Within(subwaystations.Location, districts.Shape) = 1 where subwaystations.station = '大行宫'
+id: traffic29
+
+label:S Region
+questionCHI:江苏省海事局位于哪个区？
+evidenceCHI:
+nameCHI:江苏省海事局以'江苏省海事局'为名称表示。
+question:Which district is the Jiangsu Maritime Bureau located in?
+evidence:
+name:The Jiangsu Maritime Bureau is represented by the name '江苏省海事局'.
+SQL:Select districts.name from districts inner join agencies on Within(agencies.Location, districts.Shape) = 1 where agencies.name = '江苏省海事局'
+Eval:Select districts.name from districts inner join agencies on Within(agencies.Location, districts.Shape) = 1 where agencies.name = '江苏省海事局'
+id: traffic30
+
+label:S Region
+questionCHI:南京市面积最大的区是哪一区？面积是多少？
+evidenceCHI:
+nameCHI:
+question:Which district in Nanjing has the largest area, and what is its size?
+evidence:
+name:
+SQL:Select name, Area(Shape, 1) as area from districts order by area desc limit 1
+Eval:Select name, Area(Shape, 1) as area from districts order by area desc limit 1
+id: traffic31
+
+label:S Region
+questionCHI:南京市各区的面积分别是多少？
+evidenceCHI:
+nameCHI:
+question:What is the area of each district in Nanjing?
+evidence:
+name:
+SQL:Select districts.name, Area(Shape, 1) from districts
+Eval:Select districts.name, Area(Shape, 1) from districts
+id: traffic32
+
+label:S Region
+questionCHI:南京市各区有多少条地铁线路经过？
+evidenceCHI:
+nameCHI:
+question:How many subway lines pass through each district in Nanjing?
+evidence:
+name:
+SQL:SELECT districts.name, count(distinct subwaystations.Line)  from districts inner join subwaystations On districts.administrative_division_code = subwaystations.adcode group by districts.name %%% Select districts.name, count(*)  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name
+Eval:SELECT districts.name, count(distinct subwaystations.Line)  from districts inner join subwaystations On districts.administrative_division_code = subwaystations.adcode group by districts.name %%% Select districts.name, count(*)  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name
+id: traffic33
+
+label:S
+questionCHI:广州路一公里范围内有哪些宾馆？
+evidenceCHI:
+nameCHI:广州路以'广州路'为名称表示。
+question:What hotels are located within one kilometer of Guangzhou Road?
+evidence:
+name:Guangzhou Road is represented by the name '广州路'.
+SQL:Select distinct hotels.name from roads inner join hotels On Distance(roads.Shape, hotels.Location, 1) < 1000 where roads.name = '广州路'
+Eval:Select distinct hotels.name from roads inner join hotels On Distance(roads.Shape, hotels.Location, 1) < 1000 where roads.name = '广州路'
+id: traffic34
+
+label:S Region
+questionCHI:南京市房产局附近最近的地铁站是哪一个，距离多远？
+evidenceCHI:
+nameCHI:南京市房产局以'南京市房产局'为名称表示。
+question:Which subway station is the closest to the Nanjing Housing Authority, and how far is it?
+evidence:
+name:The Nanjing Housing Authority is represented by the name '南京市房产局'.
+SQL:Select subwaystations.station, Distance(subwaystations.Location, agencies.Location, 1) as d from subwaystations inner join agencies On agencies.name = '南京市房产局' order by d asc limit 1
+Eval:Select subwaystations.station, Distance(subwaystations.Location, agencies.Location, 1) as d from subwaystations inner join agencies On agencies.name = '南京市房产局' order by d asc limit 1
+id: traffic35
+
+label:S
+questionCHI:玄武区有多少条地铁线路经过？
+evidenceCHI:
+nameCHI:玄武区以'玄武区'为名称表示。
+question:How many subway lines pass through Xuanwu District?
+evidence:
+name:Xuanwu District is represented by the name '玄武区'.
+SQL:Select count (*) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'
+Eval:Select count (*) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'
+id: traffic36
+
+label:S
+questionCHI:六合区有哪些公交线路在早上5点发车？
+evidenceCHI:
+nameCHI:六合区以'六合区'为名称表示，早上5点钟以'0500'为名称表示。
+question:Which bus routes in Liuhe District start operating at 5 a.m.?
+evidence:
+name:Luhe District is represented by the name '六合区', and 5 a.m. is represented by the name '0500'.
+SQL:Select buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 and districts.name = '六合区' inner join buslines where buslines.start_stop = busstops.name and buslines.start_time = '0500'
+Eval:Select buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 and districts.name = '六合区' inner join buslines where buslines.start_stop = busstops.name and buslines.start_time = '0500'
+id: traffic37
+
+label:S
+questionCHI:哪些区的哪些公交线路在早上5点前发车？
+evidenceCHI:
+nameCHI:早上5点钟以'0500'为名称表示。
+question:Which bus routes in which districts start operating before 5 a.m.?
+evidence:
+name:5 a.m. is represented by the name '0500'.
+SQL:Select distinct districts.name, buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 inner join buslines where buslines.start_stop = busstops.name and buslines.start_time < '0500'
+Eval:Select distinct districts.name, buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 inner join buslines where buslines.start_stop = busstops.name and buslines.start_time < '0500'
+id: traffic38
+
+label:S
+questionCHI:709路公交线路最近的地铁站是哪一站？相距多远？
+evidenceCHI:
+nameCHI:709路公交线路以'709路'为名称表示。
+question:Which subway station is closest to the 709 bus route, and how far is it?
+evidence:
+name:The 709 bus route is represented by the name '709路'.
+SQL:Select subwaystations.station, Distance(subwaystations.Location, buslines.Shape, 1) as d from buslines inner join subwaystations On buslines.name = '709路' order by d asc limit 1
+Eval:Select subwaystations.station, Distance(subwaystations.Location, buslines.Shape, 1) as d from buslines inner join subwaystations On buslines.name = '709路' order by d asc limit 1
+id: traffic39
+
+label:S Region
+questionCHI:请列出南京市文物局附近500米以内最近的5家宾馆及其距离。
+evidenceCHI:
+nameCHI:南京市文物局以'南京市文物局'为名称表示。
+question:Please list the five closest hotels within 500 meters of the Nanjing Municipal Bureau of Cultural Relics and their respective distances.
+evidence:
+name:The Nanjing Municipal Bureau of Cultural Relics is represented by the name '南京市文物局'.
+SQL:Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as d from agencies inner join hotels On d < 500 where agencies.NAME = '南京市文物局' order by Distance(agencies.Location, hotels.Location, 1) asc limit 5
+Eval:Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as d from agencies inner join hotels On d < 500 where agencies.NAME = '南京市文物局' order by Distance(agencies.Location, hotels.Location, 1) asc limit 5
+id: traffic40
+
+label:S
+questionCHI:经过建康路的公交线路有哪些？
+evidenceCHI:
+nameCHI:建康路以'建康路'为名称表示。
+question:Which bus routes pass through Jiankang Road?
+evidence:
+name:Jiankang Road is represented by the name '健康路'.
+SQL:Select distinct buslines.name from buslines inner join roads On Intersects(buslines.Shape, roads.Shape) = 1 where roads.name = '建康路'
+Eval:Select distinct buslines.name from buslines inner join roads On Intersects(buslines.Shape, roads.Shape) = 1 where roads.name = '建康路'
+id: traffic41
+
+label:S
+questionCHI:哪个区的政府机构最多？有多少个？
+evidenceCHI:
+nameCHI:
+question:Which district has the most government institutions, and how many are there?
+evidence:
+name:
+SQL:Select districts.name, count(*) as count from agencies inner join districts On Within(agencies.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1
+Eval:Select districts.name, count(*) as count from agencies inner join districts On Within(agencies.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1
+id: traffic42
+
+label:S
+questionCHI:江宁区内距离南京南站地铁站最近的宾馆是哪一家？相距多远？
+evidenceCHI:
+nameCHI:南京南站地铁站以'南京南站'为名称表示，江宁区以'江宁区'为名称表示。
+question:Which hotel is closest to Nanjing South Subway Station in Jiangning District, and how far is it?
+evidence:
+name:The Nanjing South Subway Station is represented by the name '南京南站', and Jiangning District is represented by the name '江宁区'.
+SQL:Select hotels.name, Distance(hotels.Location, subwaystations.Location, 1) as distance from hotels inner join districts on Within(hotels.Location, districts.Shape) = 1 and districts.name = '江宁区' inner join subwaystations on subwaystations.station = '南京南站' order by distance asc limit 1
+Eval:Select hotels.name, Distance(hotels.Location, subwaystations.Location, 1) as distance from hotels inner join districts on Within(hotels.Location, districts.Shape) = 1 and districts.name = '江宁区' inner join subwaystations on subwaystations.station = '南京南站' order by distance asc limit 1
+id: traffic43
+
+label:S Intersection Region
+questionCHI:南京市各区的地铁线路长度分别是多少？
+evidenceCHI:应该计算地铁线路与各区交叠部分的长度。
+nameCHI:
+question:What is the length of the subway lines in each district of Nanjing?
+evidence: The length of overlap between the subway lines and each district should be calculated.
+name:
+SQL:Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name
+Eval:Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name %%% Select districts.name, Sum(GLength(Intersection(subways.Shape, districts.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name
+id: traffic44
+
+label:S Intersection Region
+questionCHI:南京市哪个区的地铁总长度最长？总长度是多少？
+evidenceCHI:应该计算地铁线路与各区交叠部分的长度。
+nameCHI:
+question:Which district in Nanjing has the longest total subway line length, and what is the total length?
+evidence:The length of overlap between the subway lines and each district should be calculated.
+name:
+SQL:Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1
+Eval:Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1 %%% Select districts.name, Sum(GLength(Intersection(subways.Shape, districts.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1
+id: traffic45
+
+label:S
+questionCHI:玄武区有哪些地铁线路经过？
+evidenceCHI:
+nameCHI:玄武区以'玄武区'为名称表示。
+question:How many subway lines pass through Xuanwu District?
+evidence:
+name:Xuanwu District is represented by the name '玄武区'.
+SQL:Select subways.Line from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'
+Eval:Select subways.Line from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'
+id: traffic46
+
+label:S Region
+questionCHI:南京市哪些区有铁路经过？
+evidenceCHI:
+nameCHI:
+question:Which districts in Nanjing have railways passing through?
+evidence:
+name:
+SQL:Select distinct districts.name from rails inner join districts On Intersects(rails.Shape, districts.Shape) = 1
+Eval:Select distinct districts.name from rails inner join districts On Intersects(rails.Shape, districts.Shape) = 1
+id: traffic47
+
+label:S
+questionCHI:我想知道玄武区的宾馆总数是多少？
+evidenceCHI:
+nameCHI:玄武区以'玄武区'为名称表示。
+question:I would like to know the total number of hotels in Xuanwu District.
+evidence:
+name:Xuanwu District is represented by the name '玄武区'.
+SQL:Select count(*) from districts inner join hotels On Contains(districts.Shape, hotels.Location) = 1 where districts.name = '玄武区'
+Eval:Select count(*) from districts inner join hotels On Contains(districts.Shape, hotels.Location) = 1 where districts.name = '玄武区'
+id: traffic48
+
+label:S
+questionCHI:地铁S7号线周边500米范围内有多少家宾馆？
+evidenceCHI:
+nameCHI:地铁S7号线以'S7'为名称表示。
+question:How many hotels are located within 500 meters of Subway Line S7?
+evidence:
+name:The Subway Line S7 is represented by the name 'S7'.
+SQL:Select count(distinct hotels.name) from subways inner join hotels On Distance(subways.Shape, hotels.Location, 1) < 500 where subways.line = 'S7'
+Eval:Select count(distinct hotels.name) from subways inner join hotels On Distance(subways.Shape, hotels.Location, 1) < 500 where subways.line = 'S7'
+id: traffic49
+
+label:S
+questionCHI:钟山风景区位于哪个区？
+evidenceCHI:钟山风景区由名字相同的多个区域组成。
+nameCHI:钟山风景区以'钟山风景区'为名称表示。
+question:Which district is Zhongshan Scenic Area located in?
+evidence:Zhongshan Scenic Area consists of multiple areas that share the same name.
+name:Zhongshan Scenic Area is represented by the name '钟山风景区'.
+SQL:Select distinct districts.name from districts inner join greenspaces On Intersects(greenspaces.Shape, districts.Shape) = 1 where greenspaces.name = '钟山风景区'
+Eval:Select distinct districts.name from districts inner join greenspaces On Intersects(greenspaces.Shape, districts.Shape) = 1 where greenspaces.name = '钟山风景区'
+id: traffic50
+
+label:S
+questionCHI:郑和公园附近最近的地铁站是哪一站？相距多远？
+evidenceCHI:郑和公园由名字相同的多个区域组成。
+nameCHI:郑和公园以'郑和公园'为名称表示。
+question:Which subway station is closest to Zheng He Park, and how far is it?
+evidence:Zheng He Park consists of multiple areas that share the same name.
+name:Zheng He Park is represented by the name '郑和公园'.
+SQL:Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1
+Eval:Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1
+id: traffic51
+
+label:S
+questionCHI:距离上海路地铁站最近的公园是哪一座？
+evidenceCHI:公园指的是名称中含有'公园'字样的地点，并且公园由名字相同的多个区域组成。
+nameCHI:上海路地铁站以'上海路'为名称表示。
+question:Which park is closest to Shanghai Road Subway Station?
+evidence:A park refers to a place with the word '公园' in its name, and it consists of multiple areas with the same name.
+name:Shanghai Road Subway Station is represented by the name '上海路'.
+SQL:Select greenspaces.name from subwaystations inner join greenspaces on subwaystations.station = '上海路' where greenspaces.name like '%公园%' order by Distance(subwaystations.Location, greenspaces.Shape, 1) asc limit 1
+Eval:Select greenspaces.name from subwaystations inner join greenspaces on subwaystations.station = '上海路' where greenspaces.name like '%公园%' order by Distance(subwaystations.Location, greenspaces.Shape, 1) asc limit 1
+id: traffic52
+
+label:S Region
+questionCHI:南京市境内长江水域的面积有多大？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:What is the area of the Yangtze River waters within Nanjing's boundaries?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select Sum(Area(Shape, 1)) from rivers where name = '长江'
+Eval:Select Sum(Area(Shape, 1)) from rivers where name = '长江'
+id: traffic53
+
+label:S
+questionCHI:有哪些地铁线路穿越长江？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which subway lines cross the Yangtze River?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select distinct subways.line from subways inner join rivers on Crosses(rivers.Shape, subways.Shape) = 1 where rivers.name = '长江' 
+Eval:Select distinct subways.line from subways inner join rivers on Crosses(rivers.Shape, subways.Shape) = 1 where rivers.name = '长江' 
+id:traffic54
+
+label:S Region
+questionCHI:长江流经南京的哪些区？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which districts in Nanjing does the Yangtze River flow through?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select distinct districts.name from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江'
+Eval:Select distinct districts.name from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江'
+id: traffic55
+
+label:S Intersection Region
+questionCHI:南京各区的长江水域面积分别是多少？
+evidenceCHI:长江是由名字相同的多段河流组成。应该计算长江与各区交叠部分的面积。
+nameCHI:长江以'长江'为名称表示。
+question:What is the area of the Yangtze River waters in each district of Nanjing?
+evidence:The Yangtze River is composed of multiple sections of the same name. The area of overlap between the Yangtze River and each district should be calculated.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select districts.name,  Sum(Area(Intersection(rivers.Shape, districts.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name
+Eval:Select districts.name,  Sum(Area(Intersection(rivers.Shape, districts.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name %%% Select districts.name,  Sum(Area(Intersection(districts.Shape, rivers.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name
+id: traffic56
+
+label:S
+questionCHI:距离长江1公里范围内有哪些地铁站？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which subway stations are located within 1 kilometer of the Yangtze River?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select distinct subwaystations.station from subwaystations inner join rivers On Distance(subwaystations.Location, rivers.Shape, 1) < 1000 where rivers.name = '长江'
+Eval:Select distinct subwaystations.station from subwaystations inner join rivers On Distance(subwaystations.Location, rivers.Shape, 1) < 1000 where rivers.name = '长江'
+id: traffic57
+
+label:S
+questionCHI:有哪些公交线路经过长江？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which bus routes cross the Yangtze River?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select buslines.name from buslines inner join rivers On Crosses(buslines.Shape, rivers.Shape) = 1 where rivers.name = '长江'
+Eval:Select buslines.name from buslines inner join rivers On Crosses(buslines.Shape, rivers.Shape) = 1 where rivers.name = '长江'
+id: traffic58
+
+label:S
+questionCHI:长江边最近的酒店是哪家？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which hotel is the closest to the Yangtze River?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1
+Eval:Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1
+id: traffic59
+
+label:S
+questionCHI:高淳县教育委员会最近的酒店是哪家，距离多远？
+evidenceCHI:
+nameCHI:高淳县教育委员会以'高淳县教育局委员会'为名称表示。
+question:Which hotel is the closest to the Gaochun County Education Committee, and how far is it?
+evidence:
+name:The Gaochun County Education Committee is represented by the name '高淳县教育局委员会'.
+SQL:Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as distance from agencies inner join hotels On agencies.name = '高淳县教育局委员会' order by distance asc limit 1
+Eval:Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as distance from agencies inner join hotels On agencies.name = '高淳县教育局委员会' order by distance asc limit 1
+id: traffic60
+
+label:S
+questionCHI:地铁1号线最近的公园是哪一个，距离多远？
+evidenceCHI:公园指的是名称中含有'公园'字样的地点，并且公园由名字相同的多个区域组成。
+nameCHI:地铁1号线以'line1'为名称表示。
+question:Which park is the closest to Subway Line 1, and how far is it?
+evidence:A park refers to a place with the word '公园' in its name, and it consists of multiple areas with the same name.
+name:The Subway Line 1 is represented by the name 'line1'.
+SQL:Select greenspaces.name, Distance(subways.Shape, greenspaces.Shape, 1) as distance from subways inner join greenspaces On subways.line = 'line1' where greenspaces.name like '%公园%' order by distance asc limit 1
+Eval:Select greenspaces.name, Distance(subways.Shape, greenspaces.Shape, 1) as distance from subways inner join greenspaces On subways.line = 'line1' where greenspaces.name like '%公园%' order by distance asc limit 1
+id: traffic61
+
+label:G S
+questionCHI:每个区内有多少个地铁站？
+evidenceCHI:
+nameCHI:
+question:How many subway stations are there in each district?
+evidence:
+name:
+SQL:Select districts.name, count(*) from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode %%%  Select districts.name, count(*) from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name
+Eval:Select districts.name, count(*) from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode %%%  Select districts.name, count(*) from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name
+id: traffic62
+
+label:G S
+questionCHI:哪个区拥有最多的地铁站，数量是多少？
+evidenceCHI:
+nameCHI:
+question:Which district has the most subway stations, and how many are there?
+evidence:
+name:
+SQL:Select districts.name, count(*) as count from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode order by count desc limit 1 %%%  Select districts.name, count(*) as count from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1
+Eval:Select districts.name, count(*) as count from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode order by count desc limit 1 %%%  Select districts.name, count(*) as count from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1
+id: traffic63
+
+label:S Region
+questionCHI:南京市最长的地铁线路是哪一条，长度是多少？
+evidenceCHI:
+nameCHI:
+question:Which is the longest subway line in Nanjing, and how long is it?
+evidence:
+name:
+SQL:Select Line, GLength(Shape, 1) as length from subways order by length desc limit 1
+Eval:Select Line, GLength(Shape, 1) as length from subways order by length desc limit 1
+id: traffic64
+
+label:S
+questionCHI:与东风路相交的其它道路有哪些？
+evidenceCHI:一条道路由所有名字相同的路段构成。
+nameCHI:东风路以'东风路'为名称表示。
+question:Which other roads intersect with Dongfeng Road?
+evidence:A road is composed of all segments with the same name.
+name:Dongfeng Road is represented by the name '东风路'.
+SQL:Select distinct b.Name from roads a inner join roads b On Intersects(a.Shape, b.Shape) = 1 where a.Name = '东风路' and a.Name != b.Name
+Eval:Select distinct b.Name from roads a inner join roads b On Intersects(a.Shape, b.Shape) = 1 where a.Name = '东风路' and a.Name != b.Name
+id: traffic65
+
+label:S
+questionCHI:距离金龙大酒店最近的地铁站是哪一个，距离多远？
+evidenceCHI:
+nameCHI:金龙大酒店以'金龙大酒店'为名称表示。
+question:Which subway station is the closest to Jinlong Hotel, and how far is it?
+evidence:
+name:Jinlong Hotel is represented by the name '金龙大酒店'.
+SQL:Select subwaystations.station, Distance(subwaystations.Location, hotels.Location, 1) as d from subwaystations inner join hotels where hotels.name = '金龙大酒店' order by d asc limit 1
+Eval:Select subwaystations.station, Distance(subwaystations.Location, hotels.Location, 1) as d from subwaystations inner join hotels where hotels.name = '金龙大酒店' order by d asc limit 1
+id: traffic66
+
+label:S
+questionCHI:我想了解玄武区和秦淮区的面积分别是多少？
+evidenceCHI:
+nameCHI:玄武区以'玄武区'为名称表示，秦淮区以'秦淮区'为名称表示。
+question:I would like to know the respective areas of Xuanwu District and Qinhuai District.
+evidence:
+name:Xuanwu District is represented by the name '玄武区', and Qinhuai District is represented by the name '秦淮区'.
+SQL:Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')
+Eval:Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')
+id: traffic67

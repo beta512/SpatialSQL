@@ -1,0 +1,9 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+lineID,lineID,"The field ""lineID"" is used to record the ID of the bus route, which consists of a series of numeric strings",TEXT,,"字段""lineID""用于记录该条公交线路的ID，是由一些数字字符组成",
+name,name,"The field ""name"" is used to record the name of the bus route",TEXT,,,
+type,type,,TEXT,,"字段""name""用于记录该条公交线路的名字",
+start_stop,start stop,"The field ""start_stop""  is used to record the starting station of the bus route",TEXT,,"字段""start_stop""用于记录该条公交线路的起点站",
+end_stop,end stop,,TEXT,,,
+start_time,start time,"The field ""start_time""  is used to record the departure time of the first bus from the starting station on this bus route",TEXT,,"字段""start_time""用于记录该条公交线路首班车在起点站的发车时间",
+end_time,end time,,TEXT,,,
+Shape,Shape,,LINESTRING,,,

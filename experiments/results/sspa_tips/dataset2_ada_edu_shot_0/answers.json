@@ -1,0 +1,502 @@
+[
+    {
+        "db_id":"ada",
+        "id":"ada01",
+        "sql":"SELECT SUM(Area(shape, 1)) AS Total_Area FROM lakes WHERE name = '太湖'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada02",
+        "sql":"SELECT name FROM cities ORDER BY MBRMinY(shape) ASC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada03",
+        "sql":"SELECT DISTINCT p.name FROM provinces p, lakes l WHERE l.name = '洞庭湖' AND Intersects(p.shape, l.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada04",
+        "sql":"SELECT DISTINCT p.name FROM provinces p, rivers r WHERE r.name = '长江' AND Intersects(p.shape, r.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada05",
+        "sql":"SELECT SUM(GLength(Intersection(r.shape, p.shape), 1)) AS YangtzeRiverLengthInHubei FROM rivers r, provinces p WHERE r.name = '长江' AND p.name = '湖北省' AND Intersects(r.shape, p.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada06",
+        "sql":"SELECT DISTINCT r.name FROM rivers r JOIN provinces p ON Intersects(r.shape, p.shape) WHERE p.name = '湖北省' AND r.level_river = 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada07",
+        "sql":"SELECT p.name AS Province, SUM(GLength(Intersection(r.shape, p.shape), 1)) AS TotalRiverLength FROM provinces p JOIN rivers r ON Intersects(r.shape, p.shape) GROUP BY p.name"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada08",
+        "sql":"SELECT name, MAX(Area(shape, 1)) AS max_area FROM provinces"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada09",
+        "sql":"SELECT p.name AS province_name, COUNT(c.name) AS city_count FROM provinces p JOIN cities c ON Intersects(p.shape, c.shape) GROUP BY p.name"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada10",
+        "sql":"SELECT p.name, Area(p.shape, 1) AS area FROM provinces p, provinces guangdong WHERE guangdong.name = '广东省' AND Touches(p.shape, guangdong.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada11",
+        "sql":"SELECT SUM(GLength(shape, 1)) AS TotalRailwayLength FROM rails"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada12",
+        "sql":"SELECT SUM(GLength(shape, 1)) FROM rails WHERE name = '京广线'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada13",
+        "sql":"SELECT cities.name FROM cities JOIN provinces ON Intersects(cities.shape, provinces.shape) JOIN rails ON Intersects(cities.shape, rails.shape) WHERE provinces.name = '河南省' AND rails.name = '京广线'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada14",
+        "sql":"SELECT DISTINCT c.name FROM cities c JOIN rails r ON Intersects(c.shape, r.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada15",
+        "sql":"SELECT c.name FROM cities c WHERE NOT EXISTS ( SELECT 1 FROM rails r WHERE Intersects(c.shape, r.shape) )"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada16",
+        "sql":"SELECT name, Area(shape, 1) AS area FROM provinces ORDER BY POPU DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada17",
+        "sql":"SELECT SUM(Area(shape, 1)) AS Total_Area_Level_1_Lakes FROM lakes WHERE level_lake = 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada18",
+        "sql":"SELECT name FROM provinces ORDER BY (GDP_2000 - GDP_1994) DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada19",
+        "sql":"SELECT name, Area(shape, 1) AS area FROM provinces ORDER BY Pop_Minori DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada20",
+        "sql":"SELECT DISTINCT r.name AS river_name FROM rivers r JOIN rails ra ON Intersects(r.shape, ra.shape) WHERE r.level_river = 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada21",
+        "sql":"SELECT a.name FROM airports a, provinces p WHERE p.name = '湖北省' AND Within(a.location, p.shape) ORDER BY Distance(Centroid(p.shape), a.location) LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada22",
+        "sql":"SELECT DISTINCT r2.name FROM rails r1 JOIN rails r2 ON Intersects(r1.shape, r2.shape) WHERE r1.name = '盘西' AND r2.name != '盘西'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada23",
+        "sql":"SELECT DISTINCT rivers.name FROM rivers JOIN provinces ON Intersects(rivers.shape, provinces.shape) WHERE provinces.name = '新疆维吾尔自治区'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada24",
+        "sql":"SELECT SUM(GLength(Intersection(r.shape, p.shape), 1)) AS TotalRiverLength FROM rivers r, provinces p WHERE p.name = '新疆维吾尔自治区' AND Intersects(r.shape, p.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada25",
+        "sql":"SELECT SUM(Area(shape, 1)) AS Total_Area, SUM(POPU) AS Total_Population FROM provinces WHERE name IN ('西藏自治区', '内蒙古自治区', '新疆维吾尔自治区', '广西壮族自治区', '宁夏回族自治区')"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada26",
+        "sql":"SELECT name, POPU FROM provinces WHERE name IN ('西藏自治区', '内蒙古自治区', '新疆维吾尔自治区', '广西壮族自治区', '宁夏回族自治区') ORDER BY Area(shape, 1) LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada27",
+        "sql":"SELECT DISTINCT p.name FROM provinces p JOIN rivers r1 ON Intersects(p.shape, r1.shape) AND r1.name = '长江' JOIN rivers r2 ON Intersects(p.shape, r2.shape) AND r2.name = '黄河'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada28",
+        "sql":"SELECT SUM(Pop_65Plus) AS Total_Population_Over_65 FROM provinces WHERE name IN ( SELECT DISTINCT p.name FROM provinces p JOIN rivers r ON Intersects(p.shape, r.shape) WHERE r.name = '长江' )"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada29",
+        "sql":"SELECT DISTINCT r.name FROM rivers rv, rails r WHERE rv.name = '长江' AND Intersects(rv.shape, r.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada30",
+        "sql":"SELECT SUM(Area(p.shape, 1)) AS Total_Area FROM provinces p JOIN rivers r ON Intersects(p.shape, r.shape) WHERE r.name = '长江'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada31",
+        "sql":"SELECT p.name, p.POPU FROM provinces p JOIN rails r ON Intersects(p.shape, r.shape) WHERE r.name = '京广线'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada32",
+        "sql":"SELECT name FROM cities ORDER BY MBRMinX(shape) LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada33",
+        "sql":"SELECT name FROM provinces ORDER BY XMax(Envelope(shape)) DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada34",
+        "sql":"SELECT p.name AS province_name, SUM(GLength(Intersection(r.shape, p.shape), 1)) AS total_length FROM provinces p JOIN rivers r ON Intersects(r.shape, p.shape) WHERE r.level_river = 1 GROUP BY p.name"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada35",
+        "sql":"SELECT p.name AS province_name, COUNT(a.name) AS number_of_airports FROM provinces p JOIN airports a ON Contains(p.shape, a.location) GROUP BY p.name"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada36",
+        "sql":"SELECT c.name FROM cities c, airports a WHERE a.name = '安庆' AND Distance(a.location, c.shape, 1) <= 200000"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada37",
+        "sql":"SELECT COUNT(*) AS NumberOfAirports FROM airports WHERE Within(location, ( SELECT Union(shape) FROM provinces WHERE name IN ('河北省', '天津市', '北京市') ))"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada38",
+        "sql":"SELECT a.name AS airport_name, MIN(Distance(c.shape, a.location, 1)) AS distance_in_meters FROM airports a, cities c WHERE c.name = '苏州市' GROUP BY a.name ORDER BY distance_in_meters ASC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada39",
+        "sql":"SELECT -- First, find the province with the highest population WITH ProvincePopulation AS ( SELECT name, POPU FROM provinces ORDER BY POPU DESC LIMIT 1 ) -- Now, count the number of airports in that province SELECT p.name AS ProvinceName, COUNT(a.name) AS NumberOfAirports FROM ProvincePopulation p JOIN airports a ON Contains(p.shape, a.location) GROUP BY p.name"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada40",
+        "sql":"SELECT a.name, a.IATA FROM airports a, rails r WHERE r.name = '京广线' AND Distance(a.location, r.shape, 1) <= 10000"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada41",
+        "sql":"SELECT name FROM airports WHERE airports.location IN ( SELECT location FROM airports, lakes, provinces WHERE lakes.name = '太湖' AND provinces.name = '江苏省' AND Within(airports.location, provinces.shape) ORDER BY Distance(airports.location, lakes.shape, 1) ASC LIMIT 1 )"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada42",
+        "sql":"SELECT name, Area(shape, 1) AS area FROM provinces ORDER BY Pop_Female DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada43",
+        "sql":"SELECT c.name, COUNT(*) AS airport_count FROM cities c JOIN airports a ON Contains(c.shape, a.location) GROUP BY c.name ORDER BY airport_count DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada44",
+        "sql":"SELECT name, SUM(GLength(shape, 1)) AS total_length FROM rails GROUP BY name ORDER BY total_length DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada45",
+        "sql":"SELECT provinces.name, COUNT(airports.name) AS airport_count FROM provinces LEFT JOIN airports ON Contains(provinces.shape, airports.location) GROUP BY provinces.name ORDER BY ABS(provinces.Pop_Male - provinces.Pop_Female) DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada46",
+        "sql":"SELECT a.name FROM airports a, lakes l WHERE l.name = '太湖' AND Distance(a.location, l.shape, 1) <= 200000"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada47",
+        "sql":"SELECT c.name FROM cities c JOIN provinces p ON Intersects(c.shape, p.shape) WHERE p.name = '吉林省' ORDER BY Y(Centroid(c.shape)) DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada48",
+        "sql":"SELECT DISTINCT c.name FROM cities c, rails r WHERE r.name = '湘桂线' AND Intersects(c.shape, r.shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada49",
+        "sql":"SELECT GLength(Intersection( (SELECT shape FROM provinces WHERE name = '河南省'), (SELECT shape FROM provinces WHERE name = '湖北省') ), 1) AS border_length"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada50",
+        "sql":"SELECT cities.name FROM cities, provinces WHERE provinces.name = '湖北省' AND Contains(provinces.shape, Centroid(cities.shape))"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada51",
+        "sql":"SELECT p2.name AS neighboring_province, MAX(GLength(MakeLine(p1.shape, p2.shape), 1)) AS max_boundary_length FROM provinces p1, provinces p2 WHERE p1.name = '河南省' AND p1.shape != p2.shape AND Touches(p1.shape, p2.shape) GROUP BY p2.name ORDER BY max_boundary_length DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada52",
+        "sql":"SELECT a.name AS airport_name, MIN(Distance(b.shape, a.location, 1)) AS distance_in_meters FROM airports a, (SELECT Intersection(p1.shape, p2.shape) AS shape FROM provinces p1, provinces p2 WHERE p1.name = '河南省' AND p2.name = '湖北省') b GROUP BY a.name ORDER BY distance_in_meters ASC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada53",
+        "sql":"SELECT name FROM provinces WHERE NOT Intersects(Centroid(shape), shape)"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada54",
+        "sql":"SELECT -- Calculate the total length of the Yangtze River (长江) and the Yellow River (黄河) SELECT SUM(GLength(shape, 1)) AS Total_Length FROM rivers WHERE name = '长江' UNION ALL SELECT SUM(GLength(shape, 1)) AS Total_Length FROM rivers WHERE name = '黄河'"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada55",
+        "sql":"SELECT provinces.name, COUNT(cities.name) AS city_count FROM provinces JOIN cities ON Intersects(provinces.shape, cities.shape) GROUP BY provinces.name ORDER BY city_count DESC LIMIT 1"
+    },
+    {
+        "db_id":"ada",
+        "id":"ada56",
+        "sql":"SELECT DISTINCT p.name FROM provinces p, rivers r, rails rl WHERE r.name = '黄河' AND rl.name = '京广线' AND Intersects(r.shape, rl.shape) AND Intersects(p.shape, r.shape) AND Intersects(p.shape, rl.shape)"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu01",
+        "sql":"SELECT COUNT(*) FROM universities WHERE Contains((SELECT shape FROM cities WHERE name = '北京市'), location)"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu02",
+        "sql":"SELECT p.name, COUNT(u.name) AS university_count FROM provinces p LEFT JOIN universities u ON Contains(p.shape, u.location) GROUP BY p.name"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu03",
+        "sql":"SELECT cities.name, Area(cities.shape, 1) AS city_area FROM cities JOIN provinces ON Intersects(cities.shape, provinces.shape) WHERE provinces.name = '河北省'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu04",
+        "sql":"SELECT p.name FROM provinces p, cities c WHERE c.name = '北京市' AND Touches(c.shape, p.shape)"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu05",
+        "sql":"SELECT p.name, COUNT(u.name) AS university_count FROM provinces p JOIN cities c ON Touches(p.shape, c.shape) LEFT JOIN universities u ON Intersects(u.location, p.shape) WHERE c.name = '北京市' GROUP BY p.name"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu06",
+        "sql":"SELECT Area(shape, 1) AS HubeiProvinceArea FROM provinces WHERE name = '湖北省'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu07",
+        "sql":"SELECT SUM(POP2020) AS Population_2020 FROM cities WHERE administrative_division_code IN ( SELECT administrative_division_code FROM provinces WHERE name = '湖北省' )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu08",
+        "sql":"SELECT name FROM universities WHERE project_211 = 1 ORDER BY X(location) ASC LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu09",
+        "sql":"SELECT POP2020 - POP2000 AS population_increase FROM cities WHERE name = '湖北省'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu10",
+        "sql":"SELECT u.name FROM universities u, provinces p WHERE (u.project_985 = 1 OR u.project_211 = 1) AND p.name = '湖北省' AND Intersects(u.location, p.shape)"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu11",
+        "sql":"SELECT cities.name FROM cities, provinces WHERE provinces.name = '湖北省' AND Intersects(cities.shape, provinces.shape) ORDER BY Area(cities.shape, 1) DESC LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu12",
+        "sql":"SELECT cities.name, Area(cities.shape, 1) AS area FROM cities JOIN provinces ON cities.administrative_division_code = provinces.administrative_division_code WHERE provinces.name = '内蒙古自治区'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu13",
+        "sql":"SELECT p.name AS province_name, COUNT(u.name) AS key_universities_count FROM provinces p JOIN universities u ON Contains(p.shape, u.location) WHERE u.project_985 = 1 OR u.project_211 = 1 GROUP BY p.name"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu14",
+        "sql":"SELECT SUM(Area(shape, 1)) AS Total_Area FROM provinces WHERE name IN ('北京市', '天津市', '河北省')"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu15",
+        "sql":"SELECT name FROM provinces ORDER BY XMin(shape) LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu16",
+        "sql":"SELECT Distance(Centroid((SELECT shape FROM cities WHERE name = '郑州市')), Centroid((SELECT shape FROM provinces WHERE name = '河南省')), 1) AS DistanceInMeters"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu17",
+        "sql":"SELECT c.name FROM cities c, cities anyang, provinces henan WHERE c.name != '安阳市' AND anyang.name = '安阳市' AND henan.name = '河南省' AND Touches(c.shape, anyang.shape) AND NOT Intersects(c.shape, henan.shape)"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu18",
+        "sql":"SELECT name, Area(shape, 1) AS area FROM cities WHERE administrative_division_category != '直辖市' ORDER BY POP2020 DESC LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu19",
+        "sql":"SELECT U.name FROM universities U, universities BeijingU WHERE BeijingU.name = '北京大学' AND U.project_985 = 1 AND U.name <> '北京大学' AND Distance(BeijingU.location, U.location, 1) <= 3000"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu20",
+        "sql":"SELECT SUM(POP2020) FROM ( SELECT POP2020 FROM cities WHERE name IN ('北京市', '天津市') UNION ALL SELECT POP2020 FROM provinces WHERE name = '河北省' ) as total_population"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu21",
+        "sql":"SELECT c.name, c.POP2020 FROM cities c JOIN provinces p ON Intersects(c.shape, p.shape) WHERE p.name = '内蒙古自治区'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu22",
+        "sql":"SELECT p.name FROM provinces p WHERE NOT EXISTS ( SELECT 1 FROM universities u WHERE u.project_985 = 1 AND Intersects(u.location, p.shape) )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu23",
+        "sql":"SELECT DISTINCT c.name FROM cities c JOIN universities u ON Intersects(c.shape, u.location) WHERE u.project_985 = 1 OR u.project_211 = 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu24",
+        "sql":"SELECT DISTINCT c.name FROM cities c JOIN universities u ON Contains(c.shape, u.location) WHERE u.project_985 = 1 AND u.project_211 = 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu25",
+        "sql":"SELECT c.name FROM cities c WHERE c.administrative_division_category = '地级市' AND NOT EXISTS ( SELECT 1 FROM universities u WHERE u.project_985 = 1 AND Intersects(u.location, c.shape) )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu26",
+        "sql":"SELECT p.name FROM provinces p WHERE NOT EXISTS ( SELECT 1 FROM provinces p2 WHERE p.name != p2.name AND Touches(p.shape, p2.shape) )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu27",
+        "sql":"SELECT p1.name AS Province, COUNT(DISTINCT p2.name) AS Bordering_Provinces FROM provinces p1, provinces p2 WHERE Touches(p1.shape, p2.shape) AND p1.name != p2.name GROUP BY p1.name"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu28",
+        "sql":"SELECT U.name, Distance(C.shape, U.location, 1) AS distance FROM cities C, universities U WHERE C.name = '北京市' AND U.name != '北京大学' AND U.project_985 = 1 ORDER BY Distance(C.shape, U.location, 1) LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu29",
+        "sql":"SELECT u.name, Distance(c.shape, u.location, 1) AS distance FROM cities c, universities u WHERE c.name = '北京市' AND u.name != '北京大学' AND (u.project_985 = 1 OR u.project_211 = 1) ORDER BY distance ASC LIMIT 5"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu30",
+        "sql":"SELECT COUNT(*) FROM universities u JOIN provinces p ON Contains(p.shape, u.location) WHERE p.name = '湖北省' AND u.affiliation = '教育部'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu31",
+        "sql":"SELECT c.name FROM cities c JOIN provinces p ON Intersects(c.shape, p.shape) WHERE p.name = '河南省' AND NOT EXISTS ( SELECT 1 FROM provinces p2 WHERE p2.name != '河南省' AND Touches(c.shape, p2.shape) )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu32",
+        "sql":"SELECT c.name FROM cities c, provinces p WHERE p.name = '河南省' AND Touches(c.shape, p.shape) AND NOT EXISTS ( SELECT 1 FROM provinces p2 WHERE p2.name != '河南省' AND Touches(c.shape, p2.shape) )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu33",
+        "sql":"SELECT c1.name FROM cities c1, cities c2 WHERE c2.name = '郑州市' AND Touches(c1.shape, c2.shape) ORDER BY c1.POP2020 DESC LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu34",
+        "sql":"SELECT The SQL query provided in the prompt does not specify the SRID (Spatial Reference System Identifier) for the 'universities' table directly in the schema definition. Additionally, the information necessary to determine the SRID from context or metadata is not provided in the prompt. Therefore, it is not possible to answer the question about the SRID of the 'universities' table based solely on the information given. Typically, the SRID can be found by querying metadata tables or examining database configuration, neither of which is accessible through the provided schema information alone."
+    },
+    {
+        "db_id":"edu",
+        "id":"edu35",
+        "sql":"SELECT p.name, COUNT(u.name) AS private_universities_count FROM provinces p JOIN universities u ON Within(u.location, p.shape) WHERE u.operation_type = '民办' GROUP BY p.name"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu36",
+        "sql":"SELECT COUNT(*) FROM universities u JOIN provinces p ON Contains(p.shape, u.location) WHERE p.name = '河北省' AND u.name LIKE '%职业%'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu37",
+        "sql":"SELECT DISTINCT p.name FROM provinces p JOIN universities u ON Intersects(p.shape, u.location) WHERE u.name LIKE '中国%'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu38",
+        "sql":"SELECT provinces.name AS province_name, universities.name AS university_name FROM universities JOIN provinces ON Contains(provinces.shape, universities.location) WHERE universities.name LIKE '中国%'"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu39",
+        "sql":"SELECT c.name FROM cities c JOIN provinces p ON Intersects(c.shape, p.shape) WHERE p.name = '河北省' ORDER BY c.POP2020 DESC LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu40",
+        "sql":"SELECT POP2020 FROM cities WHERE name = ( SELECT name FROM cities WHERE administrative_division_code IN ( SELECT administrative_division_code FROM provinces WHERE name = '湖北省' ) ORDER BY Area(shape, 1) DESC LIMIT 1 )"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu41",
+        "sql":"SELECT -- Find the city in Hubei province with the largest area WITH HubeiCities AS ( SELECT c.name, Area(c.shape, 1) AS city_area FROM cities c JOIN provinces p ON Touches(c.shape, p.shape) OR Intersects(c.shape, p.shape) WHERE p.name = '湖北省' ) SELECT c.name, COUNT(u.name) AS university_count FROM HubeiCities c LEFT JOIN universities u ON Intersects(u.location, c.shape) WHERE c.city_area = (SELECT MAX(city_area) FROM HubeiCities) GROUP BY c.name"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu42",
+        "sql":"SELECT c.name, COUNT(u.name) AS key_universities_count FROM cities c JOIN provinces p ON Intersects(c.shape, p.shape) JOIN universities u ON Contains(c.shape, u.location) WHERE p.name = '江苏省' AND (u.project_985 = 1 OR u.project_211 = 1) GROUP BY c.name ORDER BY key_universities_count DESC LIMIT 1"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu43",
+        "sql":"SELECT Area((SELECT shape FROM provinces WHERE name = '内蒙古自治区'), 1) - Area((SELECT shape FROM provinces WHERE name = '河北省'), 1) AS area_difference"
+    },
+    {
+        "db_id":"edu",
+        "id":"edu44",
+        "sql":"SELECT p.name, COUNT(u.name) AS num_universities FROM provinces p JOIN universities u ON Intersects(p.shape, u.location) WHERE u.affiliation = '国家民委' GROUP BY p.name"
+    }
+]

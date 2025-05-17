@@ -1,0 +1,55 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 哪些城市没有机场？ */
+Select name from cities where name not in (Select distinct cities.name from cities inner join airports On Contains(cities.Shape, airports.Location) = 1)
+
+/* Answer the following: 哪些城市有机场，数量分别多少？ */
+Select cities.name, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 group by cities.name
+
+/* Answer the following: 哪条地铁线路的站点数量最多？共有多少个站点？ */
+Select line, count(*) as count from subwaystations group by line order by count desc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT NOT NULL, 
+administrative_division_category TEXT NOT NULL, 
+POP2020 INTEGER NOT NULL, 
+POP2010 INTEGER NOT NULL, 
+POP2000 INTEGER NOT NULL, 
+shape MULTIPOLYGON NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+Shape_Area DOUBLE, 
+Shape_Length DOUBLE)
+
+表"cities"记录中国各个城市的位置及人口信息等。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY, 
+pinyin_name TEXT NOT NULL, 
+administrative_division_code TEXT NOT NULL, 
+shape MULTIPOLYGON NOT NULL)
+
+表"provinces"记录中国各个省份的信息。
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+city TEXT REFERENCES cities (name), 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+表"universities"记录中国各个大学的信息。
+
+
+/* Answer the following with no explanation: 没有985高校的省都有哪些？ */
+SELECT 

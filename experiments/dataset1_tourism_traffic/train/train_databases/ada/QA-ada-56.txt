@@ -1,0 +1,615 @@
+label:G S
+questionCHI:请问太湖的面积是多少？
+evidenceCHI:太湖是由多个名称相同的湖泊区域组成。只需给出面积。
+nameCHI:太湖以'太湖'为名称表示。
+question:What is the area of Lake Tai?
+evidence:Lake Tai is composed of multiple sections of water with the same name. Only provide the area.
+name:Lake Tai is represented by the name '太湖'.
+SQL: Select Sum(Area)  from lakes where name = '太湖'  %%% Select Sum(Area(Shape, 1))   from lakes where name = '太湖'
+Eval: Select Sum(Area)  from lakes where name = '太湖'  %%% Select Sum(Area(Shape, 1))   from lakes where name = '太湖'
+id: ada01
+
+label:S Region
+questionCHI:中国最南部的城市是哪座？
+evidenceCHI:'最南部'是指纬度最低的地点。
+nameCHI:
+question:Which city is the southernmost in China?
+evidence:The 'southernmost' refers to the location with the lowest latitude.
+name:
+SQL:Select name from cities order by MbrMinY(Shape) asc limit 1
+Eval:Select name from cities order by MbrMinY(Shape) asc limit 1
+id: ada02
+
+label:S
+questionCHI:洞庭湖位于哪些省份？
+evidenceCHI:洞庭湖是由多个名称相同的湖泊区域组成。
+nameCHI:洞庭湖以'洞庭湖'为名称表示。
+question:Which provinces is Dongting Lake located in?
+evidence:Dongting Lake is  is composed of multiple sections of water with the same name.
+name:Dongting Lake is represented by the name '洞庭湖'.
+SQL:Select distinct provinces.name from provinces inner join lakes On Intersects(provinces.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'  %%% Select distinct cities.province from cities inner join lakes On Intersects(cities.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'
+Eval:Select distinct provinces.name from provinces inner join lakes On Intersects(provinces.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'  %%% Select distinct cities.province from cities inner join lakes On Intersects(cities.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'
+id: ada03
+
+label:S
+questionCHI:长江流经哪些省份？
+evidenceCHI:长江是由名字相同的多段河流组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which provinces does the Yangtze River flow through?
+evidence:The Yangtze River is composed of multiple sections of the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select distinct provinces.name from rivers inner join provinces On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江' %%% Select distinct cities.province from rivers inner join cities On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江'
+Eval:Select distinct provinces.name from rivers inner join provinces On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江' %%% Select distinct cities.province from rivers inner join cities On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江'
+id: ada04
+
+label:Intersection S
+questionCHI:长江在湖北省境内的长度是多少？只需给出长度。
+evidenceCHI:长江是由名字相同的多段河流组成，应计算长江在湖北省境内的交汇部分的长度。
+nameCHI:长江以'长江'为名称表示，湖北省以'湖北省'为名称表示。
+question:What is the length of the Yangtze River within Hubei Province?
+evidence:The Yangtze River is composed of multiple sections of the same name, and the length should be calculated based on the intersection of the Yangtze River and Hubei Province. Only provide the length.
+name:The Yangtze River is represented by the name '长江', and Hubei Province is represented by the name '湖北省'.
+SQL:Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'  %%% Select Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where cities.province = '湖北省'  and rivers.name = '长江'  
+Eval:Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'  %%% Select Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where cities.province = '湖北省'  and rivers.name = '长江'  %%% Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'  %%% Select Sum(GLength(Intersection(rivers.Shape, cities.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where cities.province = '湖北省'  and rivers.name = '长江'  
+id: ada05
+
+label:S
+questionCHI:流经湖北省的1级河流有哪些？
+evidenceCHI:一条河流由多个同名河段组成。
+nameCHI:湖北省以'湖北省'为名称表示。
+question:Which Level 1 rivers flow through Hubei Province?
+evidence:A river is composed of multiple sections with the same name, and the length of the river's intersection with Hubei Province should be calculated.
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select distinct rivers.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.level_river = 1 %%% Select distinct rivers.name from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where cities.province = '湖北省' and rivers.level_river = 1
+Eval:Select distinct rivers.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.level_river = 1 %%% Select distinct rivers.name from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where cities.province = '湖北省' and rivers.level_river = 1
+id: ada06
+
+label:Intersection S
+questionCHI:我想了解各省境内河流的总长度。
+evidenceCHI:应计算河流在各省境内交汇部分的长度。
+nameCHI:
+question:I want to know the total length of rivers within each province.
+evidence:The length of the river's intersection with each province should be calculated.
+name:
+SQL:Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name  %%%  Select cities.province, Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 group by cities.province
+Eval:Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name  %%%  Select cities.province, Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 group by cities.province %%% Select provinces.name, Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name  %%%  Select cities.province, Sum(GLength(Intersection(rivers.Shape, cities.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 group by cities.province
+id: ada07
+
+label:S Region
+questionCHI:中国面积最大的省份是哪一个？它的面积是多少？
+evidenceCHI:
+nameCHI:
+question:Which province in China has the largest area, and what is its size?
+evidence:
+name:
+SQL:Select name, Area(Shape, 1) as area from provinces order by area desc limit 1 %%% Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1 %%% Select province, Area(GUnion(Shape), 1) as area from cities group by province order by area desc limit 1 %%% Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1 
+Eval:Select name, Area(Shape, 1) as area from provinces order by area desc limit 1 %%% Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1 %%% Select province, Area(GUnion(Shape), 1) as area from cities group by province order by area desc limit 1 %%% Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1 
+id: ada08
+
+label:G S
+questionCHI:每个省内有多少个城市？
+evidenceCHI:
+nameCHI:
+question:How many cities are there in each province?
+evidence:
+name:
+SQL:select province, count(*) from cities group by province %%% select provinces.name, count(*) from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name
+Eval:select province, count(*) from cities group by province %%% select provinces.name, count(*) from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name
+id: ada09
+
+label:S
+questionCHI:与广东省接壤的省份有哪些？每个省的面积是多少？
+evidenceCHI:
+nameCHI:广东省以'广东省'为名称表示。
+question:Which provinces border Guangdong Province, and what is the area of each province?
+evidence:
+name:Guangdong Province is represented by the name '广东省'.
+SQL:Select b.name , Area(b.Shape, 1) from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省'  %%% Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.name from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省') group by province
+Eval:Select b.name , Area(b.Shape, 1) from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省'  %%% Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.name from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省') group by province
+id: ada10
+
+label:G S Region
+questionCHI:中国境内铁路的总长度是多少？
+evidenceCHI:
+nameCHI:
+question:What is the total length of railways within China?
+evidence:
+name:
+SQL:Select Sum(Shape_Length) from rails %%% Select Sum(GLength(Shape, 1))  from rails
+Eval:Select Sum(Shape_Length) from rails %%% Select Sum(GLength(Shape, 1))  from rails
+id: ada11
+
+label:G S
+questionCHI:京广线的总长度是多少？
+evidenceCHI:京广线由多个同名铁路段组成。只需给出长度。
+nameCHI:京广线以'京广线'为名称表示。
+question:What is the total length of the Beijing-Guangzhou Railway Line?
+evidence:The Beijing-Guangzhou Railway Line is composed of segments with the same name. Only provide the length.
+name:The Beijing-Guangzhou Railway Line is represented by the name '京广线'.
+SQL:Select Sum(Shape_Length) from rails where name = '京广线' %%% Select Sum(GLength(Shape, 1))  from rails where name = '京广线'
+Eval:Select Sum(Shape_Length) from rails where name = '京广线' %%% Select Sum(GLength(Shape, 1))  from rails where name = '京广线'
+id: ada12
+
+label:S
+questionCHI:京广线经过河南省的哪些城市？
+evidenceCHI:一条铁路由多个同名铁路段组成。
+nameCHI:京广线以'京广线'为名称表示，河南省以'河南省'为名称表示。
+question:Which cities in Henan Province does the Beijing-Guangzhou Railway Line pass through?
+evidence:A railway is composed of segments with the same name.
+name:The Beijing-Guangzhou Railway Line is represented by the name '京广线', and Henan Province is represented by the name '河南省'.
+SQL:Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where cities.province = '河南省' and rails.name = '京广线' %%% Select distinct cities.name  from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where provinces.name = '河南省' and rails.name = '京广线'
+Eval:Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where cities.province = '河南省' and rails.name = '京广线' %%% Select distinct cities.name  from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where provinces.name = '河南省' and rails.name = '京广线'
+id: ada13
+
+label:S
+questionCHI:全国有哪些城市有铁路经过？
+evidenceCHI:一条铁路由多个同名铁路段组成。
+nameCHI:
+question:Which cities in China have railways passing through them?
+evidence:A railway is composed of segments with the same name.
+name:
+SQL:Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 
+Eval:Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 
+id: ada14
+
+label:S
+questionCHI:全国有哪些城市没有铁路经过？
+evidenceCHI:一条铁路由多个同名铁路段组成。
+nameCHI:
+question:Which cities in China do not have railways passing through them?
+evidence:A railway is composed of segments with the same name.
+name:
+SQL:Select name from cities where name not in (Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 )
+Eval:Select name from cities where name not in (Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 )
+id: ada15
+
+label:S
+questionCHI:人口最多的省份是哪一个？它的面积是多少？
+evidenceCHI:
+nameCHI:
+question:Which province has the largest population, and what is its area?
+evidence:
+name:
+SQL:Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by POPU desc limit 1) %%% Select province, Sum(Area(Shape, 1))   from cities where province = (Select name from provinces order by POPU desc limit 1)
+Eval:Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by POPU desc limit 1) %%% Select province, Sum(Area(Shape, 1))   from cities where province = (Select name from provinces order by POPU desc limit 1)
+id: ada16
+
+label:G S
+questionCHI:全国1级湖泊的总面积是多少？
+evidenceCHI:
+nameCHI:
+question:What is the total area of all Level 1 lakes in China?
+evidence:
+name:
+SQL:Select Sum(Area)  from lakes where level_lake = 1 %%% Select  Sum(Area(Shape, 1))   from lakes where level_lake = 1
+Eval:Select Sum(Area)  from lakes where level_lake = 1 %%% Select  Sum(Area(Shape, 1))   from lakes where level_lake = 1
+id: ada17
+
+label:G
+questionCHI:与1994年相比，2000年GDP增幅最大的省份是哪个？
+evidenceCHI:
+nameCHI:
+question:Which province had the largest GDP increase in 2000 compared to 1994?
+evidence:
+name:
+SQL:Select name from provinces order by GDP_2000 - GDP_1994 desc limit 1
+Eval:Select name from provinces order by GDP_2000 - GDP_1994 desc limit 1
+id: ada18
+
+label:S
+questionCHI:少数民族人口最多的省份是哪一个？它的面积是多少？
+evidenceCHI:
+nameCHI:
+question:Which province has the largest ethnic minority population, and what is its area?
+evidence:
+name:
+SQL:Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by Pop_Minori desc limit 1) %%% Select province, Sum(Area(Shape, 1))   from cities where province = (Select name from provinces order by Pop_Minori desc limit 1)
+Eval:Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by Pop_Minori desc limit 1) %%% Select province, Sum(Area(Shape, 1))   from cities where province = (Select name from provinces order by Pop_Minori desc limit 1)
+id: ada19
+
+label:S
+questionCHI:哪些1级河流与铁路相交？
+evidenceCHI:一条河流是由名字相同的各河流段组成，一条铁路是由名字相同的各铁路段组成。
+nameCHI:
+question:Which Level 1 rivers intersect with railways?
+evidence:A river is composed of multiple sections with the same name, and a railway is composed of multiple sections with the same name.
+name:
+SQL:Select distinct rivers.name from rivers inner join rails On Intersects(rivers.Shape, rails.Shape) = 1 where rivers.level_river = 1
+Eval:Select distinct rivers.name from rivers inner join rails On Intersects(rivers.Shape, rails.Shape) = 1 where rivers.level_river = 1
+id: ada20
+
+label:S
+questionCHI:湖北省内哪个机场距离省中心最近？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。
+question:Which airport in Hubei Province is closest to the provincial center?
+evidence:
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select airports.name from provinces inner join airports On Within(airports.Location, provinces.Shape) = 1 where provinces.name = '湖北省'  order by Distance(Centroid(provinces.Shape), airports.Location, 1) asc limit 1
+Eval:Select airports.name from provinces inner join airports On Within(airports.Location, provinces.Shape) = 1 where provinces.name = '湖北省'  order by Distance(Centroid(provinces.Shape), airports.Location, 1) asc limit 1
+id: ada21
+
+label:S
+questionCHI:我想知道与盘西铁路有交的其它铁路？
+evidenceCHI:一条铁路是由名字相同的各铁路段组成。
+nameCHI:盘西铁路以'盘西'为名称表示。
+question:I would like to know the other railways that intersect with the Panxi Railway.
+evidence:A railway is composed of segments with the same name.
+name:The Panxi Railway is represented by the name '盘西'.
+SQL:Select distinct b.name from rails a inner join rails b On Intersects(a.Shape, b.Shape) = 1 where a.name = '盘西' and b.name != '盘西'
+Eval:Select distinct b.name from rails a inner join rails b On Intersects(a.Shape, b.Shape) = 1 where a.name = '盘西' and b.name != '盘西'
+id: ada22
+
+label:S
+questionCHI:哪些河流流经新疆维吾尔自治区？
+evidenceCHI:一条河流是由名字相同的各河流段组成。
+nameCHI:新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示。
+question:Which rivers flow through the Xinjiang Uygur Autonomous Region?
+evidence:A river is composed of multiple sections with the same name.
+name:The Xinjiang Uygur Autonomous Region is represented by the name '新疆维吾尔自治区'.
+SQL:Select distinct rivers.name from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区' %%% Select distinct rivers.name from rivers inner join cities On Intersects(rivers.Shape, cities.Shape) =1 where cities.province = '新疆维吾尔自治区'
+Eval:Select distinct rivers.name from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区' %%% Select distinct rivers.name from rivers inner join cities On Intersects(rivers.Shape, cities.Shape) =1 where cities.province = '新疆维吾尔自治区'
+id: ada23
+
+label:Intersection S
+questionCHI:新疆维吾尔自治区境内河流的总长度是多少？
+evidenceCHI:应计算河流与新疆维吾尔自治区交集的长度。
+nameCHI:新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示。
+question:What is the total length of rivers within the Xinjiang Uygur Autonomous Region?
+evidence:The length should be calculated based on the intersection of the rivers and the Xinjiang Uygur Autonomous Region.
+name:The Xinjiang Uygur Autonomous Region is represented by the name '新疆维吾尔自治区'.
+SQL:Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区' %%% Select Sum(GLength(Intersection(rivers.Shape, cities.Shape), 1))  from rivers inner join cities On Intersects(rivers.Shape, cities.Shape) = 1 where cities.province = '新疆维吾尔自治区'
+Eval:Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区' %%% Select Sum(GLength(Intersection(rivers.Shape, cities.Shape), 1))  from rivers inner join cities On Intersects(rivers.Shape, cities.Shape) = 1 where cities.province = '新疆维吾尔自治区' %%% Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区' %%% Select Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from rivers inner join cities On Intersects(rivers.Shape, cities.Shape) = 1 where cities.province = '新疆维吾尔自治区'
+id: ada24
+
+label:S Region
+questionCHI:中国五个自治区的总面积和总人口分别是多少？
+evidenceCHI:中国五个自治区是指西藏自治区、内蒙古自治区、新疆维吾尔自治区、广西壮族自治区和宁夏回族自治区。
+nameCHI: 西藏自治区以'西藏自治区'为名称表示，内蒙古自治区以'内蒙古自治区'为名称表示，新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示，广西壮族自治区以'广西壮族自治区'为名称表示，宁夏回族自治区以'宁夏回族自治区'为名称表示。
+question:What are the total area and population of China's five autonomous regions?
+evidence:The five autonomous regions of China are the Tibet Autonomous Region, Inner Mongolia Autonomous Region, Xinjiang Uygur Autonomous Region, Guangxi Zhuang Autonomous Region, and Ningxia Hui Autonomous Region.
+name:The Tibet Autonomous Region is referred to as '西藏自治区', the Inner Mongolia Autonomous Region as '内蒙古自治区', the Xinjiang Uygur Autonomous Region as '新疆维吾尔自治区', the Guangxi Zhuang Autonomous Region as '广西壮族自治区', and the Ningxia Hui Autonomous Region as '宁夏回族自治区'.
+SQL:Select Sum(Area(Shape,1))  , Sum(POPU) from provinces where name like '%自治区'
+Eval:Select Sum(Area(Shape,1))  , Sum(POPU) from provinces where name like '%自治区'
+id: ada25
+
+label:S Region
+questionCHI:中国面积最小的自治区是哪一个？它的人口是多少？
+evidenceCHI:中国五个自治区是指西藏自治区、内蒙古自治区、新疆维吾尔自治区、广西壮族自治区和宁夏回族自治区。
+nameCHI:西藏自治区以'西藏自治区'为名称表示，内蒙古自治区以'内蒙古自治区'为名称表示，新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示，广西壮族自治区以'广西壮族自治区'为名称表示，宁夏回族自治区以'宁夏回族自治区'为名称表示。
+question:Which is the smallest autonomous region by area, and what is its population?
+evidence:The five autonomous regions of China are the Tibet Autonomous Region, Inner Mongolia Autonomous Region, Xinjiang Uygur Autonomous Region, Guangxi Zhuang Autonomous Region, and Ningxia Hui Autonomous Region.
+name:The Tibet Autonomous Region is referred to as '西藏自治区', the Inner Mongolia Autonomous Region as '内蒙古自治区', the Xinjiang Uygur Autonomous Region as '新疆维吾尔自治区', the Guangxi Zhuang Autonomous Region as '广西壮族自治区', and the Ningxia Hui Autonomous Region as '宁夏回族自治区'.
+SQL:Select name, POPU from provinces where name like '%自治区' and name = ( Select name from provinces where name like '%自治区' order by Area(Shape, 1) asc limit 1) %%%  Select name, POPU from provinces where name = (Select province from cities where province like '%自治区'  group by province order by Sum(Area(Shape, 1)) asc limit 1)
+Eval:Select name, POPU from provinces where name like '%自治区' and name = ( Select name from provinces where name like '%自治区' order by Area(Shape, 1) asc limit 1) %%%  Select name, POPU from provinces where name = (Select province from cities where province like '%自治区'  group by province order by Sum(Area(Shape, 1)) asc limit 1)
+id: ada26
+
+label:S
+questionCHI:哪些省份境内既有长江流经，又有黄河流经？
+evidenceCHI:一条河流是由名字相同的各河流段组成。
+nameCHI:长江以'长江'为名称表示，黄河以'黄河'为名称表示。
+question:Which provinces have both the Yangtze River and the Yellow River flowing through them?
+evidence:A river is composed of segments with the same name.
+name:The Yangtze River is represented by the name '长江', and the Yellow River is represented by the name '黄河'.
+SQL:Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'  intersect  Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '黄河' %%% Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江' intersect Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '黄河'
+Eval:Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'  intersect  Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '黄河' %%% Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江' intersect Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '黄河'
+id: ada27
+
+label:S
+questionCHI:长江流域，65岁以上人口的总人口是多少？
+evidenceCHI:长江流域是指长江流经的省份。长江由名字相同的各河流段组成。
+nameCHI:长江以'长江'为名称表示。
+question:What is the total population of people aged 65 and above in the Yangtze River Basin? 
+evidence:The Yangtze River Basin refers to the provinces through which the Yangtze River flows. The Yangtze River is composed of segments with the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select Sum(Pop_65Plus) from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江') %%% Select Sum(Pop_65Plus) from provinces where name in (Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江')
+Eval:Select Sum(Pop_65Plus) from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江') %%% Select Sum(Pop_65Plus) from provinces where name in (Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江')
+id: ada28
+
+label:S
+questionCHI:长江与哪些铁路交汇？
+evidenceCHI:长江是由名字相同的各河流段组成，而一条铁路是由名字相同的各铁路段组成。
+nameCHI:长江以'长江'为名称表示。
+question:Which railways intersect with the Yangtze River?
+evidence:The Yangtze is composed of various river sections that share the same name, just as a railway is made up of different segments with the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select distinct rails.name from rivers inner join rails On Intersects(rails.Shape, rivers.Shape) = 1 where rivers.name = '长江'
+Eval:Select distinct rails.name from rivers inner join rails On Intersects(rails.Shape, rivers.Shape) = 1 where rivers.name = '长江'
+id: ada29
+
+label:S
+questionCHI:长江流域的总面积是多少？
+evidenceCHI:长江流域是指长江流经的省份。长江由名字相同的各河流段组成。
+nameCHI:长江以'长江'为名称表示。
+question:What is the total area of the Yangtze River Basin?
+evidence:The Yangtze River Basin refers to the provinces through which the Yangtze River flows. The Yangtze River is composed of segments with the same name.
+name:The Yangtze River is represented by the name '长江'.
+SQL:Select Sum(Area(provinces.Shape, 1))   from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')  %%%  Select Sum(Area(cities.Shape, 1))   from cities where province in (Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江')
+Eval:Select Sum(Area(provinces.Shape, 1))   from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')  %%%  Select Sum(Area(cities.Shape, 1))   from cities where province in (Select distinct cities.province from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where rivers.name = '长江')
+id: ada30
+
+label:S
+questionCHI:京广线沿线各省份的人口各是多少？
+evidenceCHI:京广线是由名字相同的各铁路段组成。
+nameCHI:京广线以'京广线'为名称表示。
+question:What is the population of each province along the Beijing-Guangzhou railway?
+evidence:The Beijing-Guangzhou railway is composed of segments with the same name.
+name:The Beijing-Guangzhou railway is represented by the name '京广线'.
+SQL:Select name, Pop_Urban from provinces where name in (Select distinct provinces.name from provinces inner join rails On Intersects(provinces.Shape, rails.Shape) = 1 where rails.name = '京广线') %%% Select name, Pop_Urban from provinces where name in (Select distinct cities.province from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where rails.name = '京广线')
+Eval:Select Sum(Pop_Urban) from provinces where name in (Select distinct provinces.name from provinces inner join rails On Intersects(provinces.Shape, rails.Shape) = 1 where rails.name = '京广线') %%% Select Sum(Pop_Urban) from provinces where name in (Select distinct cities.province from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where rails.name = '京广线')
+id: ada31
+
+label:S Region
+questionCHI:中国最西部的城市是哪座？
+evidenceCHI:'最西部'是指经度最小的地方。
+nameCHI:
+question:Which city is the westernmost in China?
+evidence: 'Westernmost' refers to the location with the lowest longitude.
+name:
+SQL:Select name from cities order by MbrMinX(Shape) asc limit 1
+Eval:Select name from cities order by MbrMinX(Shape) asc limit 1
+id: ada32
+
+label:S Region
+questionCHI:中国最东部的省份是哪一个？
+evidenceCHI:
+nameCHI:
+question:Which province is the easternmost in China?
+evidence:
+name:
+SQL:Select name from provinces order by MbrMaxX(Shape) desc limit 1
+Eval:Select name from provinces order by MbrMaxX(Shape) desc limit 1
+id: ada33
+
+label:Intersection S
+questionCHI:每个省内1级河流的总长度是多少？
+evidenceCHI:一条河流由多个同名河段组成，应计算其在各省境内的交汇部分长度。
+nameCHI:
+question:What is the total length of all Level 1 rivers within each province?
+evidence:A river is composed of multiple sections with the same name, and its intersecting lengths within each province should be calculated.
+name:
+SQL:Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name %%% Select cities.province, Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where level_river = 1 group by cities.province
+Eval:Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name %%% Select cities.province, Sum(GLength(Intersection(cities.Shape, rivers.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where level_river = 1 group by cities.province %%% Select provinces.name, Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name %%% Select cities.province, Sum(GLength(Intersection(rivers.Shape, cities.Shape), 1))  from cities inner join rivers On Intersects(cities.Shape, rivers.Shape) = 1 where level_river = 1 group by cities.province
+id: ada34
+
+label:S
+questionCHI:每个省内有多少个机场？
+evidenceCHI:
+nameCHI:
+question:How many airports are there in each province?
+evidence:
+name:
+SQL:Select provinces.name, count(*) from provinces inner join airports On Within(Location, Shape) = 1 group by provinces.name %%% Select cities.province, count(*) from cities inner join airports On Within(Location, Shape) = 1 group by cities.province
+Eval:Select provinces.name, count(*) from provinces inner join airports On Within(Location, Shape) = 1 group by provinces.name %%% Select cities.province, count(*) from cities inner join airports On Within(Location, Shape) = 1 group by cities.province
+id: ada35
+
+label:S
+questionCHI:安庆机场方圆200千米内有哪些城市？
+evidenceCHI:
+nameCHI:安庆机场以'安庆'为名称表示。
+question:What cities are within a 200-kilometer radius of Anqing Airport?
+evidence:
+name:Anqing Airport is represented by the name '安庆'.
+SQL:Select cities.name from cities inner join airports On Distance(Shape, Location, 1) < 200 * 1000 where airports.name = '安庆'
+Eval:Select cities.name from cities inner join airports On Distance(Shape, Location, 1) < 200 * 1000 where airports.name = '安庆'
+id: ada36
+
+label:S
+questionCHI:京津冀地区共有多少座机场？
+evidenceCHI:京津冀地区是指河北省、天津市和北京市。
+nameCHI:河北省以'河北省'为名称表示，天津市以'天津市'为名称表示，北京市以'北京市'为名称表示。
+question:What is the total number of airports in the Beijing-Tianjin-Hebei region?
+evidence:The Beijing-Tianjin-Hebei region refers to Beijing, Tianjin and Hebei.
+name:Beijing is represented by the name '北京市', Tianjin is represented by the name '天津市', and Hebei is represented by the name '河北省'.
+SQL:Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市') %%% Select count(*) from cities inner join airports On Within(Location, Shape) = 1 where province in ('北京市', '河北省', '天津市')
+Eval:Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市') %%% Select count(*) from cities inner join airports On Within(Location, Shape) = 1 where province in ('北京市', '河北省', '天津市')
+id: ada37
+
+label:S
+questionCHI:苏州市最近的机场是哪座，距离有多远？
+evidenceCHI:
+nameCHI:苏州市以'苏州市'为名称表示。
+question:Which airport is closest to Suzhou, and how far is it?
+evidence:
+name:Suzhou is represented by the name '苏州市'.
+SQL:Select airports.name, min(Distance(cities.Shape, airports.Location, 1))  as distance from cities inner join airports where cities.name = '苏州市' order by distance limit 1
+Eval:Select airports.name, min(Distance(cities.Shape, airports.Location, 1))  as distance from cities inner join airports where cities.name = '苏州市' order by distance limit 1
+id: ada38
+
+label:S
+questionCHI:人口最多的省份是哪一个？该省有多少个机场？
+evidenceCHI:
+nameCHI:
+question:Which province has the largest population? How many airports are there in that province?
+evidence:
+name:
+SQL:Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) = 1 where provinces.name = (Select name from provinces order by POPU desc limit 1)
+Eval:Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) = 1 where provinces.name = (Select name from provinces order by POPU desc limit 1)
+id: ada39
+
+label:S
+questionCHI:京广线方圆10千米内有哪些机场？
+evidenceCHI:
+nameCHI:京广线以'京广线'为名称表示。
+question:What airports are within a 10-kilometer radius of the Beijing-Guangzhou railway?
+evidence:
+name:The Beijing-Guangzhou railway is represented by the name '京广线'.
+SQL:Select distinct airports.name from airports inner join rails On Distance(airports.Location, rails.Shape, 1) < 10 * 1000 where rails.name = '京广线'
+Eval:Select distinct airports.name from airports inner join rails On Distance(airports.Location, rails.Shape, 1) < 10 * 1000 where rails.name = '京广线'
+id: ada40
+
+label:S
+questionCHI:江苏省内距离太湖最近的机场是哪座？
+evidenceCHI:一个湖泊是由多个名称相同的湖泊区域组成。只需要给出机场名字。
+nameCHI:太湖以'太湖'为名称表示，江苏省以'江苏省'为名称表示。
+question:Which airport in Jiangsu Province is closest to Taihu Lake?
+evidence:A lake is composed of multiple sections of water with the same name. Only provide the name of the airport.
+name:Taihu Lake is represented by the name '太湖', and Jiangsu Province is represented by the name '江苏省'.
+SQL:Select airports.name from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1 %%% Select airports.name from airports inner join cities On Within(airports.Location, cities.Shape) = 1 inner join lakes where cities.province = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1
+Eval:Select airports.name from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1 %%% Select airports.name from airports inner join cities On Within(airports.Location, cities.Shape) = 1 inner join lakes where cities.province = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1 %%% Select airports.name, Distance(airports.Location, lakes.Shape, 1) as d from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by d asc limit 1 %%% Select airports.name, Distance(airports.Location, lakes.Shape, 1) as d from airports inner join cities On Within(airports.Location, cities.Shape) = 1 inner join lakes where cities.province = '江苏省' and lakes.name = '太湖' order by d asc limit 1
+id: ada41
+
+label:S
+questionCHI:女性人口最多的省份是哪个？该省的面积是多少？
+evidenceCHI:
+nameCHI:
+question:Which province has the largest female population? What is the area of that province?
+evidence:
+name:
+SQL:Select name, Area(Shape, 1)   from provinces order by Pop_Female desc limit 1
+Eval:Select name, Area(Shape, 1)   from provinces order by Pop_Female desc limit 1
+id: ada42
+
+label:S
+questionCHI:机场数量最多的城市是哪座？该城市共有多少个机场？
+evidenceCHI:
+nameCHI:
+question:Which city has the most airports? How many airports are there in that city?
+evidence:
+name:
+SQL:Select cities.name, count(*) as count from cities inner join airports On Within(airports.Location, cities.Shape) = 1 group by cities.name order by count desc limit 1
+Eval:Select cities.name, count(*) as count from cities inner join airports On Within(airports.Location, cities.Shape) = 1 group by cities.name order by count desc limit 1
+id: ada43
+
+label:S
+questionCHI:哪条铁路线最长，长度是多少？
+evidenceCHI:一条铁路是由多个名称相同的铁路区段组成。
+nameCHI:
+question:Which railway line is the longest, and what is its length?
+evidence:A railway is composed of multiple sections with the same name.
+name:
+SQL:Select name, Sum(Shape_Length) as length  from rails group by name order by length desc limit 1 %%% Select name, Sum(GLength(Shape, 1))   as length from rails group by name order by length desc limit 1
+Eval:Select name, Sum(Shape_Length) as length  from rails group by name order by length desc limit 1 %%% Select name, Sum(GLength(Shape, 1))   as length from rails group by name order by length desc limit 1
+id: ada44
+
+label:S
+questionCHI:男女人数差距最大的省份是哪个？该省有多少个机场？
+evidenceCHI:
+nameCHI:
+question:Which province has the largest gender population gap? How many airports are there in that province?
+evidence:
+name:
+SQL:Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) =1 where provinces.name = (Select name from provinces order by abs(Pop_Male - Pop_Female) desc limit 1)
+Eval:Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) =1 where provinces.name = (Select name from provinces order by abs(Pop_Male - Pop_Female) desc limit 1)
+id: ada45
+
+label:S
+questionCHI:太湖方圆200千米内有哪些机场？
+evidenceCHI:
+nameCHI:太湖以'太湖'为名称表示。
+question:What airports are within a 200-kilometer radius of Lake Tai?
+evidence:
+name:Lake Tai is represented by the name '太湖'.
+SQL:Select distinct airports.name from lakes inner join airports On Distance(lakes.Shape, airports.Location, 1) < 200 * 1000 where lakes.name = '太湖'
+Eval:Select distinct airports.name from lakes inner join airports On Distance(lakes.Shape, airports.Location, 1) < 200 * 1000 where lakes.name = '太湖'
+id: ada46
+
+label:S
+questionCHI:吉林省最北部的城市是哪座？
+evidenceCHI:'最北部'指的是纬度最高的地方。
+nameCHI:吉林省以'吉林省'为名称表示。
+question:Which city is the northernmost in Jilin Province? 
+evidence:'Northernmost' refers to the location with the highest latitude.
+name:Jilin Province is represented by the name '吉林省'.
+SQL:Select name from cities where province = '吉林省' order by MbrMaxY(Shape) desc limit 1 %%% Select cities.name from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '吉林省'  order by MbrMaxY(cities.Shape) desc limit 1
+Eval:Select name from cities where province = '吉林省' order by MbrMaxY(Shape) desc limit 1 %%% Select cities.name from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '吉林省'  order by MbrMaxY(cities.Shape) desc limit 1
+id: ada47
+
+label:S
+questionCHI:湘桂线经过哪些城市？
+evidenceCHI:湘桂线是由名字相同的各铁路段组成。
+nameCHI:湘桂线以'湘桂线'为名称表示。
+question:Which cities does the Xiang-Gui Railway Line pass through?
+evidence:The Xiang-Gui Railway Line is composed of segments with the same name.
+name:The Xiang-Gui Railway Line is represented by the name '湘桂线'.
+SQL:Select distinct cities.name from rails inner join cities On Intersects(rails.Shape, cities.Shape) = 1 where rails.name = '湘桂线'
+Eval:Select distinct cities.name from rails inner join cities On Intersects(rails.Shape, cities.Shape) = 1 where rails.name = '湘桂线'
+id: ada48
+
+label:S Intersection
+questionCHI:河南省与湖北省的交界线长度是多少？
+evidenceCHI:
+nameCHI:河南省以'河南省'为名称表示，湖北省以'湖北省'为名称表示。
+question:What is the length of the border between Henan Province and Hubei Province?
+evidence:
+name:Henan Province is represented by the name '河南省', and Hubei Province is represented by the name '湖北省'.
+SQL:Select GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省' %%% Select Sum(GLength(Intersection(a.Shape, b.Shape),1))  from cities a inner join cities b On Intersects(a.Shape, b.Shape) = 1 where a.province = '河南省' and b.province = '湖北省'
+Eval:Select GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省' %%% Select Sum(GLength(Intersection(a.Shape, b.Shape),1))  from cities a inner join cities b On Intersects(a.Shape, b.Shape) = 1 where a.province = '河南省' and b.province = '湖北省' %%% Select GLength(Intersection(b.Shape, a.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省' %%% Select Sum(GLength(Intersection(b.Shape, a.Shape),1))  from cities a inner join cities b On Intersects(a.Shape, b.Shape) = 1 where a.province = '河南省' and b.province = '湖北省'
+id: ada49
+
+label:S
+questionCHI:湖北省的中心位于哪座城市？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。
+question:Which city is at the center of Hubei Province?
+evidence:
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select cities.name from provinces inner join cities On Within(Centroid(provinces.Shape), cities.Shape) = 1 where provinces.name = '湖北省'
+Eval:Select cities.name from provinces inner join cities On Within(Centroid(provinces.Shape), cities.Shape) = 1 where provinces.name = '湖北省'
+id: ada50
+
+label:S Intersection
+questionCHI:河南省与哪个省的边界线最长？边界线的长度是多少？
+evidenceCHI:
+nameCHI:河南省以'河南省'为名称表示。
+question:Which province shares the longest border with Henan Province, and what is the length of that border?
+evidence:
+name:Henan Province is represented by the name '河南省'。
+SQL:Select b.name, GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' 
+Eval:Select b.name, GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省'  %%% Select b.name, GLength(Intersection(b.Shape, a.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' 
+id: ada51
+
+label:S Intersection
+questionCHI:距离河南省与湖北省交界最近的机场是哪座？距离有多远？
+evidenceCHI:
+nameCHI:河南省以'河南省'为名称表示，湖北省以'湖北省'为名称表示。
+question:Which airport is closest to the border between Henan Province and Hubei Province, and how far is it?
+evidence:
+name:Henan Province is represented by the name '河南省', and Hubei Province is represented by the name '湖北省'.
+SQL:Select airports.name, Distance(airports.Location, Intersection(a.Shape, b.Shape), 1)  as d from provinces a inner join provinces b On a.name = '河南省' and b.name = '湖北省' and Intersects(a.Shape, b.Shape) = 1  inner join airports order by d asc limit 1
+Eval:Select airports.name, Distance(airports.Location, Intersection(a.Shape, b.Shape), 1)  as d from provinces a inner join provinces b On a.name = '河南省' and b.name = '湖北省' and Intersects(a.Shape, b.Shape) = 1  inner join airports order by d asc limit 1
+id: ada52
+
+label:S
+questionCHI:哪个省的中心坐标不位于本省境内？
+evidenceCHI:
+nameCHI:
+question:Which province's central coordinates are not located within its own territory?
+evidence:
+name:
+SQL:Select name from provinces where  Within(Centroid(Shape), Shape) = 0 
+Eval:Select name from provinces where  Within(Centroid(Shape), Shape) = 0 
+id: ada53
+
+label:G S
+questionCHI:长江和黄河的长度分别是多少？
+evidenceCHI:一条河流是由名字相同的各河流段组成。
+nameCHI:长江以'长江'为名称表示，黄河以'黄河'为名称表示。
+question:What are the lengths of the Yangtze River and the Yellow River?
+evidence:A river is composed of segments with the same name.
+name:The Yangtze River is represented by the name '长江', and the Yellow River is represented by the name '黄河'.
+SQL:Select name, Sum(length) from rivers where name in ('长江', '黄河') group by name %%% Select name, Sum(GLength(Shape, 1))  from rivers where name in ('长江', '黄河') group by name
+Eval:Select name, Sum(length) from rivers where name in ('长江', '黄河') group by name %%% Select name, Sum(GLength(Shape, 1))  from rivers where name in ('长江', '黄河') group by name
+id: ada54
+
+label:S
+questionCHI:拥有城市数量最多的省份是哪个？该省有多少座城市？
+evidenceCHI:
+nameCHI:
+question:Which province has the most cities, and how many cities are there in that province?
+evidence:
+name:
+SQL:Select province, count(*) from cities group by province order by count(*) desc limit 1 %%% Select provinces.name, count(*) as c from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name order by count(*) desc limit 1
+Eval:Select province, count(*) from cities group by province order by count(*) desc limit 1 %%% Select provinces.name, count(*) as c from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name order by count(*) desc limit 1
+id: ada55
+
+label:S
+questionCHI:黄河与京广线在哪些省份交汇？
+evidenceCHI:一条河流是由名字相同的各河流段组成，一条铁路是由名字相同的各铁路段组成。
+nameCHI:黄河以'黄河'为名称表示，京广线以'京广线'为名称表示。
+question:In which provinces do the Yellow River and the Beijing-Guangzhou railway intersect?
+evidence:A river is composed of segments with the same name. A railway is composed of segments with the same name.
+name:The Yellow River is represented by the name '黄河', and the Beijing-Guangzhou railway is represented by the name '京广线'.
+SQL:Select distinct provinces.name from provinces inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1 %%% Select distinct cities.province from cities inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1
+Eval:Select distinct provinces.name from provinces inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1 %%% Select distinct cities.province from cities inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1
+id: ada56

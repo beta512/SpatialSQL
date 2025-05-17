@@ -1,0 +1,41 @@
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT NOT NULL, 
+administrative_division_category TEXT NOT NULL, 
+POP2020 INTEGER NOT NULL, 
+POP2010 INTEGER NOT NULL, 
+POP2000 INTEGER NOT NULL, 
+shape MULTIPOLYGON NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+Shape_Area DOUBLE, 
+Shape_Length DOUBLE)
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY, 
+pinyin_name TEXT NOT NULL, 
+administrative_division_code TEXT NOT NULL, 
+shape MULTIPOLYGON NOT NULL)
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+city TEXT REFERENCES cities (name), 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+The table "cities" records the location and population information of various cities in China; The field "administrative_division_category" records the category of the city, such as a municipality directly under the central government, sub-provincial city, prefecture-level city, league, etc; The field "POP2020" records the population of the city in 2020; The field "POP2010" records the population of the city in 2010; The field "POP2000" records the population of the city in 2000; The field shape records the location of the city; The field "Shape_Area" records the area of the city; The field "Shape_Length" records the perimeter of the city.
+
+The table "provinces" records information about the various provinces in China.
+
+The table "universities" records information about various universities in China; The field "academic_discipline_category" records the university's academic discipline categories, with values such as comprehensive, science and engineering, teacher education, finance and economics, etc.; The field "operation_type" records the type of university operation, with values of public and private; The field "educational_level" records the university's educational level, with values of undergraduate and vocational; The field "affiliation" records the department to which the school is affiliated, with values such as Ministry of Education, National Ethnic Affairs Commission, Ministry of Transport, Beijing Municipality, etc.
+

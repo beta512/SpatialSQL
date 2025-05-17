@@ -1,0 +1,56 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 我想了解玄武区和秦淮区的面积分别是多少？ */
+Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')
+
+/* Answer the following: 2023年GDP高于浙江省的省份有哪些？这些省份的面积分别是多少？浙江省由多个城市构成。 */
+Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.province from GDPs a inner join GDPs b where a.province = '浙江省' and b.year_2023 > a.year_2023) group by province
+
+/* Answer the following: 广州路一公里范围内有哪些宾馆？ */
+Select distinct hotels.name from roads inner join hotels On Distance(roads.Shape, hotels.Location, 1) < 1000 where roads.name = '广州路'
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+POP2020 INTEGER NOT NULL,
+POP2010 INTEGER NOT NULL,
+POP2000 INTEGER NOT NULL,
+shape MULTIPOLYGON NOT NULL,
+Shape_Length DOUBLE)
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+pinyin_name TEXT NOT NULL,
+administrative_division_code TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+
+/* Answer the following with no explanation: 与安阳市相邻的城市有哪些？不包括河南省内的城市。安阳市以'安阳市'为名称表示，河南省以'河南省'为名称表示。 */
+SELECT 

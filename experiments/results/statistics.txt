@@ -1,0 +1,48 @@
+sdb:dataset1 	DB:ada 			G:1 	S:49 	GS:6 	Region:7
+sdb:dataset1 	DB:edu 			G:0 	S:19 	GS:25 	Region:0
+sdb:dataset1 	DB:tourism 		G:8 	S:25 	GS:0 	Region:1
+sdb:dataset1 	DB:traffic 			G:4 	S:49 	GS:14 	Region:26
+sdb:dataset2 	DB:ada 			G:1 	S:54 	GS:1 	Region:7
+sdb:dataset2 	DB:edu 			G:0 	S:44 	GS:0 	Region:0
+sdb:dataset2 	DB:tourism 		G:8 	S:25 	GS:0 	Region:1
+sdb:dataset2 	DB:traffic 			G:4 	S:63 	GS:0 	Region:26
+model:dail_sql	sdb:dataset1		shot:0	ex:44.50	wrong:111/200	exception:41	Region:9
+model:dail_sql	sdb:dataset1		shot:1	ex:52.50	wrong:95/200	exception:25	Region:8
+model:dail_sql	sdb:dataset1		shot:3	ex:59.50	wrong:81/200	exception:15	Region:10
+model:dail_sql	sdb:dataset1		shot:5	ex:65.50	wrong:69/200	exception:20	Region:11
+model:dail_sql	sdb:dataset2		shot:0	ex:34.00	wrong:132/200	exception:36	Region:6
+model:dail_sql	sdb:dataset2		shot:1	ex:47.00	wrong:106/200	exception:15	Region:7
+model:dail_sql	sdb:dataset2		shot:3	ex:59.00	wrong:82/200	exception:16	Region:11
+model:dail_sql	sdb:dataset2		shot:5	ex:57.50	wrong:85/200	exception:27	Region:11
+model:sspa	sdb:dataset1		shot:0	ex:85.00	wrong:30/200	exception:6	Region:32		schema-tips:1	repetition:38
+model:sspa	sdb:dataset1		shot:1	ex:83.50	wrong:33/200	exception:4	Region:31		schema-tips:2	repetition:22
+model:sspa	sdb:dataset1		shot:3	ex:85.00	wrong:30/200	exception:2	Region:32		schema-tips:2	repetition:18
+model:sspa	sdb:dataset1		shot:5	ex:87.50	wrong:25/200	exception:1	Region:31		schema-tips:8	repetition:16
+model:sspa	sdb:dataset2		shot:0	ex:78.00	wrong:44/200	exception:7	Region:31		schema-tips:1	repetition:43
+model:sspa	sdb:dataset2		shot:1	ex:80.00	wrong:40/200	exception:4	Region:30		schema-tips:3	repetition:26
+model:sspa	sdb:dataset2		shot:3	ex:81.00	wrong:38/200	exception:1	Region:32		schema-tips:7	repetition:15
+model:sspa	sdb:dataset2		shot:5	ex:79.00	wrong:42/200	exception:2	Region:32		schema-tips:8	repetition:22
+model:sspa_tips	sdb:dataset1		shot:0	ex:79.00	wrong:42/200	exception:12	Region:32
+model:sspa_tips	sdb:dataset1		shot:1	ex:80.00	wrong:40/200	exception:8	Region:31
+model:sspa_tips	sdb:dataset1		shot:3	ex:83.50	wrong:33/200	exception:8	Region:32
+model:sspa_tips	sdb:dataset1		shot:5	ex:82.50	wrong:35/200	exception:12	Region:31
+model:sspa_tips	sdb:dataset2		shot:0	ex:74.50	wrong:51/200	exception:14	Region:30
+model:sspa_tips	sdb:dataset2		shot:1	ex:77.50	wrong:45/200	exception:11	Region:31
+model:sspa_tips	sdb:dataset2		shot:3	ex:78.00	wrong:44/200	exception:9	Region:32
+model:sspa_tips	sdb:dataset2		shot:5	ex:75.50	wrong:49/200	exception:15	Region:31
+model:sspa_geo	sdb:dataset1		shot:0	ex:80.50	wrong:39/200	exception:7	Region:27		schema-tips:2	repetition:40
+model:sspa_geo	sdb:dataset1		shot:1	ex:77.50	wrong:45/200	exception:5	Region:16		schema-tips:2	repetition:38
+model:sspa_geo	sdb:dataset1		shot:3	ex:78.00	wrong:44/200	exception:3	Region:13		schema-tips:2	repetition:26
+model:sspa_geo	sdb:dataset1		shot:5	ex:77.50	wrong:45/200	exception:1	Region:13		schema-tips:7	repetition:29
+model:sspa_geo	sdb:dataset2		shot:0	ex:75.00	wrong:50/200	exception:8	Region:32		schema-tips:2	repetition:49
+model:sspa_geo	sdb:dataset2		shot:1	ex:71.00	wrong:58/200	exception:4	Region:17		schema-tips:3	repetition:28
+model:sspa_geo	sdb:dataset2		shot:3	ex:71.50	wrong:57/200	exception:1	Region:12		schema-tips:4	repetition:22
+model:sspa_geo	sdb:dataset2		shot:5	ex:68.50	wrong:63/200	exception:3	Region:11		schema-tips:6	repetition:42
+model:sspa_sdbms	sdb:dataset1		shot:0	ex:50.00	wrong:100/200	exception:25	Region:13		schema-tips:2	repetition:163
+model:sspa_sdbms	sdb:dataset1		shot:1	ex:56.00	wrong:88/200	exception:13	Region:17		schema-tips:0	repetition:79
+model:sspa_sdbms	sdb:dataset1		shot:3	ex:61.50	wrong:77/200	exception:7	Region:19		schema-tips:3	repetition:53
+model:sspa_sdbms	sdb:dataset1		shot:5	ex:70.50	wrong:59/200	exception:7	Region:21		schema-tips:3	repetition:48
+model:sspa_sdbms	sdb:dataset2		shot:0	ex:38.00	wrong:124/200	exception:22	Region:8		schema-tips:1	repetition:120
+model:sspa_sdbms	sdb:dataset2		shot:1	ex:48.00	wrong:104/200	exception:9	Region:13		schema-tips:3	repetition:55
+model:sspa_sdbms	sdb:dataset2		shot:3	ex:65.50	wrong:69/200	exception:6	Region:31		schema-tips:4	repetition:38
+model:sspa_sdbms	sdb:dataset2		shot:5	ex:73.00	wrong:54/200	exception:5	Region:31		schema-tips:4	repetition:39

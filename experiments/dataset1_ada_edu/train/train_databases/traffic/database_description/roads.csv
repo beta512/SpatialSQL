@@ -1,0 +1,10 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+gml_id,gml_id,"The field ""gml_id"" is used to record the ID of the road segment",TEXT,,"字段""gml_id""用于记录这段道路的ID",
+Name,Name,"The field ""Name"" is used to record the name of the road segment, and road segments with different gml_id may have the same name",TEXT,,"字段""Name""用于记录这段道路的名字，""gml_id""不同的路段名字有可能相同",
+pyname,piyin name,,TEXT,,,
+kind_num,kind num,,INTEGER,,,
+kind,kind,,TEXT,,,
+width,width,,INTEGER,,,
+length,length,"The field ""length"" is used to record the length of the road segment",DOUBLE,,"字段""length""用于记录这段道路的长度",
+speedclass,speed class,,INTEGER,,,
+Shape,Shape,,LINESTRING,,,

@@ -1,0 +1,502 @@
+[
+    {
+        "db_id":"tourism",
+        "id":"tourism01",
+        "sql":"SELECT SUM(Domestic_Tourism_Earnings_Wan_Yuan) AS Total_Domestic_Tourism_Earnings FROM tours JOIN cities ON tours.city = cities.name WHERE cities.province IN ('辽宁省', '吉林省', '黑龙江省') AND year = 2020"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism02",
+        "sql":"SELECT international_toursim_earnings_Wan_dollar FROM tours WHERE city = '湖北省' AND year = 2020"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism03",
+        "sql":"SELECT star_hotel_number FROM tours WHERE city = '湖北省' AND year = 2010"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism04",
+        "sql":"SELECT c.name, COUNT(a.IATA) AS airport_count FROM cities c JOIN airports a ON Contains(c.Shape, a.Location) GROUP BY c.name"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism05",
+        "sql":"SELECT c.name FROM cities c LEFT JOIN airports a ON Contains(c.Shape, a.Location) WHERE a.IATA IS NULL"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism06",
+        "sql":"SELECT cities.name AS City, COUNT(scenicSpots.name) AS NumberOf5AScenicSpots FROM cities JOIN scenicSpots ON Contains(cities.Shape, scenicSpots.Location) WHERE scenicSpots.level = '5A' GROUP BY cities.name"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism07",
+        "sql":"SELECT GDPs.province, SUM(Area(cities.Shape)) AS total_area FROM GDPs JOIN cities ON GDPs.province = cities.province GROUP BY GDPs.province"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism08",
+        "sql":"SELECT province, SUM(Area(Shape)) AS total_area FROM cities GROUP BY province ORDER BY total_area DESC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism09",
+        "sql":"SELECT province FROM cities ORDER BY X(Centroid(Shape)) ASC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism10",
+        "sql":"SELECT province FROM cities ORDER BY Y(Centroid(Shape)) ASC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism11",
+        "sql":"SELECT name FROM cities WHERE province = '河南省' ORDER BY Y(Centroid(Shape)) DESC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism12",
+        "sql":"SELECT COUNT(*) FROM scenicSpots WHERE level IN ('3A', '4A', '5A') AND DistanceSphere(Location, (SELECT Location FROM stations WHERE name = '六安')) <= 10000"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism13",
+        "sql":"SELECT s.name AS ScenicSpot, Distance(s.Location, st.Location) AS Distance FROM scenicSpots s, stations st WHERE st.name = '岳阳东' AND s.level = '5A' AND DWithin(s.Location, st.Location, 100000)"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism14",
+        "sql":"SELECT -- First, find the province with the highest GDP in 2023 SELECT province FROM GDPs ORDER BY year_2023 DESC LIMIT 1 -- Assuming the province found above is 'X', now find the number of airports in that province SELECT COUNT(*) FROM airports JOIN cities ON Contains(cities.Shape, airports.Location) WHERE cities.province = 'X'"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism15",
+        "sql":"SELECT province FROM GDPs ORDER BY year_2023 DESC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism16",
+        "sql":"SELECT city FROM tours WHERE year BETWEEN 2011 AND 2020 ORDER BY international_tourists_number_Wan DESC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism17",
+        "sql":"SELECT COUNT(*) FROM airports WHERE Location = '哈尔滨市'"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism18",
+        "sql":"SELECT Name FROM airports WHERE Location <@ (SELECT Shape FROM cities WHERE name = '北京市')"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism19",
+        "sql":"SELECT COUNT(*) FROM scenicSpots WHERE level >= '3A' AND address LIKE '%新疆维吾尔自治区%'"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism20",
+        "sql":"SELECT Area(Shape) FROM cities WHERE province = '西藏自治区'"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism21",
+        "sql":"SELECT SUM(international_toursim_earnings_Wan_dollar) AS Total_International_Tourism_Earnings FROM tours JOIN cities ON tours.city = cities.name WHERE cities.province IN ('辽宁省', '吉林省', '黑龙江省') AND year = 2020"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism22",
+        "sql":"SELECT SUM(Area(Shape)) AS Total_Area FROM cities WHERE province IN ('辽宁省', '吉林省', '黑龙江省')"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism23",
+        "sql":"SELECT province, Area(Shape) AS area FROM cities WHERE province IN ('辽宁省', '吉林省', '黑龙江省') GROUP BY province ORDER BY area DESC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism24",
+        "sql":"SELECT COUNT(*) AS serviceable_cities FROM cities WHERE DWithin( (SELECT Location FROM airports WHERE Name = '大理'), Shape, 150000 )"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism25",
+        "sql":"SELECT scenicSpots.name, Distance(scenicSpots.Location, (SELECT Shape FROM cities WHERE name = '北京市')) AS distance FROM scenicSpots, cities WHERE scenicSpots.level = '5A' AND cities.name = '北京市' ORDER BY distance DESC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism26",
+        "sql":"SELECT Distance( (SELECT Location FROM scenicSpots WHERE name = '北海公园'), (SELECT Location FROM scenicSpots WHERE name = '恭王府') ) AS distance"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism27",
+        "sql":"SELECT name, Distance(Location, ( SELECT Location FROM scenicSpots WHERE name = '八大处公园' )) AS distance FROM scenicSpots WHERE level = '5A' AND name != '八大处公园' ORDER BY distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism28",
+        "sql":"SELECT Location FROM airports WHERE Name = '阿克苏/温宿'"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism29",
+        "sql":"SELECT address FROM scenicSpots WHERE name = '天台山景区'"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism30",
+        "sql":"SELECT t.city, COUNT(ss.name) AS number_of_5A_scenic_spots FROM tours t JOIN cities c ON t.city = c.name LEFT JOIN scenicSpots ss ON ss.address LIKE '%' || c.province || '%' WHERE t.year = 2020 AND ss.level = '5A' GROUP BY t.city ORDER BY t.international_tourists_number_Wan DESC LIMIT 10"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism31",
+        "sql":"SELECT c.province, t.Domestic_Tourism_Earnings_Wan_Yuan FROM cities c JOIN tours t ON c.name = t.city WHERE c.province IN ('辽宁省', '吉林省', '黑龙江省') AND t.year = 2020"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism32",
+        "sql":"SELECT GDPs.province, Area(cities.Shape) AS area FROM GDPs JOIN cities ON GDPs.province = cities.province WHERE GDPs.year_2023 > (SELECT year_2023 FROM GDPs WHERE province = '浙江省') GROUP BY GDPs.province"
+    },
+    {
+        "db_id":"tourism",
+        "id":"tourism33",
+        "sql":"SELECT city, MAX(star_hotel_number) AS max_star_hotels FROM tours WHERE year = 2020 GROUP BY city ORDER BY max_star_hotels DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic01",
+        "sql":"SELECT distance FROM buslines WHERE name = '874路'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic02",
+        "sql":"SELECT name, MAX(distance) FROM buslines"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic03",
+        "sql":"SELECT name, start_stop, end_stop, distance FROM buslines ORDER BY distance DESC LIMIT 10"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic04",
+        "sql":"SELECT Name, SUM(length) AS TotalLength FROM roads GROUP BY Name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic05",
+        "sql":"SELECT Name, SUM(length) AS TotalLength FROM roads GROUP BY Name ORDER BY TotalLength DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic06",
+        "sql":"SELECT SUM(Shape_Area) FROM greenspaces"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic07",
+        "sql":"SELECT NAME, SUM(Shape_Area) AS Total_Area FROM greenspaces GROUP BY NAME"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic08",
+        "sql":"SELECT NAME, MAX(Shape_Area) AS Largest_Area FROM greenspaces GROUP BY NAME ORDER BY Largest_Area DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic09",
+        "sql":"SELECT SUM(Shape_Area) FROM greenspaces WHERE NAME = '玄武湖公园'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic10",
+        "sql":"SELECT d.name AS DistrictName, SUM(Area(Intersection(d.Shape, g.Shape))) AS GreenSpaceArea FROM districts d JOIN greenspaces g ON Intersects(d.Shape, g.Shape) GROUP BY d.name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic11",
+        "sql":"SELECT d.name, SUM(Area(Intersection(g.Shape, d.Shape))) AS total_green_area FROM districts d JOIN greenspaces g ON Intersects(g.Shape, d.Shape) GROUP BY d.name ORDER BY total_green_area DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic12",
+        "sql":"SELECT Line, COUNT(station) AS NumberOfStations FROM subwaystations GROUP BY Line"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic13",
+        "sql":"SELECT Line, COUNT(station) AS NumberOfStations FROM subwaystations GROUP BY Line"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic14",
+        "sql":"SELECT name FROM buslines WHERE start_time = '0500'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic15",
+        "sql":"SELECT h.NAME, Distance(h.Location, bs.Location) AS distance FROM hotels h, busstops bs WHERE bs.name = '三元巷' ORDER BY distance LIMIT 5"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic16",
+        "sql":"SELECT Line, COUNT(*) AS StationCount FROM subwaystations GROUP BY Line ORDER BY StationCount DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic17",
+        "sql":"SELECT s.Line, COUNT(DISTINCT d.name) AS Districts_Count FROM subwaystations s JOIN districts d ON s.adcode = d.administrative_division_code GROUP BY s.Line"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic18",
+        "sql":"SELECT GLength(Shape) AS Length FROM subways WHERE Line = 'line4'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic19",
+        "sql":"SELECT DISTINCT s2.Line FROM subwaystations s1 JOIN subwaystations s2 ON s1.Location = s2.Location AND s1.Line != s2.Line WHERE s1.Line = 'line10二期'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic20",
+        "sql":"SELECT SUM(GLength(Shape)) FROM subways"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic21",
+        "sql":"SELECT subwaystations.station, Distance(subwaystations.Location, agencies.Location) AS distance FROM subwaystations, agencies WHERE agencies.NAME = '南京市文物局' ORDER BY distance LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic22",
+        "sql":"SELECT h.NAME, Distance(h.Location, s.Location) AS distance FROM hotels h, subwaystations s WHERE s.station = '鼓楼' AND s.Line = 'line4' AND DWithin(h.Location, s.Location, 1000)"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic23",
+        "sql":"SELECT WITH BusStops874 AS ( SELECT bs.name, bs.Location FROM buslines bl JOIN busstops bs ON bl.start_stop = bs.name OR bl.end_stop = bs.name WHERE bl.name = '874路' ), BusStops711 AS ( SELECT bs.name, bs.Location FROM buslines bl JOIN busstops bs ON bl.start_stop = bs.name OR bl.end_stop = bs.name WHERE bl.name = '711路' ), IntersectionStops AS ( SELECT b874.name, b874.Location FROM BusStops874 b874 JOIN BusStops711 b711 ON b874.name = b711.name ), NearestSubwayStation AS ( SELECT ss.station, ss.Location FROM IntersectionStops is1 JOIN subwaystations ss ORDER BY Distance(is1.Location, ss.Location) LIMIT 1 ) SELECT station FROM NearestSubwayStation This SQL query attempts to find the nearest subway station to the intersection of bus routes 874 and 711. However, please note that the query might need adjustments based on the actual spatial functions supported by your database system for calculating distances and handling geographic data types."
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic24",
+        "sql":"SELECT WITH IntersectionPoint AS ( SELECT Intersection(r1.Shape, r2.Shape) AS Point FROM roads r1, roads r2 WHERE r1.Name = '秦淮路' AND r2.Name = '将军大道' ), NearestSubwayStation AS ( SELECT s.station, Distance(s.Location, ip.Point) AS Distance FROM subwaystations s, IntersectionPoint ip ORDER BY Distance ASC LIMIT 1 ) SELECT station, Distance FROM NearestSubwayStation"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic25",
+        "sql":"SELECT Name, SUM(length(Shape)) AS TotalLength FROM rails GROUP BY Name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic26",
+        "sql":"SELECT Name, SUM(GLength(Shape)) AS TotalLength FROM rails GROUP BY Name ORDER BY TotalLength DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic27",
+        "sql":"SELECT SUM(GLength(Shape)) AS TotalRailwayLength FROM rails"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic28",
+        "sql":"SELECT d.name, COUNT(a.NAME) AS agency_count FROM districts d LEFT JOIN agencies a ON Contains(d.Shape, a.Location) GROUP BY d.name ORDER BY agency_count DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic29",
+        "sql":"SELECT districts.name FROM subwaystations JOIN districts ON subwaystations.adcode = districts.administrative_division_code WHERE subwaystations.station = '大行宫'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic30",
+        "sql":"SELECT d.name FROM agencies a JOIN districts d ON Contains(d.Shape, a.Location) WHERE a.NAME = '江苏省海事局'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic31",
+        "sql":"SELECT name, MAX(Shape_Area) AS LargestArea FROM districts"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic32",
+        "sql":"SELECT name, Area(Shape) AS area FROM districts"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic33",
+        "sql":"SELECT districts.name, COUNT(DISTINCT subways.Line) AS NumberOfSubwayLines FROM districts JOIN subwaystations ON districts.administrative_division_code = subwaystations.adcode JOIN subways ON subwaystations.Line = subways.Line GROUP BY districts.name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic34",
+        "sql":"SELECT h.NAME FROM hotels h, roads r WHERE r.Name = '广州路' AND Distance(r.Shape, h.Location) <= 1000"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic35",
+        "sql":"SELECT subwaystations.station, Distance(subwaystations.Location, agencies.Location) AS distance FROM subwaystations, agencies WHERE agencies.NAME = '南京市房产局' ORDER BY distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic36",
+        "sql":"SELECT COUNT(DISTINCT s.Line) FROM subwaystations s JOIN districts d ON s.adcode = d.administrative_division_code WHERE d.name = '玄武区'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic37",
+        "sql":"SELECT b.name FROM buslines b JOIN busstops bs ON b.start_stop = bs.name JOIN districts d ON Contains(d.Shape, bs.Location) WHERE d.name = '六合区' AND b.start_time = '0500'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic38",
+        "sql":"SELECT d.name AS District, b.name AS BusLine FROM districts d JOIN buslines b ON Contains(d.Shape, b.Shape) WHERE b.start_time < '0500'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic39",
+        "sql":"SELECT The query you're asking for involves several steps including spatial calculations which are not directly supported by standard SQL without specific extensions or functions provided by spatial databases like PostGIS for PostgreSQL or Spatial Extensions in MySQL. However, I can provide a conceptual SQL query that outlines how you might approach this problem using spatial functions to find the nearest subway station to the bus line 709. You would need to adapt this to your specific database system and ensure it supports the necessary spatial functions. Here's a conceptual SQL query: SELECT subwaystations.station, Distance(buslines.Shape, subwaystations.Location) AS distance FROM buslines, subwaystations WHERE buslines.name = '709路' ORDER BY Distance(buslines.Shape, subwaystations.Location) LIMIT 1 This query assumes: - `buslines.Shape` is the LINESTRING geometry of the 709 bus route. - `subwaystations.Location` is the POINT geometry of each subway station. - `Distance` is a function that calculates the shortest distance between two geometries. Please replace `Distance` with the appropriate function based on your spatial database system (e.g., `Distance_Sphere` in MySQL, `Distance` in PostGIS). Also, ensure that spatial indexes are used for efficiency if your dataset is large."
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic40",
+        "sql":"SELECT hotels.NAME, Distance(agencies.Location, hotels.Location) AS distance FROM hotels, agencies WHERE agencies.NAME = '南京市文物局' AND Distance(agencies.Location, hotels.Location) <= 500 ORDER BY distance ASC LIMIT 5"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic41",
+        "sql":"SELECT buslines.name FROM buslines JOIN roads ON Intersects(buslines.Shape, roads.Shape) WHERE roads.Name = '建康路'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic42",
+        "sql":"SELECT districts.name, COUNT(agencies.NAME) AS NumberOfAgencies FROM districts JOIN agencies ON Contains(districts.Shape, agencies.Location) GROUP BY districts.name ORDER BY NumberOfAgencies DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic43",
+        "sql":"SELECT h.NAME, Distance(h.Location, ss.Location) AS distance FROM hotels h, subwaystations ss, districts d WHERE ss.station = '南京南站' AND d.name = '江宁区' AND Contains(d.Shape, h.Location) ORDER BY distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic44",
+        "sql":"SELECT d.name AS DistrictName, SUM(GLength(Intersection(s.Shape, d.Shape))) AS SubwayLength FROM districts d JOIN subways s ON Intersects(s.Shape, d.Shape) GROUP BY d.name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic45",
+        "sql":"SELECT d.name, SUM(GLength(Intersection(s.Shape, d.Shape))) AS total_length FROM districts d JOIN subways s ON Intersects(s.Shape, d.Shape) GROUP BY d.name ORDER BY total_length DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic46",
+        "sql":"SELECT DISTINCT subways.Line FROM subways JOIN subwaystations ON subways.Line = subwaystations.Line JOIN districts ON subwaystations.adcode = districts.administrative_division_code WHERE districts.name = '玄武区'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic47",
+        "sql":"SELECT DISTINCT districts.name FROM districts JOIN rails ON Intersects(districts.Shape, rails.Shape)"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic48",
+        "sql":"SELECT COUNT(*) FROM hotels JOIN districts ON Contains(districts.Shape, hotels.Location) WHERE districts.name = '玄武区'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic49",
+        "sql":"SELECT COUNT(h.NAME) AS NumberOfHotels FROM hotels h, subways s WHERE s.Line = 'S7' AND DWithin(s.Shape, h.Location, 500)"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic50",
+        "sql":"SELECT d.name FROM districts d JOIN greenspaces g ON Contains(d.Shape, g.Shape) WHERE g.NAME = '钟山风景区'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic51",
+        "sql":"SELECT subwaystations.station, MIN(Distance(greenspaces.Shape, subwaystations.Location)) AS distance FROM greenspaces, subwaystations WHERE greenspaces.NAME = '郑和公园' GROUP BY subwaystations.station ORDER BY distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic52",
+        "sql":"SELECT greenspaces.NAME FROM greenspaces, subwaystations WHERE subwaystations.station = '上海路' AND greenspaces.NAME LIKE '%公园%' ORDER BY Distance(greenspaces.Shape, subwaystations.Location) LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic53",
+        "sql":"SELECT SUM(Area(Shape)) AS YangtzeRiverArea FROM rivers WHERE Name = '长江'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic54",
+        "sql":"SELECT DISTINCT subways.Line FROM subways JOIN rivers ON Intersects(subways.Shape, rivers.Shape) WHERE rivers.Name = '长江'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic55",
+        "sql":"SELECT DISTINCT districts.name FROM districts JOIN rivers ON Intersects(districts.Shape, rivers.Shape) WHERE rivers.Name = '长江'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic56",
+        "sql":"SELECT d.name, SUM(Area(Intersection(r.Shape, d.Shape))) AS YangtzeRiverArea FROM districts d JOIN rivers r ON Intersects(r.Shape, d.Shape) WHERE r.Name = '长江' GROUP BY d.name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic57",
+        "sql":"SELECT DISTINCT subwaystations.station FROM subwaystations, rivers WHERE rivers.Name = '长江' AND Distance(subwaystations.Location, rivers.Shape) <= 1000"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic58",
+        "sql":"SELECT DISTINCT buslines.name FROM buslines JOIN busstops ON buslines.start_stop = busstops.name OR buslines.end_stop = busstops.name WHERE Intersects( (SELECT Shape FROM rivers WHERE Name = '长江'), busstops.Location )"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic59",
+        "sql":"SELECT hotels.NAME FROM hotels, rivers WHERE rivers.Name = '长江' ORDER BY Distance(hotels.Location, rivers.Shape) ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic60",
+        "sql":"SELECT hotels.NAME, Distance(agencies.Location, hotels.Location) AS distance FROM agencies, hotels WHERE agencies.NAME = '高淳县教育局委员会' ORDER BY distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic61",
+        "sql":"SELECT greenspaces.NAME, MIN(Distance(subways.Shape, greenspaces.Shape)) AS Distance FROM greenspaces, subways WHERE subways.Line = 'line1' AND greenspaces.NAME LIKE '%公园%' GROUP BY greenspaces.NAME ORDER BY Distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic62",
+        "sql":"SELECT d.name AS DistrictName, COUNT(s.station) AS NumberOfStations FROM districts d LEFT JOIN subwaystations s ON d.administrative_division_code = s.adcode GROUP BY d.name"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic63",
+        "sql":"SELECT d.name, COUNT(*) AS station_count FROM subwaystations s JOIN districts d ON s.adcode = d.administrative_division_code GROUP BY d.name ORDER BY station_count DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic64",
+        "sql":"SELECT Line, MAX(GLength(Shape)) AS MaxLength FROM subways GROUP BY Line ORDER BY MaxLength DESC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic65",
+        "sql":"SELECT DISTINCT r2.Name FROM roads r1 JOIN roads r2 ON Intersects(r1.Shape, r2.Shape) WHERE r1.Name = '东风路' AND r2.Name != '东风路'"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic66",
+        "sql":"SELECT subwaystations.station, Distance(subwaystations.Location, hotels.Location) AS distance FROM subwaystations, hotels WHERE hotels.NAME = '金龙大酒店' ORDER BY distance ASC LIMIT 1"
+    },
+    {
+        "db_id":"traffic",
+        "id":"traffic67",
+        "sql":"SELECT name, Area(Shape) AS area FROM districts WHERE name IN ('玄武区', '秦淮区')"
+    }
+]

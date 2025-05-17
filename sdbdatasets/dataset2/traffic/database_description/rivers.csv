@@ -1,0 +1,5 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+gml_id,gml_id,"The field ""gml_id"" is used to record the ID of the water system",TEXT,,"字段""gml_id""用于记录该水系的ID",
+Name,Name,"The field ""Name"" is used to record the name of the water system, and water systems with different ""gml_id"" may share the same name",TEXT,,"字段""Name""用于记录该水系的名字，""gml_id""不同的水系，名字有可能相同",
+fclass,fclass,,TEXT,,,
+Shape,Shape,,MULTIPOLYGON,,,

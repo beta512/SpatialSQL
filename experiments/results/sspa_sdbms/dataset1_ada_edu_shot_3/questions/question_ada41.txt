@@ -1,0 +1,91 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 长江边最近的酒店是哪家？长江是由名字相同的多段河流组成。 */
+Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1
+
+/* Answer the following: 距离长江1公里范围内有哪些地铁站？长江是由名字相同的多段河流组成。 */
+Select distinct subwaystations.station from subwaystations inner join rivers On Distance(subwaystations.Location, rivers.Shape, 1) < 1000 where rivers.name = '长江'
+
+/* Answer the following: 郑和公园附近最近的地铁站是哪一站？相距多远？郑和公园由名字相同的多个区域组成。 */
+Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "airports" (
+IATA TEXT  not null,
+runway_number INTEGER  not null,
+airfield_area_class TEXT not null,
+name TEXT PRIMARY KEY, 
+location POINT  not null)
+
+表"airports"记录中国各个机场的信息。
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+province TEXT REFERENCES provinces (name),
+administrative_division_code TEXT not null,
+administrative_division_category TEXT  not null,
+eng_name TEXT  not null,
+shape MULTIPOLYGON  not null)
+
+表"cities"记录中国各个城市的信息。
+
+CREATE TABLE "lakes" (
+HYD1_4M_ID INTEGER PRIMARY KEY,
+Perimeter DOUBLE not null,
+Area DOUBLE,
+GBCODE TEXT  not null,
+name TEXT not null,
+level_lake INTEGER  not null, 
+shape POLYGON  not null)
+
+表"lakes"记录中国各块湖泊的信息。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+GDP_1994 DOUBLE not null,
+GDP_1997 DOUBLE not null,
+GDP_1998 DOUBLE not null,
+GDP_1999 DOUBLE not null,
+GDP_2000 DOUBLE not null,
+pinyin_name TEXT not null,
+Pop_0_14 DOUBLE not null,
+Pop_15_64 DOUBLE not null,
+Pop_65Plus DOUBLE not null,
+Pop_Female DOUBLE not null,
+Pop_Han DOUBLE not null,
+Pop_Male DOUBLE not null,
+Pop_Minori DOUBLE not null,
+Pop_Rural DOUBLE not null,
+Pop_Urban DOUBLE not null,
+POPU DOUBLE not null,
+administrative_divison_code TEXT not null,
+shape MULTIPOLYGON not null)
+
+表"provinces"记录中国各个省的GDP及人口等信息。
+
+CREATE TABLE "rails" (
+objectID INTEGER PRIMARY KEY,
+Shape_Length DOUBLE not null,
+entityID TEXT not null,
+name TEXT not null,
+classID TEXT  not null, 
+shape MULTILINESTRING not null)
+
+表"rails"记录中国各段铁路的信息。
+
+CREATE TABLE "rivers" (
+HYD1_4M_ID INTEGER PRIMARY KEY,
+length DOUBLE not null,
+fnode INTEGER  not null ,
+tnode INTEGER not null ,
+lpoly INTEGER not null ,
+rpoly INTEGER not null ,
+GBCODE TEXT not null ,
+name TEXT not null,
+level_river INTEGER  not null, 
+shape LINESTRING  not null)
+
+表"rivers"记录中国各段河流的信息。
+
+
+/* Answer the following with no explanation: 江苏省内距离太湖最近的机场是哪座？一个湖泊是由多个名称相同的湖泊区域组成。只需要给出机场名字。太湖以'太湖'为名称表示，江苏省以'江苏省'为名称表示。 */
+SELECT 

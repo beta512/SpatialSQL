@@ -1,0 +1,483 @@
+label:G S
+questionCHI:我想了解北京市高校的总数。
+evidenceCHI:
+nameCHI:北京市以'北京市'为名称表示。
+question:I would like to know the total number of universities in Beijing.
+evidence:
+name:Beijing is represented by the name '北京市'.
+SQL:Select count(*) from universities where province = '北京市' %%% Select count(*) from universities where city = '北京市' %%% Select count(*) from universities inner join provinces on Contains(provinces.Shape, universities.Location) = 1 where provinces.Name = '北京市'
+Eval:Select count(*) from universities where province = '北京市' %%% Select count(*) from universities where city = '北京市' %%% Select count(*) from universities inner join provinces on Contains(provinces.Shape, universities.Location) = 1 where provinces.Name = '北京市'
+id: edu01
+
+label:G S
+questionCHI:我想了解各省高校的数量。
+evidenceCHI:
+nameCHI:
+question:I would like to know the number of universities in each province.
+evidence:
+name:
+SQL:Select province, count(*) from universities group by province %%% Select  provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 group by provinces.Name
+Eval:Select province, count(*) from universities group by province %%% Select  provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 group by provinces.Name
+id: edu02
+
+label:G S
+questionCHI:我想了解河北省各城市的面积。
+evidenceCHI:
+nameCHI:河北省以'河北省'为名称表示。
+question:I would like to know the area of each city in Hebei Province.
+evidence:
+name:Hebei Province is represented by the name '河北省'.
+SQL:Select name, Shape_Area from cities where province = '河北省'  %%% Select name, Area(Shape, 1) from cities where province = '河北省' %%% Select cities.name, Area(cities.Shape, 1) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省' %%% Select cities.name, cities.Shape_Area from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省'  %%% Select name, Area(Shape, 1) from cities where administrative_division_code like '13%'
+Eval:Select name, Shape_Area from cities where province = '河北省'  %%% Select name, Area(Shape, 1) from cities where province = '河北省' %%% Select cities.name, Area(cities.Shape, 1) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省' %%% Select cities.name, cities.Shape_Area from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省'  %%% Select name, Area(Shape, 1) from cities where administrative_division_code like '13%'
+id: edu03
+
+label:S
+questionCHI:北京市的邻省有哪些？
+evidenceCHI:
+nameCHI:北京市以'北京市'为名称表示。
+question:Which provinces are adjacent to Beijing?
+evidence:
+name:Beijing is represented by the name '北京市'.
+SQL:Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市' %%% Select distinct b.province from cities a inner join cities b On Touches(a.Shape, b.Shape) = 1 where a.name = '北京市' and b.name != '北京市'
+Eval:Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市' %%% Select distinct b.province from cities a inner join cities b On Touches(a.Shape, b.Shape) = 1 where a.name = '北京市' and b.name != '北京市'
+id: edu04
+
+label:S
+questionCHI:我想了解与北京市相邻的省份中，各省的高校数量。
+evidenceCHI:
+nameCHI:北京市以'北京市'为名称表示。
+question:I would like to know the number of universities in the provinces adjacent to Beijing?
+evidence:
+name:Beijing is represented by the name '北京市'.
+SQL:Select province, count(*) from universities where province in (Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市') group by province %%% Select b.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 inner join universities c  on Within(c.Location, b.Shape) = 1 where a.name = '北京市'  group by b.name
+Eval:Select province, count(*) from universities where province in (Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市') group by province %%% Select b.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 inner join universities c  on Within(c.Location, b.Shape) = 1 where a.name = '北京市'  group by b.name
+id: edu05
+
+label:G S
+questionCHI:我想了解湖北省的面积。
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。只需给出面积。
+question:I would like to know the area of Hubei Province.
+evidence:
+name:Hubei Province is represented by the name '湖北省'. Only provide the area.
+SQL:Select Area(Shape, 1) from provinces where name = '湖北省' %%% Select Sum(Area(Shape, 1)) from cities where province = '湖北省' %%% Select Sum(Shape_Area) from cities where province = '湖北省'
+Eval:Select Area(Shape, 1) from provinces where name = '湖北省' %%% Select Sum(Area(Shape, 1)) from cities where province = '湖北省' %%% Select Sum(Shape_Area) from cities where province = '湖北省'
+id: edu06
+
+label:G S
+questionCHI:湖北省2020年的人口是多少？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。
+question:What was the population of Hubei Province in 2020?
+evidence:
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select Sum(POP2020) from cities where province = '湖北省' %%% Select Sum(POP2020) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'
+Eval:Select Sum(POP2020) from cities where province = '湖北省' %%% Select Sum(POP2020) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'
+id: edu07
+
+label:S
+questionCHI:中国最西部的211大学是哪所？
+evidenceCHI:最西部指经度最小的地点。
+nameCHI:
+question:Which 211 university is the westernmost in China?
+evidence:The westernmost refers to the location with the smallest longitude.
+name:
+SQL:Select name from universities where project_211 = 1 order by X(Location) asc limit 1
+Eval:Select name from universities where project_211 = 1 order by X(Location) asc limit 1
+id: edu08
+
+label:G S
+questionCHI:湖北省2020年的人口相比2000年增加了多少？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。
+question:How much did the population of Hubei Province increase in 2020 compared to 2000?
+evidence:
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select (Sum(POP2020) - Sum(POP2000)) from cities where province = '湖北省'  %%% Select Sum(POP2020) - Sum(POP2000) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'
+Eval:Select (Sum(POP2020) - Sum(POP2000)) from cities where province = '湖北省'  %%% Select Sum(POP2020) - Sum(POP2000) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'
+id: edu09
+
+label:G S
+questionCHI:湖北省的重点高校有哪些？
+evidenceCHI:重点高校是指985大学和211大学
+nameCHI:湖北省以'湖北省'为名称表示。
+question:Which key universities are located in Hubei Province?
+evidence:Key universities refer to Project 985 and Project 211 universities.
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select  name from universities where province = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)  %%% Select universities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.province = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1) %%% Select universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)
+Eval:Select  name from universities where province = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)  %%% Select universities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.province = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1) %%% Select universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)
+id: edu10
+
+label:G S
+questionCHI:湖北省面积最大的城市是哪个？
+evidenceCHI:只需给出城市的名字。
+nameCHI:湖北省以'湖北省'为名称表示。
+question:Which is the largest city by area in Hubei Province?
+evidence:Only provide the name of the city.
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select name from cities where province = '湖北省' order by Shape_Area desc limit 1 %%% Select name from cities where province = '湖北省' order by Area(Shape, 1) desc limit 1 %%% Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1
+Eval:Select name from cities where province = '湖北省' order by Shape_Area desc limit 1 %%% Select name from cities where province = '湖北省' order by Area(Shape, 1) desc limit 1 %%% Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1
+id: edu11
+
+label:G S
+questionCHI:内蒙古自治区各城市的面积是多少？
+evidenceCHI:
+nameCHI:内蒙古自治区以'内蒙古自治区'为名称表示。
+question:What are the areas of each city in Inner Mongolia Autonomous Region?
+evidence:
+name:Inner Mongolia Autonomous Region is represented by the name '内蒙古自治区'.
+SQL:Select name, Shape_Area from cities where province = '内蒙古自治区' %%% Select name, Area(Shape, 1) from cities where province = '内蒙古自治区' %%% Select cities.name, Area(cities.Shape, 1) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'
+Eval:Select name, Shape_Area from cities where province = '内蒙古自治区' %%% Select name, Area(Shape, 1) from cities where province = '内蒙古自治区' %%% Select cities.name, Area(cities.Shape, 1) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'
+id: edu12
+
+label:G S
+questionCHI:我想知道全国重点高校的分布情况。
+evidenceCHI:重点高校是指211和985大学；分布情况是指每个省重点高校的数量。
+nameCHI:
+question:I would like to know the distribution of key universities nationwide.
+evidence:Key universities refer to Project 211 and Project 985 universities, distribution refers to the number of key universities in each province.
+name:
+SQL:Select province, count(*) from universities where project_211 = 1 or project_985 = 1 group by province %%% Select provinces.name, count(*) from provinces  inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_211 = 1 or universities.project_985 = 1 group by provinces.name
+Eval:Select province, count(*) from universities where project_211 = 1 or project_985 = 1 group by province %%% Select provinces.name, count(*) from provinces  inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_211 = 1 or universities.project_985 = 1 group by provinces.name
+id: edu13
+
+label:G S
+questionCHI:我想了解京津冀地区的总面积是多少。
+evidenceCHI: 
+nameCHI:京津冀是指北京市、天津市和河北省。
+question:I would like to know the total area of the Beijing-Tianjin-Hebei region.
+evidence:
+name:The Beijing-Tianjin-Hebei region refer to '北京市', '天津市' and '河北省'.
+SQL:Select Sum(Shape_Area) from cities where province in ('北京市', '天津市', '河北省') %%% Select Sum(Area(provinces.Shape, 1)) from provinces where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省' %%% Select Sum(Area(Shape, 1)) from cities where province = '北京市' or province = '天津市' or province = '河北省'
+Eval:Select Sum(Shape_Area) from cities where province in ('北京市', '天津市', '河北省') %%% Select Sum(Area(provinces.Shape, 1)) from provinces where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省' %%% Select Sum(Area(Shape, 1)) from cities where province = '北京市' or province = '天津市' or province = '河北省'
+id: edu14
+
+label:S
+questionCHI:中国最西边的省是哪个？
+evidenceCHI:'最西边'是指经度最小的位置。
+nameCHI:
+question:Which province is the westernmost in China? 
+evidence:'Westernmost' refers to the location with the smallest longitude.
+name:
+SQL:Select name from provinces order by MbrMinX(Shape) asc limit 1 %%% Select province from cities order by MbrMinX(Shape) asc limit 1
+Eval:Select name from provinces order by MbrMinX(Shape) asc limit 1 %%% Select province from cities order by MbrMinX(Shape) asc limit 1
+id: edu15
+
+label:S
+questionCHI:郑州市的中心与河南省的中心距离是多少米？
+evidenceCHI:
+nameCHI:郑州市以'郑州市'为名称表示，河南省以'河南省'为名称表示。
+question:What is the distance in meters between the center of Zhengzhou and the center of Henan Province?
+evidence:
+name:Zhengzhou is represented by the name '郑州市', and Henan Province is represented by the name '河南省'.
+SQL:Select Distance(Centroid(provinces.Shape), Centroid(cities.Shape), 1)  from provinces inner join cities where provinces.name = '河南省' and cities.name = '郑州市' 
+Eval:Select Distance(Centroid(provinces.Shape), Centroid(cities.Shape), 1)  from provinces inner join cities where provinces.name = '河南省' and cities.name = '郑州市' 
+id: edu16
+
+label:S
+questionCHI:与安阳市相邻的城市有哪些？不包括河南省内的城市。
+evidenceCHI:
+nameCHI:安阳市以'安阳市'为名称表示，河南省以'河南省'为名称表示。
+question:Which cities border Anyang? Excluding those within Henan Province.
+evidence:
+name:Anyang is represented by the name '安阳市', and Henan Province is represented by the name '河南省'.
+SQL:Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '安阳市' and b.province != '河南省' %%% Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 inner join provinces on Within(b.Shape, provinces.Shape) = 0 where a.name = '安阳市' and provinces.name = '河南省'
+Eval:Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '安阳市' and b.province != '河南省' %%% Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 inner join provinces on Within(b.Shape, provinces.Shape) = 0 where a.name = '安阳市' and provinces.name = '河南省'
+id: edu17
+
+label:S
+questionCHI:2020年人口最多的非直辖市是哪座城市？它的面积是多少？
+evidenceCHI:
+nameCHI:直辖市以'直辖市'为名称表示。
+question:Which city had the largest population among non-municipalities in 2020, and what is its area?
+evidence:
+name:Municipalities are indicated by the name '直辖市'.
+SQL:Select name, Area(Shape, 1) from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1) %%% Select name, Shape_Area from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1)
+Eval:Select name, Area(Shape, 1) from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1) %%% Select name, Shape_Area from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1)
+id: edu18
+
+label:S
+questionCHI:距离北京大学3000米以内的其它985大学有哪些？
+evidenceCHI:
+nameCHI:
+question:Which other 985 universities are located within 3,000 meters of Peking University?
+evidence:
+name:
+SQL:Select a.name from universities a inner join universities b on Distance(a.Location, b.Location, 1) < 3000 where a.project_985 = 1 and b.name = '北京大学' and a.name != '北京大学'
+Eval:Select a.name from universities a inner join universities b on Distance(a.Location, b.Location, 1) < 3000 where a.project_985 = 1 and b.name = '北京大学' and a.name != '北京大学'
+id: edu19
+
+label:G S
+questionCHI:京津冀2020年的总人口是多少？
+evidenceCHI:
+nameCHI:京津冀是指北京市、天津市和河北省。
+question:What was the total population of the Beijing-Tianjin-Hebei region in 2020 in tens of thousands?
+evidence:
+name:The Beijing-Tianjin-Hebei region refers to '北京市', '天津市' and '河北省'.
+SQL:Select Sum(POP2020) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'  %%% Select Sum(POP2020) from cities where province in ('北京市', '天津市', '河北省')
+Eval:Select Sum(POP2020) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'  %%% Select Sum(POP2020) from cities where province in ('北京市', '天津市', '河北省')
+id: edu20
+
+label:G S
+questionCHI:内蒙古自治区各城市2020年的人口是多少？
+evidenceCHI:
+nameCHI:
+question:What was the population of each city in Inner Mongolia Autonomous Region in 2020?
+evidence:
+name:
+SQL:Select name, POP2020 from cities where province = '内蒙古自治区' %%% Select cities.name, cities.POP2020 from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'
+Eval:Select name, POP2020 from cities where province = '内蒙古自治区' %%% Select cities.name, cities.POP2020 from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'
+id: edu21
+
+label:G S
+questionCHI:没有985高校的省都有哪些？
+evidenceCHI:
+nameCHI:
+question:Which provinces do not have Project 985 universities?
+evidence:
+name:
+SQL:Select name from provinces where name not in (Select distinct province from universities where project_985 = 1) %%% Select name from provinces where name not in (Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_985 = 1)
+Eval:Select name from provinces where name not in (Select distinct province from universities where project_985 = 1) %%% Select name from provinces where name not in (Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_985 = 1)
+id: edu22
+
+label:G S
+questionCHI:哪些城市有985高校或者211高校？
+evidenceCHI:
+nameCHI:
+question:Which cities have either Project 985 universities or Project 211 universities?
+evidence:
+name:
+SQL:Select distinct city from universities where project_211 = 1 or project_985 = 1 %%% Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 or universities.project_211 = 1
+Eval:Select distinct city from universities where project_211 = 1 or project_985 = 1 %%% Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 or universities.project_211 = 1
+id: edu23
+
+label:G S
+questionCHI:哪些城市同时拥有985和211高校？
+evidenceCHI:
+nameCHI:
+question:Which cities have both Project 985 and Project 211 universities?
+evidence:
+name:
+SQL:Select distinct city from universities where project_211 = 1 and project_985 = 1 %%% Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 and universities.project_211 = 1
+Eval:Select distinct city from universities where project_211 = 1 and project_985 = 1 %%% Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 and universities.project_211 = 1
+id: edu24
+
+label:G S
+questionCHI:哪些地级市没有985高校？
+evidenceCHI:
+nameCHI:地级市以'地级市'为名称表示。
+question:Which prefecture-level cities do not have 985 universities?
+evidence:A prefecture-level city is represented by the term '地级市'.
+name:
+SQL:Select name from cities where name not in (Select distinct cities.name from cities inner join universities on universities.city = cities.name where universities.project_985 = 1) and administrative_division_category = '地级市' %%% Select name from cities where name not in (Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1) and administrative_division_category = '地级市'
+Eval:Select name from cities where name not in (Select distinct cities.name from cities inner join universities on universities.city = cities.name where universities.project_985 = 1) and administrative_division_category = '地级市' %%% Select name from cities where name not in (Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1) and administrative_division_category = '地级市'
+id: edu25
+
+label:S
+questionCHI:哪个省与其它省都不邻接？
+evidenceCHI:
+nameCHI:
+question:Which province does not border any other province?
+evidence:
+name:
+SQL:Select name from provinces where name not in (Select distinct a.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name)
+Eval:Select name from provinces where name not in (Select distinct a.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name)
+id: edu26
+
+label:S
+questionCHI:我想了解各省与其它省接壤的数量。
+evidenceCHI:
+nameCHI:
+question:I would like to know the number of provinces each province borders.
+evidence:
+name:
+SQL:Select a.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name group by a.Name 
+Eval:Select a.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name group by a.Name 
+id: edu27
+
+label:S
+questionCHI:北京市距离北京大学最近的985高校是哪所，距离是多少？
+evidenceCHI:北京大学除外。
+nameCHI:北京市以'北京市'为名称表示，北京大学以'北京大学'为名称表示。
+question:Which 985 university in Beijing is the closest to Peking University, and how many kilometers is it?
+evidence:Peking University is excluded.
+name:Beijing is represented by the name '北京市', and Peking University is represented by the name '北京大学'.
+SQL:Select b.name,  Distance(a.Location, b.Location, 1) from universities a inner join universities b where a.name = '北京大学' and b.province = '北京市' and b.name != '北京大学' order by Distance(a.Location, b.Location, 1) asc limit 1 %%% Select a.name, Distance(a.Location, b.Location, 1) from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where a.name != '北京大学' and b.name = '北京大学' and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 1 
+Eval:Select b.name,  Distance(a.Location, b.Location, 1) from universities a inner join universities b where a.name = '北京大学' and b.province = '北京市' and b.name != '北京大学' order by Distance(a.Location, b.Location, 1) asc limit 1 %%% Select a.name, Distance(a.Location, b.Location, 1) from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where a.name != '北京大学' and b.name = '北京大学' and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 1 
+id: edu28
+
+label:S
+questionCHI:列出北京市与北京大学最近的5所重点高校，距离分别是多少？
+evidenceCHI:重点高校是指211或者985高校。北京大学除外。
+nameCHI:北京市以'北京市'为名称表示，北京大学以'北京大学'为名称表示。
+question:List the five key universities closest to Peking University in Beijing, and their respective distances in kilometers.
+evidence:Key universities refer to Project 211 and Project 985 universities.Peking University is excluded.
+name:Beijing is represented by the name '北京市', and Peking University is represented by the name '北京大学'.
+SQL:Select b.name,  Distance(a.Location, b.Location, 1) from universities a inner join universities b where a.name = '北京大学' and b.province = '北京市' and b.name != '北京大学' and (b.project_211 = 1 or b.project_985 = 1) order by Distance(a.Location, b.Location, 1) asc limit 5 %%% Select a.name,  Distance(a.Location, b.Location, 1) as Dis from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where b.name = '北京大学' and a.name != '北京大学' and (a.project_211 = 1 or a.project_985 = 1)and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 5
+Eval:Select b.name,  Distance(a.Location, b.Location, 1) from universities a inner join universities b where a.name = '北京大学' and b.province = '北京市' and b.name != '北京大学' and (b.project_211 = 1 or b.project_985 = 1) order by Distance(a.Location, b.Location, 1) asc limit 5 %%% Select a.name,  Distance(a.Location, b.Location, 1) as Dis from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where b.name = '北京大学' and a.name != '北京大学' and (a.project_211 = 1 or a.project_985 = 1)and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 5
+id: edu29
+
+label:G S
+questionCHI:湖北省内教育部属高校有多少？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示，教育部以'教育部'为名称表示。
+question:How many universities under the Ministry of Education are there in Hubei Province?
+evidence:
+name:Hubei Province is represented by the name '湖北省', and the Ministry of Education is represented by the name '教育部'.
+SQL:Select count(*) from universities where province = '湖北省' and affiliation = '教育部' %%% Select count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 where provinces.name = '湖北省' and universities.affiliation = '教育部'
+Eval:Select count(*) from universities where province = '湖北省' and affiliation = '教育部' %%% Select count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 where provinces.name = '湖北省' and universities.affiliation = '教育部'
+id: edu30
+
+label:S
+questionCHI:河南省内哪些城市与外省没有接壤？
+evidenceCHI:
+nameCHI:河南省以'河南省'为名称表示。
+question:Which cities in Henan Province do not border other provinces?
+evidence:
+name:Henan Province is represented by the name '河南省'.
+SQL:Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省') %%% Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省')
+Eval:Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省') %%% Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省')
+id: edu31
+
+label:S
+questionCHI:河南省内哪些城市与外省有接壤？
+evidenceCHI:
+nameCHI:河南省以'河南省'为名称表示。
+question:Which cities in Henan Province border other provinces?
+evidence:
+name:Henan Province is represented by the name '河南省'.
+SQL:Select distinct cities.name from cities inner join provinces On Intersects(cities.Shape, provinces.Shape) = 1 where cities.province = '河南省' and provinces.name != '河南省' %%% Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省'
+Eval:Select distinct cities.name from cities inner join provinces On Intersects(cities.Shape, provinces.Shape) = 1 where cities.province = '河南省' and provinces.name != '河南省' %%% Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省'
+id: edu32
+
+label:S
+questionCHI:与郑州市相邻接的城市中，2020年人口最多的城市是哪个？
+evidenceCHI:
+nameCHI:郑州市以'郑州市'为名称表示。
+question:Among the cities adjacent to Zhengzhou, which city had the highest population in 2020?
+evidence:
+name:Zhengzhou is represented by the name '郑州市'.
+SQL:select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '郑州市' order by b.POP2020 desc limit 1
+Eval:select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '郑州市' order by b.POP2020 desc limit 1
+id: edu33
+
+label:S
+questionCHI:表universities使用的SRID是多少？
+evidenceCHI:
+nameCHI:
+question:What is the SRID used for the universities table?
+evidence:
+name:
+SQL:Select distinct SRID(Location) from universities
+Eval:Select distinct SRID(Location) from universities
+id: edu34
+
+label:G S
+questionCHI:我想知道每个省的民办高校数量。
+evidenceCHI:
+nameCHI:民办以'民办'为名称表示。
+question:I would like to know the number of private universities in each province.
+evidence:
+name:private university is represented by the name '民办'.
+SQL:Select province, count(*) from universities where operation_type = '民办' group by province %%% Select provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1  where universities.operation_type = '民办' group by provinces.name
+Eval:Select province, count(*) from universities where operation_type = '民办' group by province %%% Select provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1  where universities.operation_type = '民办' group by provinces.name
+id: edu35
+
+label:G S
+questionCHI:河北省内名字含有'职业'的高校有多少所？
+evidenceCHI:
+nameCHI:河北省以'河北省'为名称表示。
+question:How many universities in Hebei Province have 'Vocational' in their names?
+evidence:
+name:Hebei Province is represented by the name '河北省'.
+SQL:Select count(*) from universities where province = '河北省' and name like '%职业%' %%% Select count(*) from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '河北省' and universities.name like '%职业%'
+Eval:Select count(*) from universities where province = '河北省' and name like '%职业%' %%% Select count(*) from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '河北省' and universities.name like '%职业%'
+id: edu36
+
+label:G S
+questionCHI:哪些省有以'中国'开头的大学？
+evidenceCHI:
+nameCHI:
+question:Which provinces have universities starting with 'China'?
+evidence:
+name:
+SQL:Select distinct province from universities where name like '中国%' %%% Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'
+Eval:Select distinct province from universities where name like '中国%' %%% Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'
+id: edu37
+
+label:G S
+questionCHI:列出有以'中国'开头的大学的省及相应的大学。
+evidenceCHI:
+nameCHI:
+question:List the provinces with universities starting with 'China' and the respective universities.
+evidence:
+name:
+SQL:Select province, name from universities where name like '中国%'  %%% Select  provinces.name, universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'
+Eval:Select province, name from universities where name like '中国%'  %%% Select  provinces.name, universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'
+id: edu38
+
+label:G S
+questionCHI:我想知道河北省2020年人口最多的城市是哪个。
+evidenceCHI:
+nameCHI:河北省以'河北省'为名称表示。
+question:I would like to know which city in Hebei Province had the highest population in 2020.
+evidence:
+name:Hebei Province is represented by the name '河北省'.
+SQL:Select name from cities where province = '河北省' order by POP2020 desc limit 1 %%% Select name from cities where name in (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省')  order by POP2020 desc limit 1
+Eval:Select name from cities where province = '河北省' order by POP2020 desc limit 1 %%% Select name from cities where name in (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省')  order by POP2020 desc limit 1
+id: edu39
+
+label:S
+questionCHI:湖北省面积最大的城市，2020年的人口有多少？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。
+question:What is the population of the largest city by area in Hubei Province in 2020?
+evidence:
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select name , POP2020 from cities where province = '湖北省' order by Area(Shape, 1) desc limit 1 %%% Select cities.name, cities.POP2020 from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1 %%% Select name , POP2020 from cities where province = '湖北省' order by Shape_Area desc limit 1 
+Eval:Select name , POP2020 from cities where province = '湖北省' order by Area(Shape, 1) desc limit 1 %%% Select cities.name, cities.POP2020 from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1 %%% Select name , POP2020 from cities where province = '湖北省' order by Shape_Area desc limit 1 
+id: edu40
+
+label:S
+questionCHI:湖北省面积最大的城市是哪座？这座城市有多少所高校？
+evidenceCHI:
+nameCHI:湖北省以'湖北省'为名称表示。
+question:Which city in Hubei Province has the largest area, and how many universities are there in that city?
+evidence:
+name:Hubei Province is represented by the name '湖北省'.
+SQL:Select city, count(*) from universities where city = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1) %%% Select cities.name, count(*) from provinces inner join cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.name = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1) %%% Select city, count(*) from universities where city = (Select name from cities where province = '湖北省' order by Shape_Area desc limit 1)
+Eval:Select city, count(*) from universities where city = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1) %%% Select cities.name, count(*) from provinces inner join cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.name = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1) %%% Select city, count(*) from universities where city = (Select name from cities where province = '湖北省' order by Shape_Area desc limit 1)
+id: edu41
+
+label:G S
+questionCHI:江苏省重点高校最多的城市是哪个，高校数量有多少？
+evidenceCHI:重点高校是指211及985大学。
+nameCHI:江苏省以'江苏省'为名称表示。
+question:Which city in Jiangsu Province has the most key universities, and how many universities are there?
+evidence:Key universities refer to Project 211 and Project 985 universities.
+name:Jiangsu Province is represented by the name '江苏省'.
+SQL:Select city, count(*) from universities where province = '江苏省' and (project_211 = 1 or project_985 = 1) group by city order by count(*) desc limit 1 %%% Select cities.name, count(*) as number from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 inner join universities on Within(universities.Location, cities.Shape) = 1 where provinces.name = '江苏省' and (universities.project_211 = 1 or universities.project_985 = 1) group by cities.name order by count(*) desc limit 1
+Eval:Select city, count(*) from universities where province = '江苏省' and (project_211 = 1 or project_985 = 1) group by city order by count(*) desc limit 1 %%% Select cities.name, count(*) as number from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 inner join universities on Within(universities.Location, cities.Shape) = 1 where provinces.name = '江苏省' and (universities.project_211 = 1 or universities.project_985 = 1) group by cities.name order by count(*) desc limit 1
+id: edu42
+
+label:S
+questionCHI:内蒙古自治区的面积比河北省大多少？
+evidenceCHI:
+nameCHI:内蒙古自治区以'内蒙古自治区'为名称表示，河北省以'河北省'为名称表示。
+question:How much larger is the area of Inner Mongolia Autonomous Region compared to Hebei Province?
+evidence:
+name:Inner Mongolia Autonomous Region is represented by the name '内蒙古自治区', and Hebei Province is represented by the name '河北省'.
+SQL:Select (Select Area(Shape, 1) from provinces where name = '内蒙古自治区') - (Select Area(Shape, 1) from provinces where name = '河北省') %%% Select (Select Sum(Shape_Area) from cities where province = '内蒙古自治区') - (Select Sum(Shape_Area) from cities where province = '河北省') %%% Select (Select Sum(Area(Shape, 1)) from cities where province = '内蒙古自治区') - (Select Sum(Area(Shape, 1)) from cities where province = '河北省')
+Eval:Select (Select Area(Shape, 1) from provinces where name = '内蒙古自治区') - (Select Area(Shape, 1) from provinces where name = '河北省') %%% Select (Select Sum(Shape_Area) from cities where province = '内蒙古自治区') - (Select Sum(Shape_Area) from cities where province = '河北省') %%% Select (Select Sum(Area(Shape, 1)) from cities where province = '内蒙古自治区') - (Select Sum(Area(Shape, 1)) from cities where province = '河北省')
+id: edu43
+
+label:G S
+questionCHI:哪些省份有国家民委所属的高校？每个省份有多少所？
+evidenceCHI:
+nameCHI:国家民委以'国家民委'为名称表示。
+question:Which provinces have universities under the National Ethnic Affairs Commission, and how many universities are there in each province?
+evidence:
+name:The National Ethnic Affairs Commission is represented by the name '国家民委'.
+SQL:Select province, count(*) from universities where affiliation = '国家民委' group by province %%% Select provinces.name, count(*) from universities inner join provinces On Within(universities.location, provinces.shape) = 1 where universities.affiliation = '国家民委' group by provinces.name
+Eval:Select province, count(*) from universities where affiliation = '国家民委' group by province %%% Select provinces.name, count(*) from universities inner join provinces On Within(universities.location, provinces.shape) = 1 where universities.affiliation = '国家民委' group by provinces.name
+id: edu44

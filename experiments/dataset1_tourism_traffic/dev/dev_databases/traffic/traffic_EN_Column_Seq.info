@@ -1,0 +1,104 @@
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+distance DOUBLE,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape_Area DOUBLE, 
+Shape POLYGON)
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTILINESTRING)
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTIPOLYGON)
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+length DOUBLE,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY, 
+Shape LINESTRING)
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+adcode TEXT, 
+Location POINT,
+primary key(station, Line),
+foreign key(adcode) references districts(administrative_division_code),
+foreign key(Line) references subways(Line))
+
+The table "agencies" records information about various government agencies in Nanjing.
+
+The table "buslines" records information about all bus routes in Nanjing; The field "lineID" is used to record the ID of the bus route, which consists of a series of numeric strings; ; The field "distance"  is used to record the length of the bus route; The field "start_stop"  is used to record the starting station of the bus route; The field "start_time"  is used to record the departure time of the first bus from the starting station on this bus route.
+
+The table "busstops" records information about all bus stops in Nanjing; The field "stopID" is used to record the ID of the bus stop; The field "name" is used to record the name of the bus stop; The field "lineIDs" is used to record the bus routes passing through the bus stop, concatenated by their lineIDs with a semicolon (;) as the separator.
+
+The table "districts" records information about all districts in Nanjing.
+
+The table "greenspaces" records information about all green spaces in Nanjing, including parks, scenic spots, tourist attractions, and more; The field "PK_UID" is used to record the ID of the greenbelt; The field "NAME" is used to record the greenbelt's name, and greenbelts with different "PK_UID" may share the same name; The field "Shape_Area"  is used to record the area of this green space.
+
+The table "hotels" records information about all hotels in Nanjing.
+
+The table "rails" records information about all railway segments in Nanjing; The field "gml_id" records the ID of the railway segment; The field "Name" records the name of the railway segment, and railway segments with different "gml_id" may share the same name.
+
+The table "rivers" records information about all water systems in Nanjing, including lakes, rivers, reservoirs, and more; The field "gml_id" is used to record the ID of the water system; The field "Name" is used to record the name of the water system, and water systems with different "gml_id" may share the same name.
+
+The table "roads" records information about all road segments in Nanjing; The field "gml_id" is used to record the ID of the road segment; The field "Name" is used to record the name of the road segment, and road segments with different gml_id may have the same name; The field "length" is used to record the length of the road segment.
+
+The table "subways" records information about all subway lines in Nanjing; The field "Line" is used to record the name of the subway line.
+
+The table "subwaystations" records information about all subway stations in Nanjing; The field "adcode"  is used to record the administrative division code of the district where this station is located.
+

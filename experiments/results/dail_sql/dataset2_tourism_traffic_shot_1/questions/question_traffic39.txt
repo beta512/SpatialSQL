@@ -1,0 +1,85 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 北京市距离北京大学最近的985高校是哪所，距离是多少？北京大学除外。 */
+Select a.name, Distance(a.Location, b.Location, 1) from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where a.name != '北京大学' and b.name = '北京大学' and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT,
+Location POINT)
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape POLYGON)
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTILINESTRING)
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTIPOLYGON)
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY,
+Shape LINESTRING)
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+Location POINT,
+primary key(station, Line),
+foreign key(Line) references subways(Line))
+
+
+/* Answer the following with no explanation: 709路公交线路最近的地铁站是哪一站？相距多远？709路公交线路以'709路'为名称表示。 */
+SELECT 

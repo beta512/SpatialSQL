@@ -1,0 +1,91 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 我想了解京津冀地区的总面积是多少。  */
+Select Sum(Shape_Area) from cities where province in ('北京市', '天津市', '河北省')
+
+/* Answer the following: 长江在湖北省境内的长度是多少？只需给出长度。长江是由名字相同的多段河流组成，应计算长江在湖北省境内的交汇部分的长度。 */
+Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'
+
+/* Answer the following: 我想了解河北省各城市的面积。 */
+Select name, Shape_Area from cities where province = '河北省'
+
+/* Answer the following: 京津冀地区共有多少座机场？京津冀地区是指河北省、天津市和北京市。 */
+Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市')
+
+/* Answer the following: 湖北省面积最大的城市是哪座？这座城市有多少所高校？ */
+Select city, count(*) from universities where city = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1)
+
+/* Given the following database schema: */
+CREATE TABLE "GDPs" (
+province TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+year_2023 DOUBLE, 
+year_2022 DOUBLE, 
+year_2021 DOUBLE, 
+year_2020 DOUBLE, 
+year_2019 DOUBLE, 
+year_2018 DOUBLE, 
+year_2017 DOUBLE, 
+year_2016 DOUBLE, 
+year_2015 DOUBLE, 
+year_2014 DOUBLE, 
+year_2013 DOUBLE, 
+year_2012 DOUBLE, 
+year_2011 DOUBLE, 
+year_2010 DOUBLE, 
+year_2009 DOUBLE, 
+year_2008 DOUBLE, 
+year_2007 DOUBLE, 
+year_2006 DOUBLE, 
+year_2005 DOUBLE, 
+year_2004 DOUBLE, 
+year_2003 DOUBLE, 
+year_2002 DOUBLE, 
+year_2001 DOUBLE, 
+year_2000 DOUBLE, 
+year_1999 DOUBLE, 
+year_1998 DOUBLE, 
+year_1997 DOUBLE, 
+year_1996 DOUBLE, 
+year_1995 DOUBLE, 
+year_1994 DOUBLE, 
+year_1993 DOUBLE, 
+year_1992 DOUBLE)
+
+CREATE TABLE "airports" (
+IATA TEXT PRIMARY KEY,
+runway_number INTEGER,
+airfield_area_class TEXT,
+Name TEXT, 
+Location POINT)
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+province TEXT REFERENCES GDPs (province), 
+Shape MULTIPOLYGON)
+
+CREATE TABLE "scenicSpots" (
+name TEXT PRIMARY KEY,
+level TEXT, 
+address TEXT, 
+Location POINT)
+
+CREATE TABLE "stations" (
+name TEXT PRIMARY KEY, 
+address TEXT, 
+Location POIINT)
+
+CREATE TABLE "tours" (
+city TEXT, 
+year INTEGER, 
+international_tourists_number_Wan DOUBLE, 
+international_toursim_earnings_Wan_dollar DOUBLET, 
+domestic_tourists_number_Wan DOUBLE, 
+Domestic_Tourism_Earnings_Wan_Yuan DOUBLE, 
+star_hotel_number INTEGER, 
+FOREIGN KEY (city) REFERENCES cities (name), 
+PRIMARY KEY (city, year))
+
+
+/* Answer the following with no explanation: 东三省的总面积是多少？东三省指辽宁省、吉林省、黑龙江省。辽宁省以'辽宁省'为名称表示，吉林省以'吉林省'为名称表示，黑龙江省以'黑龙江省'为名称表示。 */
+SELECT 

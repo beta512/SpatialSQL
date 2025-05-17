@@ -1,0 +1,10 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+HYD1_4M_ID,HYD1_4M_ID,,INTEGER,,,
+fnode,fnode,,INTEGER,,,
+tnode,tnode,,INTEGER,,,
+lpoly,lpoly,,INTEGER,,,
+rpoly,rpoly,,INTEGER,,,
+GBCODE,GBCODE,,TEXT,,,
+name,name,,TEXT,,,
+level_river,level river,,INTEGER,,,
+shape,shape,,LINESTRING,,,

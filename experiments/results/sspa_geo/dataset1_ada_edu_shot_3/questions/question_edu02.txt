@@ -1,0 +1,60 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 每个区内有多少个地铁站？ */
+Select districts.name, count(*) from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode
+
+/* Answer the following: 每条地铁线设有多少个站点？ */
+Select line, count(*) from subwaystations group by line order by line
+
+/* Answer the following: 哪些城市有机场，数量分别多少？ */
+Select cities.name, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 group by cities.name
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT NOT NULL, 
+administrative_division_category TEXT NOT NULL, 
+POP2020 INTEGER NOT NULL, 
+POP2010 INTEGER NOT NULL, 
+POP2000 INTEGER NOT NULL, 
+shape MULTIPOLYGON NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+Shape_Area DOUBLE, 
+Shape_Length DOUBLE)
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY, 
+pinyin_name TEXT NOT NULL, 
+administrative_division_code TEXT NOT NULL, 
+shape MULTIPOLYGON NOT NULL)
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+city TEXT REFERENCES cities (name), 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+
+/* Answer the following with no explanation: 我想了解各省高校的数量。 */
+SELECT 

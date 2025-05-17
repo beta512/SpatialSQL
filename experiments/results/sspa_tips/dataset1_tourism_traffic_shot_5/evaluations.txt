@@ -1,0 +1,100 @@
+tourism01,0,{'sql_idx': 'tourism01', 'res': 1, 'info': ''}
+tourism02,0,{'sql_idx': 'tourism02', 'res': 1, 'info': ''}
+tourism03,0,{'sql_idx': 'tourism03', 'res': 1, 'info': ''}
+tourism04,6,{'sql_idx': 'tourism04', 'res': 1, 'info': ''}
+tourism05,0,{'sql_idx': 'tourism05', 'res': 0, 'info': 'error no such column: city'}
+tourism06,11,{'sql_idx': 'tourism06', 'res': 1, 'info': ''}
+tourism07,0,{'sql_idx': 'tourism07', 'res': 0, 'info': 'error no such table: provinces'}
+tourism08,7,{'sql_idx': 'tourism08', 'res': 1, 'info': ''}
+tourism09,0,{'sql_idx': 'tourism09', 'res': 1, 'info': ''}
+tourism10,0,{'sql_idx': 'tourism10', 'res': 1, 'info': ''}
+tourism11,0,{'sql_idx': 'tourism11', 'res': 1, 'info': ''}
+tourism12,0,{'sql_idx': 'tourism12', 'res': 0, 'info': ''}
+tourism13,0,{'sql_idx': 'tourism13', 'res': 1, 'info': ''}
+tourism14,1,{'sql_idx': 'tourism14', 'res': 1, 'info': ''}
+tourism15,0,{'sql_idx': 'tourism15', 'res': 1, 'info': ''}
+tourism16,0,{'sql_idx': 'tourism16', 'res': 0, 'info': 'error misuse of aggregate: SUM()'}
+tourism17,0,{'sql_idx': 'tourism17', 'res': 1, 'info': ''}
+tourism18,0,{'sql_idx': 'tourism18', 'res': 1, 'info': ''}
+tourism19,64,{'sql_idx': 'tourism19', 'res': 1, 'info': ''}
+tourism20,0,{'sql_idx': 'tourism20', 'res': 0, 'info': 'error no such table: provinces'}
+tourism21,0,{'sql_idx': 'tourism21', 'res': 1, 'info': ''}
+tourism22,0,{'sql_idx': 'tourism22', 'res': 0, 'info': 'error no such column: Shape_Area'}
+tourism23,0,{'sql_idx': 'tourism23', 'res': 0, 'info': 'error no such table: provinces'}
+tourism24,5,{'sql_idx': 'tourism24', 'res': 1, 'info': ''}
+tourism25,8,{'sql_idx': 'tourism25', 'res': 0, 'info': ''}
+tourism26,0,{'sql_idx': 'tourism26', 'res': 1, 'info': ''}
+tourism27,0,{'sql_idx': 'tourism27', 'res': 1, 'info': ''}
+tourism28,0,{'sql_idx': 'tourism28', 'res': 1, 'info': ''}
+tourism29,0,{'sql_idx': 'tourism29', 'res': 0, 'info': ''}
+tourism30,0,{'sql_idx': 'tourism30', 'res': 0, 'info': ''}
+tourism31,0,{'sql_idx': 'tourism31', 'res': 1, 'info': ''}
+tourism32,0,{'sql_idx': 'tourism32', 'res': 1, 'info': ''}
+tourism33,0,{'sql_idx': 'tourism33', 'res': 1, 'info': ''}
+traffic01,0,{'sql_idx': 'traffic01', 'res': 1, 'info': ''}
+traffic02,0,{'sql_idx': 'traffic02', 'res': 1, 'info': ''}
+traffic03,0,{'sql_idx': 'traffic03', 'res': 1, 'info': ''}
+traffic04,0,{'sql_idx': 'traffic04', 'res': 1, 'info': ''}
+traffic05,0,{'sql_idx': 'traffic05', 'res': 1, 'info': ''}
+traffic06,0,{'sql_idx': 'traffic06', 'res': 1, 'info': ''}
+traffic07,0,{'sql_idx': 'traffic07', 'res': 1, 'info': ''}
+traffic08,0,{'sql_idx': 'traffic08', 'res': 1, 'info': ''}
+traffic09,0,{'sql_idx': 'traffic09', 'res': 1, 'info': ''}
+traffic10,0,{'sql_idx': 'traffic10', 'res': 1, 'info': ''}
+traffic11,0,{'sql_idx': 'traffic11', 'res': 1, 'info': ''}
+traffic12,0,{'sql_idx': 'traffic12', 'res': 1, 'info': ''}
+traffic13,0,{'sql_idx': 'traffic13', 'res': 1, 'info': ''}
+traffic14,0,{'sql_idx': 'traffic14', 'res': 1, 'info': ''}
+traffic15,0,{'sql_idx': 'traffic15', 'res': 1, 'info': ''}
+traffic16,0,{'sql_idx': 'traffic16', 'res': 1, 'info': ''}
+traffic17,0,{'sql_idx': 'traffic17', 'res': 1, 'info': ''}
+traffic18,0,{'sql_idx': 'traffic18', 'res': 1, 'info': ''}
+traffic19,0,{'sql_idx': 'traffic19', 'res': 1, 'info': ''}
+traffic20,0,{'sql_idx': 'traffic20', 'res': 1, 'info': ''}
+traffic21,0,{'sql_idx': 'traffic21', 'res': 1, 'info': ''}
+traffic22,0,{'sql_idx': 'traffic22', 'res': 1, 'info': ''}
+traffic23,0,{'sql_idx': 'traffic23', 'res': 1, 'info': ''}
+traffic24,14,{'sql_idx': 'traffic24', 'res': 0, 'info': ''}
+traffic25,0,{'sql_idx': 'traffic25', 'res': 1, 'info': ''}
+traffic26,0,{'sql_idx': 'traffic26', 'res': 1, 'info': ''}
+traffic27,0,{'sql_idx': 'traffic27', 'res': 1, 'info': ''}
+traffic28,0,{'sql_idx': 'traffic28', 'res': 0, 'info': ''}
+traffic29,0,{'sql_idx': 'traffic29', 'res': 1, 'info': ''}
+traffic30,0,{'sql_idx': 'traffic30', 'res': 1, 'info': ''}
+traffic31,0,{'sql_idx': 'traffic31', 'res': 1, 'info': ''}
+traffic32,0,{'sql_idx': 'traffic32', 'res': 1, 'info': ''}
+traffic33,0,{'sql_idx': 'traffic33', 'res': 1, 'info': ''}
+traffic34,6,{'sql_idx': 'traffic34', 'res': 1, 'info': ''}
+traffic35,0,{'sql_idx': 'traffic35', 'res': 1, 'info': ''}
+traffic36,0,{'sql_idx': 'traffic36', 'res': 1, 'info': ''}
+traffic37,0,{'sql_idx': 'traffic37', 'res': 0, 'info': ''}
+traffic38,0,{'sql_idx': 'traffic38', 'res': 0, 'info': ''}
+traffic39,0,{'sql_idx': 'traffic39', 'res': 0, 'info': ''}
+traffic40,0,{'sql_idx': 'traffic40', 'res': 1, 'info': ''}
+traffic41,0,{'sql_idx': 'traffic41', 'res': 1, 'info': ''}
+traffic42,0,{'sql_idx': 'traffic42', 'res': 1, 'info': ''}
+traffic43,0,{'sql_idx': 'traffic43', 'res': 1, 'info': ''}
+traffic44,0,{'sql_idx': 'traffic44', 'res': 1, 'info': ''}
+traffic45,0,{'sql_idx': 'traffic45', 'res': 1, 'info': ''}
+traffic46,0,{'sql_idx': 'traffic46', 'res': 1, 'info': ''}
+traffic47,0,{'sql_idx': 'traffic47', 'res': 1, 'info': ''}
+traffic48,0,{'sql_idx': 'traffic48', 'res': 1, 'info': ''}
+traffic49,0,{'sql_idx': 'traffic49', 'res': 0, 'info': 'error incomplete input'}
+traffic50,0,{'sql_idx': 'traffic50', 'res': 0, 'info': 'error incomplete input'}
+traffic51,0,{'sql_idx': 'traffic51', 'res': 1, 'info': ''}
+traffic52,0,{'sql_idx': 'traffic52', 'res': 0, 'info': ''}
+traffic53,0,{'sql_idx': 'traffic53', 'res': 0, 'info': ''}
+traffic54,0,{'sql_idx': 'traffic54', 'res': 1, 'info': ''}
+traffic55,0,{'sql_idx': 'traffic55', 'res': 0, 'info': ''}
+traffic56,0,{'sql_idx': 'traffic56', 'res': 1, 'info': ''}
+traffic57,1,{'sql_idx': 'traffic57', 'res': 1, 'info': ''}
+traffic58,0,{'sql_idx': 'traffic58', 'res': 1, 'info': ''}
+traffic59,11,{'sql_idx': 'traffic59', 'res': 1, 'info': ''}
+traffic60,0,{'sql_idx': 'traffic60', 'res': 1, 'info': ''}
+traffic61,0,{'sql_idx': 'traffic61', 'res': 1, 'info': ''}
+traffic62,0,{'sql_idx': 'traffic62', 'res': 1, 'info': ''}
+traffic63,0,{'sql_idx': 'traffic63', 'res': 1, 'info': ''}
+traffic64,0,{'sql_idx': 'traffic64', 'res': 1, 'info': ''}
+traffic65,0,{'sql_idx': 'traffic65', 'res': 0, 'info': 'error no such column: roads.Name'}
+traffic66,0,{'sql_idx': 'traffic66', 'res': 1, 'info': ''}
+traffic67,0,{'sql_idx': 'traffic67', 'res': 1, 'info': ''}

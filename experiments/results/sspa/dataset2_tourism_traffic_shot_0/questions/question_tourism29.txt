@@ -1,0 +1,98 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Given the following database schema: */
+CREATE TABLE "GDPs" (
+province TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+year_2023 DOUBLE, 
+year_2022 DOUBLE, 
+year_2021 DOUBLE, 
+year_2020 DOUBLE, 
+year_2019 DOUBLE, 
+year_2018 DOUBLE, 
+year_2017 DOUBLE, 
+year_2016 DOUBLE, 
+year_2015 DOUBLE, 
+year_2014 DOUBLE, 
+year_2013 DOUBLE, 
+year_2012 DOUBLE, 
+year_2011 DOUBLE, 
+year_2010 DOUBLE, 
+year_2009 DOUBLE, 
+year_2008 DOUBLE, 
+year_2007 DOUBLE, 
+year_2006 DOUBLE, 
+year_2005 DOUBLE, 
+year_2004 DOUBLE, 
+year_2003 DOUBLE, 
+year_2002 DOUBLE, 
+year_2001 DOUBLE, 
+year_2000 DOUBLE, 
+year_1999 DOUBLE, 
+year_1998 DOUBLE, 
+year_1997 DOUBLE, 
+year_1996 DOUBLE, 
+year_1995 DOUBLE, 
+year_1994 DOUBLE, 
+year_1993 DOUBLE, 
+year_1992 DOUBLE)
+
+表"GDPs"记录中国各个省1992年到2023年的GDP信息。
+
+CREATE TABLE "airports" (
+IATA TEXT PRIMARY KEY,
+runway_number INTEGER,
+airfield_area_class TEXT,
+Name TEXT,
+Location POINT)
+
+表"airports"记录中国各个机场的信息。
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+province TEXT REFERENCES "GDPs" (province), 
+Shape MULTIPOLYGON)
+
+表"cities"记录中国各个城市的信息。
+
+CREATE TABLE "scenicSpots" (
+name TEXT PRIMARY KEY,
+level TEXT, 
+address TEXT, 
+Location POINT)
+
+表"scenicSpots"记录中国各个旅游景点的信息。
+
+CREATE TABLE "stations" (
+name TEXT PRIMARY KEY,
+address TEXT,
+Location POIINT)
+
+表"stations"记录中国各个高铁站的信息。
+
+CREATE TABLE "tours" (
+city TEXT, 
+year INTEGER, 
+international_tourists_number_Wan DOUBLE, 
+international_toursim_earnings_Wan_dollar DOUBLET, 
+domestic_tourists_number_Wan DOUBLE, 
+Domestic_Tourism_Earnings_Wan_Yuan DOUBLE, 
+star_hotel_number INTEGER, 
+FOREIGN KEY (city) REFERENCES "cities" (name), 
+PRIMARY KEY (city, year))
+
+表"tours"记录中国各个城市的旅游信息。
+
+
+/* Answer the following with no explanation: 天台山位于哪个城市？天台山以'天台山景区' 为名称表示。 */
+SELECT 

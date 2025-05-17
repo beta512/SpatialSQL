@@ -1,0 +1,37 @@
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+POP2020 INTEGER NOT NULL,
+POP2010 INTEGER NOT NULL,
+POP2000 INTEGER NOT NULL,
+shape MULTIPOLYGON NOT NULL,
+Shape_Length DOUBLE)
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+pinyin_name TEXT NOT NULL,
+administrative_division_code TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+表"cities"记录中国各个城市的位置及人口信息等；字段"administrative_division_category"记录这个城市的类别，分别为"直辖市"、"副省级市"、"地级市"、"盟"等；字段"POP2020"记录这个城市2020年的人口数量；字段"POP2010"记录这个城市2010年的人口数量；字段"POP2000"记录这个2000年的人口数量；字段"shape"记录这个城市的位置；字段"Shape_Length"记录这个城市的周长。
+
+表"provinces"记录中国各个省份的信息。
+
+表"universities"记录中国各个大学的信息；字段"academic_discipline_category"记录学校的专业类别，其值为"综合类"、"理工类"、"师范类"、"财经类"等；字段"operation_type"记录学校的办学性质，其值为"公办"、"民办"；字段"educational_level"记录学校的办学层次，其值为"本科"、"专科"；字段"affiliation"记录学校的所属部门，其值为"教育部"、"国家民委"、"交通运输部"、"北京市"等。
+

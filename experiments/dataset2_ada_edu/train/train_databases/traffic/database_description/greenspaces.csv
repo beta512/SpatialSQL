@@ -1,0 +1,6 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+PK_UID,PK_UID,"The field ""PK_UID"" is used to record the ID of the greenbelt",INTEGER,,"字段""PK_UID""用于记录该块绿地的ID",
+NAME,NAME,"The field ""NAME"" is used to record the greenbelt's name, and greenbelts with different ""PK_UID"" may share the same name",TEXT,,"字段""NAME""用于记录该块绿地的名字，""PK_UID""不同的绿地名字有可能相同",
+KIND,KIND,,TEXT,,,
+Shape_Leng,Shape Length,,DOUBLE,,,
+Shape,Shape,,POLYGON,,,

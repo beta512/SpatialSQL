@@ -1,0 +1,99 @@
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT,
+Location POINT)
+
+The table "agencies" records information about various government agencies in Nanjing.
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+The table "buslines" records information about all bus routes in Nanjing.
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+The table "busstops" records information about all bus stops in Nanjing.
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+The table "districts" records information about all districts in Nanjing.
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape POLYGON)
+
+The table "greenspaces" records information about all green spaces in Nanjing, including parks, scenic spots, tourist attractions, and more.
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+The table "hotels" records information about all hotels in Nanjing.
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTILINESTRING)
+
+The table "rails" records information about all railway segments in Nanjing.
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTIPOLYGON)
+
+The table "rivers" records information about all water systems in Nanjing, including lakes, rivers, reservoirs, and more.
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+The table "roads" records information about all road segments in Nanjing.
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY,
+Shape LINESTRING)
+
+The table "subways" records information about all subway lines in Nanjing.
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+Location POINT,
+primary key(station, Line),
+foreign key(Line) references subways(Line))
+
+The table "subwaystations" records information about all subway stations in Nanjing.
+

@@ -1,0 +1,11 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+name,name,,TEXT,,,
+administrative_division_code,administrative division code,,TEXT,,,
+administrative_division_category,administrative division category,"The field ""administrative_division_category"" records the category of the city, such as a municipality directly under the central government, sub-provincial city, prefecture-level city, league, etc",TEXT,,"字段""administrative_division_category""记录这个城市的类别，分别为""直辖市""、""副省级市""、""地级市""、""盟""等",
+POP2020,Population 2020,"The field ""POP2020"" records the population of the city in 2020",INTEGER,,"字段""POP2020""记录这个城市2020年的人口数量",
+POP2010,Population 2010,"The field ""POP2010"" records the population of the city in 2010",INTEGER,,"字段""POP2010""记录这个城市2010年的人口数量",
+POP2000,Population 2000,"The field ""POP2000"" records the population of the city in 2000",INTEGER,,"字段""POP2000""记录这个2000年的人口数量",
+shape,shape,The field shape records the location of the city,MULTIPOLYGON,,"字段""shape""记录这个城市的位置",
+province,province,,TEXT,,,
+Shape_Area,Shape Area,"The field ""Shape_Area"" records the area of the city",DOUBLE,,"字段""Shape_Area""记录这个城市的面积",
+Shape_Length,Shape Length,"The field ""Shape_Length"" records the perimeter of the city",DOUBLE,,"字段""Shape_Length""记录这个城市的周长",

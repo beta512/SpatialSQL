@@ -1,0 +1,12 @@
+name,description_CN,description_EN
+agencies,"表""agencies""记录了南京市各政府机构的信息","The table ""agencies"" records information about various government agencies in Nanjing"
+buslines,"表""buslines""记录了南京市各公交线路的信息","The table ""buslines"" records information about all bus routes in Nanjing"
+busstops,"表""busstops""记录了南京市各公交站点的信息","The table ""busstops"" records information about all bus stops in Nanjing"
+districts,"表""districts""记录了南京市各区的信息","The table ""districts"" records information about all districts in Nanjing"
+greenspaces,"表""greenspaces""记录南京市各块绿地的信息；绿地包含公园、风景名胜、旅游景点等","The table ""greenspaces"" records information about all green spaces in Nanjing, including parks, scenic spots, tourist attractions, and more"
+hotels,"表""hotels""记录南京市内各个宾馆的信息","The table ""hotels"" records information about all hotels in Nanjing"
+rails,"表""rails""记录南京市内各段铁路的信息","The table ""rails"" records information about all railway segments in Nanjing"
+rivers,"表""rivers""记录南京市各个水系的信息；水系包含湖泊、河流、水库等","The table ""rivers"" records information about all water systems in Nanjing, including lakes, rivers, reservoirs, and more"
+roads,"表""roads""记录南京市内各段道路的信息","The table ""roads"" records information about all road segments in Nanjing"
+subways,"表""subways""记录南京市内各条地铁线的信息","The table ""subways"" records information about all subway lines in Nanjing"
+subwaystations,"表""subwaystations""记录南京市各个地铁站点的信息","The table ""subwaystations"" records information about all subway stations in Nanjing"

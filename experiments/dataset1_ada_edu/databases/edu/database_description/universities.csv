@@ -1,0 +1,13 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+name,name,,TEXT,,,
+academic_discipline_category,academic discipline category,"The field ""academic_discipline_category"" records the university's academic discipline categories, with values such as comprehensive, science and engineering, teacher education, finance and economics, etc.",TEXT,,"字段""academic_discipline_category""记录学校的专业类别，其值为""综合类""、""理工类""、""师范类""、""财经类""等",
+operation_type,operation type,"The field ""operation_type"" records the type of university operation, with values of public and private",TEXT,,"字段""operation_type""记录学校的办学性质，其值为""公办""、""民办""",
+educational_level,educational level,"The field ""educational_level"" records the university's educational level, with values of undergraduate and vocational",TEXT,,"字段""educational_level""记录学校的办学层次，其值为""本科""、""专科""",
+project_985,project 985,,INTEGER,,,
+project_211,project 211,,INTEGER,,,
+double_tops,double tops,,INTEGER,,,
+affiliation,affiliation,"The field ""affiliation"" records the department to which the school is affiliated, with values such as Ministry of Education, National Ethnic Affairs Commission, Ministry of Transport, Beijing Municipality, etc",TEXT,,"字段""affiliation""记录学校的所属部门，其值为""教育部""、""国家民委""、""交通运输部""、""北京市""等",
+address,address,,TEXT,,,
+location,location,,POINT,,,
+province,province,,TEXT,,,
+city,city,,TEXT,,,

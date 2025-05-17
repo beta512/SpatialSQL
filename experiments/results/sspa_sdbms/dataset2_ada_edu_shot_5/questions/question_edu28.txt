@@ -1,0 +1,57 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 郑和公园附近最近的地铁站是哪一站？相距多远？郑和公园由名字相同的多个区域组成。 */
+Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1
+
+/* Answer the following: 秦淮路与将军大道交汇处最近的地铁站是哪一站？相距多远？ */
+Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1
+
+/* Answer the following: 长江边最近的酒店是哪家？长江是由名字相同的多段河流组成。 */
+Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1
+
+/* Answer the following: 北京市哪个5A级景点距离市中心距离最远，距离是多少？ */
+Select ScenicSpots.name, Distance(Centroid(cities.Shape), ScenicSpots.Location, 1) as d from cities inner join ScenicSpots where Contains(cities.Shape, ScenicSpots.Location) =  1 and cities.name = '北京市' and ScenicSpots.level = '5A' order by d desc limit 1
+
+/* Answer the following: 三元巷公交站附近最近的5家宾馆分别是什么？距离各是多少？ */
+Select hotels.name, Distance(busstops.Location, hotels.Location, 1) as d from busstops inner join hotels on busstops.name = '三元巷' order by d asc limit 5
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+POP2020 INTEGER NOT NULL,
+POP2010 INTEGER NOT NULL,
+POP2000 INTEGER NOT NULL,
+shape MULTIPOLYGON NOT NULL,
+Shape_Length DOUBLE)
+
+表"cities"记录中国各个城市的位置及人口信息等。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+pinyin_name TEXT NOT NULL,
+administrative_division_code TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+表"provinces"记录中国各个省份的信息。
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+表"universities"记录中国各个大学的信息。
+
+
+/* Answer the following with no explanation: 北京市距离北京大学最近的985高校是哪所，距离是多少？北京大学除外。北京市以'北京市'为名称表示，北京大学以'北京大学'为名称表示。 */
+SELECT 

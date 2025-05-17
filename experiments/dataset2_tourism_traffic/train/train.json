@@ -1,0 +1,1811 @@
+[
+    {
+        "question_id": 0,
+        "db_id": "ada",
+        "questionCHI": "请问太湖的面积是多少？",
+        "evidenceCHI": "太湖是由多个名称相同的湖泊区域组成。只需给出面积。",
+        "nameCHI": "太湖以'太湖'为名称表示。",
+        "question": "What is the area of Lake Tai?",
+        "evidence": "Lake Tai is composed of multiple sections of water with the same name. Only provide the area.",
+        "name": "Lake Tai is represented by the name '太湖'.",
+        "SQLs": [
+            "Select Sum(Area(Shape, 1))   from lakes where name = '太湖'"
+        ],
+        "SQL": "Select Sum(Area(Shape, 1))   from lakes where name = '太湖'",
+        "Evals": [
+            "Select Sum(Area(Shape, 1))   from lakes where name = '太湖'"
+        ],
+        "id": "ada01"
+    },
+    {
+        "question_id": 1,
+        "db_id": "ada",
+        "questionCHI": "中国最南部的城市是哪座？",
+        "evidenceCHI": "'最南部'是指纬度最低的地点。",
+        "nameCHI": "",
+        "question": "Which city is the southernmost in China?",
+        "evidence": "The 'southernmost' refers to the location with the lowest latitude.",
+        "name": "",
+        "SQLs": [
+            "Select name from cities order by MbrMinY(Shape) asc limit 1"
+        ],
+        "SQL": "Select name from cities order by MbrMinY(Shape) asc limit 1",
+        "Evals": [
+            "Select name from cities order by MbrMinY(Shape) asc limit 1"
+        ],
+        "id": "ada02"
+    },
+    {
+        "question_id": 2,
+        "db_id": "ada",
+        "questionCHI": "洞庭湖位于哪些省份？",
+        "evidenceCHI": "洞庭湖是由多个名称相同的湖泊区域组成。",
+        "nameCHI": "洞庭湖以'洞庭湖'为名称表示。",
+        "question": "Which provinces is Dongting Lake located in?",
+        "evidence": "Dongting Lake is  is composed of multiple sections of water with the same name.",
+        "name": "Dongting Lake is represented by the name '洞庭湖'.",
+        "SQLs": [
+            "Select distinct provinces.name from provinces inner join lakes On Intersects(provinces.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'"
+        ],
+        "SQL": "Select distinct provinces.name from provinces inner join lakes On Intersects(provinces.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'",
+        "Evals": [
+            "Select distinct provinces.name from provinces inner join lakes On Intersects(provinces.Shape, lakes.Shape) = 1 where lakes.name = '洞庭湖'"
+        ],
+        "id": "ada03"
+    },
+    {
+        "question_id": 3,
+        "db_id": "ada",
+        "questionCHI": "长江流经哪些省份？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which provinces does the Yangtze River flow through?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select distinct provinces.name from rivers inner join provinces On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "SQL": "Select distinct provinces.name from rivers inner join provinces On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'",
+        "Evals": [
+            "Select distinct provinces.name from rivers inner join provinces On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "id": "ada04"
+    },
+    {
+        "question_id": 4,
+        "db_id": "ada",
+        "questionCHI": "长江在湖北省境内的长度是多少？只需给出长度。",
+        "evidenceCHI": "长江是由名字相同的多段河流组成，应计算长江在湖北省境内的交汇部分的长度。",
+        "nameCHI": "长江以'长江'为名称表示，湖北省以'湖北省'为名称表示。",
+        "question": "What is the length of the Yangtze River within Hubei Province?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name, and the length should be calculated based on the intersection of the Yangtze River and Hubei Province. Only provide the length.",
+        "name": "The Yangtze River is represented by the name '长江', and Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'"
+        ],
+        "SQL": "Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'",
+        "Evals": [
+            "Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'",
+            "Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.name = '长江'"
+        ],
+        "id": "ada05"
+    },
+    {
+        "question_id": 5,
+        "db_id": "ada",
+        "questionCHI": "流经湖北省的1级河流有哪些？",
+        "evidenceCHI": "一条河流由多个同名河段组成。",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "Which Level 1 rivers flow through Hubei Province?",
+        "evidence": "A river is composed of multiple sections with the same name, and the length of the river's intersection with Hubei Province should be calculated.",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select distinct rivers.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.level_river = 1"
+        ],
+        "SQL": "Select distinct rivers.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.level_river = 1",
+        "Evals": [
+            "Select distinct rivers.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where provinces.name = '湖北省' and rivers.level_river = 1"
+        ],
+        "id": "ada06"
+    },
+    {
+        "question_id": 6,
+        "db_id": "ada",
+        "questionCHI": "我想了解各省境内河流的总长度。",
+        "evidenceCHI": "应计算河流在各省境内交汇部分的长度。",
+        "nameCHI": "",
+        "question": "I want to know the total length of rivers within each province.",
+        "evidence": "The length of the river's intersection with each province should be calculated.",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name",
+        "Evals": [
+            "Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name",
+            "Select provinces.name, Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name"
+        ],
+        "id": "ada07"
+    },
+    {
+        "question_id": 7,
+        "db_id": "ada",
+        "questionCHI": "中国面积最大的省份是哪一个？它的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province in China has the largest area, and what is its size?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, Area(Shape, 1) as area from provinces order by area desc limit 1"
+        ],
+        "SQL": "Select name, Area(Shape, 1) as area from provinces order by area desc limit 1",
+        "Evals": [
+            "Select name, Area(Shape, 1) as area from provinces order by area desc limit 1"
+        ],
+        "id": "ada08"
+    },
+    {
+        "question_id": 8,
+        "db_id": "ada",
+        "questionCHI": "每个省内有多少个城市？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "How many cities are there in each province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, count(*) from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, count(*) from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name",
+        "Evals": [
+            "Select provinces.name, count(*) from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name"
+        ],
+        "id": "ada09"
+    },
+    {
+        "question_id": 9,
+        "db_id": "ada",
+        "questionCHI": "与广东省接壤的省份有哪些？每个省的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "广东省以'广东省'为名称表示。",
+        "question": "Which provinces border Guangdong Province, and what is the area of each province?",
+        "evidence": "",
+        "name": "Guangdong Province is represented by the name '广东省'.",
+        "SQLs": [
+            "Select b.name , Area(b.Shape, 1) from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省'"
+        ],
+        "SQL": "Select b.name , Area(b.Shape, 1) from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省'",
+        "Evals": [
+            "Select b.name , Area(b.Shape, 1) from provinces a inner join provinces b On Touches(a.Shape, b.Shape) = 1 where a.name = '广东省'"
+        ],
+        "id": "ada10"
+    },
+    {
+        "question_id": 10,
+        "db_id": "ada",
+        "questionCHI": "中国境内铁路的总长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the total length of railways within China?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select Sum(GLength(Shape, 1))  from rails"
+        ],
+        "SQL": "Select Sum(GLength(Shape, 1))  from rails",
+        "Evals": [
+            "Select Sum(GLength(Shape, 1))  from rails"
+        ],
+        "id": "ada11"
+    },
+    {
+        "question_id": 11,
+        "db_id": "ada",
+        "questionCHI": "京广线的总长度是多少？",
+        "evidenceCHI": "京广线由多个同名铁路段组成。只需给出长度。",
+        "nameCHI": "京广线以'京广线'为名称表示。",
+        "question": "What is the total length of the Beijing-Guangzhou Railway Line?",
+        "evidence": "The Beijing-Guangzhou Railway Line is composed of segments with the same name. Only provide the length.",
+        "name": "The Beijing-Guangzhou Railway Line is represented by the name '京广线'.",
+        "SQLs": [
+            "Select Sum(GLength(Shape, 1))  from rails where name = '京广线'"
+        ],
+        "SQL": "Select Sum(GLength(Shape, 1))  from rails where name = '京广线'",
+        "Evals": [
+            "Select Sum(GLength(Shape, 1))  from rails where name = '京广线'"
+        ],
+        "id": "ada12"
+    },
+    {
+        "question_id": 12,
+        "db_id": "ada",
+        "questionCHI": "京广线经过河南省的哪些城市？",
+        "evidenceCHI": "一条铁路由多个同名铁路段组成。",
+        "nameCHI": "京广线以'京广线'为名称表示，河南省以'河南省'为名称表示。",
+        "question": "Which cities in Henan Province does the Beijing-Guangzhou Railway Line pass through?",
+        "evidence": "A railway is composed of segments with the same name.",
+        "name": "The Beijing-Guangzhou Railway Line is represented by the name '京广线', and Henan Province is represented by the name '河南省'.",
+        "SQLs": [
+            "Select distinct cities.name  from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where provinces.name = '河南省' and rails.name = '京广线'"
+        ],
+        "SQL": "Select distinct cities.name  from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where provinces.name = '河南省' and rails.name = '京广线'",
+        "Evals": [
+            "Select distinct cities.name  from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 inner join rails On Intersects(cities.Shape, rails.Shape) = 1 where provinces.name = '河南省' and rails.name = '京广线'"
+        ],
+        "id": "ada13"
+    },
+    {
+        "question_id": 13,
+        "db_id": "ada",
+        "questionCHI": "全国有哪些城市有铁路经过？",
+        "evidenceCHI": "一条铁路由多个同名铁路段组成。",
+        "nameCHI": "",
+        "question": "Which cities in China have railways passing through them?",
+        "evidence": "A railway is composed of segments with the same name.",
+        "name": "",
+        "SQLs": [
+            "Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1"
+        ],
+        "SQL": "Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1",
+        "Evals": [
+            "Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1"
+        ],
+        "id": "ada14"
+    },
+    {
+        "question_id": 14,
+        "db_id": "ada",
+        "questionCHI": "全国有哪些城市没有铁路经过？",
+        "evidenceCHI": "一条铁路由多个同名铁路段组成。",
+        "nameCHI": "",
+        "question": "Which cities in China do not have railways passing through them?",
+        "evidence": "A railway is composed of segments with the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name from cities where name not in (Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 )"
+        ],
+        "SQL": "Select name from cities where name not in (Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 )",
+        "Evals": [
+            "Select name from cities where name not in (Select distinct cities.name from cities inner join rails On Intersects(cities.Shape, rails.Shape) = 1 )"
+        ],
+        "id": "ada15"
+    },
+    {
+        "question_id": 15,
+        "db_id": "ada",
+        "questionCHI": "人口最多的省份是哪一个？它的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province has the largest population, and what is its area?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by POPU desc limit 1)"
+        ],
+        "SQL": "Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by POPU desc limit 1)",
+        "Evals": [
+            "Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by POPU desc limit 1)"
+        ],
+        "id": "ada16"
+    },
+    {
+        "question_id": 16,
+        "db_id": "ada",
+        "questionCHI": "全国1级湖泊的总面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the total area of all Level 1 lakes in China?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select  Sum(Area(Shape, 1))   from lakes where level_lake = 1"
+        ],
+        "SQL": "Select  Sum(Area(Shape, 1))   from lakes where level_lake = 1",
+        "Evals": [
+            "Select  Sum(Area(Shape, 1))   from lakes where level_lake = 1"
+        ],
+        "id": "ada17"
+    },
+    {
+        "question_id": 17,
+        "db_id": "ada",
+        "questionCHI": "与1994年相比，2000年GDP增幅最大的省份是哪个？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province had the largest GDP increase in 2000 compared to 1994?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name from provinces order by GDP_2000 - GDP_1994 desc limit 1"
+        ],
+        "SQL": "Select name from provinces order by GDP_2000 - GDP_1994 desc limit 1",
+        "Evals": [
+            "Select name from provinces order by GDP_2000 - GDP_1994 desc limit 1"
+        ],
+        "id": "ada18"
+    },
+    {
+        "question_id": 18,
+        "db_id": "ada",
+        "questionCHI": "少数民族人口最多的省份是哪一个？它的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province has the largest ethnic minority population, and what is its area?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by Pop_Minori desc limit 1)"
+        ],
+        "SQL": "Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by Pop_Minori desc limit 1)",
+        "Evals": [
+            "Select name, Area(Shape, 1)   from provinces where name = (Select name from provinces order by Pop_Minori desc limit 1)"
+        ],
+        "id": "ada19"
+    },
+    {
+        "question_id": 19,
+        "db_id": "ada",
+        "questionCHI": "哪些1级河流与铁路相交？",
+        "evidenceCHI": "一条河流是由名字相同的各河流段组成，一条铁路是由名字相同的各铁路段组成。",
+        "nameCHI": "",
+        "question": "Which Level 1 rivers intersect with railways?",
+        "evidence": "A river is composed of multiple sections with the same name, and a railway is composed of multiple sections with the same name.",
+        "name": "",
+        "SQLs": [
+            "Select distinct rivers.name from rivers inner join rails On Intersects(rivers.Shape, rails.Shape) = 1 where rivers.level_river = 1"
+        ],
+        "SQL": "Select distinct rivers.name from rivers inner join rails On Intersects(rivers.Shape, rails.Shape) = 1 where rivers.level_river = 1",
+        "Evals": [
+            "Select distinct rivers.name from rivers inner join rails On Intersects(rivers.Shape, rails.Shape) = 1 where rivers.level_river = 1"
+        ],
+        "id": "ada20"
+    },
+    {
+        "question_id": 20,
+        "db_id": "ada",
+        "questionCHI": "湖北省内哪个机场距离省中心最近？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "Which airport in Hubei Province is closest to the provincial center?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select airports.name from provinces inner join airports On Within(airports.Location, provinces.Shape) = 1 where provinces.name = '湖北省'  order by Distance(Centroid(provinces.Shape), airports.Location, 1) asc limit 1"
+        ],
+        "SQL": "Select airports.name from provinces inner join airports On Within(airports.Location, provinces.Shape) = 1 where provinces.name = '湖北省'  order by Distance(Centroid(provinces.Shape), airports.Location, 1) asc limit 1",
+        "Evals": [
+            "Select airports.name from provinces inner join airports On Within(airports.Location, provinces.Shape) = 1 where provinces.name = '湖北省'  order by Distance(Centroid(provinces.Shape), airports.Location, 1) asc limit 1"
+        ],
+        "id": "ada21"
+    },
+    {
+        "question_id": 21,
+        "db_id": "ada",
+        "questionCHI": "我想知道与盘西铁路有交的其它铁路？",
+        "evidenceCHI": "一条铁路是由名字相同的各铁路段组成。",
+        "nameCHI": "盘西铁路以'盘西'为名称表示。",
+        "question": "I would like to know the other railways that intersect with the Panxi Railway.",
+        "evidence": "A railway is composed of segments with the same name.",
+        "name": "The Panxi Railway is represented by the name '盘西'.",
+        "SQLs": [
+            "Select distinct b.name from rails a inner join rails b On Intersects(a.Shape, b.Shape) = 1 where a.name = '盘西' and b.name != '盘西'"
+        ],
+        "SQL": "Select distinct b.name from rails a inner join rails b On Intersects(a.Shape, b.Shape) = 1 where a.name = '盘西' and b.name != '盘西'",
+        "Evals": [
+            "Select distinct b.name from rails a inner join rails b On Intersects(a.Shape, b.Shape) = 1 where a.name = '盘西' and b.name != '盘西'"
+        ],
+        "id": "ada22"
+    },
+    {
+        "question_id": 22,
+        "db_id": "ada",
+        "questionCHI": "哪些河流流经新疆维吾尔自治区？",
+        "evidenceCHI": "一条河流是由名字相同的各河流段组成。",
+        "nameCHI": "新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示。",
+        "question": "Which rivers flow through the Xinjiang Uygur Autonomous Region?",
+        "evidence": "A river is composed of multiple sections with the same name.",
+        "name": "The Xinjiang Uygur Autonomous Region is represented by the name '新疆维吾尔自治区'.",
+        "SQLs": [
+            "Select distinct rivers.name from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'"
+        ],
+        "SQL": "Select distinct rivers.name from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'",
+        "Evals": [
+            "Select distinct rivers.name from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'"
+        ],
+        "id": "ada23"
+    },
+    {
+        "question_id": 23,
+        "db_id": "ada",
+        "questionCHI": "新疆维吾尔自治区境内河流的总长度是多少？",
+        "evidenceCHI": "应计算河流与新疆维吾尔自治区交集的长度。",
+        "nameCHI": "新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示。",
+        "question": "What is the total length of rivers within the Xinjiang Uygur Autonomous Region?",
+        "evidence": "The length should be calculated based on the intersection of the rivers and the Xinjiang Uygur Autonomous Region.",
+        "name": "The Xinjiang Uygur Autonomous Region is represented by the name '新疆维吾尔自治区'.",
+        "SQLs": [
+            "Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'"
+        ],
+        "SQL": "Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'",
+        "Evals": [
+            "Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'",
+            "Select Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'"
+        ],
+        "id": "ada24"
+    },
+    {
+        "question_id": 24,
+        "db_id": "ada",
+        "questionCHI": "中国五个自治区的总面积和总人口分别是多少？",
+        "evidenceCHI": "中国五个自治区是指西藏自治区、内蒙古自治区、新疆维吾尔自治区、广西壮族自治区和宁夏回族自治区。",
+        "nameCHI": "西藏自治区以'西藏自治区'为名称表示，内蒙古自治区以'内蒙古自治区'为名称表示，新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示，广西壮族自治区以'广西壮族自治区'为名称表示，宁夏回族自治区以'宁夏回族自治区'为名称表示。",
+        "question": "What are the total area and population of China's five autonomous regions?",
+        "evidence": "The five autonomous regions of China are the Tibet Autonomous Region, Inner Mongolia Autonomous Region, Xinjiang Uygur Autonomous Region, Guangxi Zhuang Autonomous Region, and Ningxia Hui Autonomous Region.",
+        "name": "The Tibet Autonomous Region is referred to as '西藏自治区', the Inner Mongolia Autonomous Region as '内蒙古自治区', the Xinjiang Uygur Autonomous Region as '新疆维吾尔自治区', the Guangxi Zhuang Autonomous Region as '广西壮族自治区', and the Ningxia Hui Autonomous Region as '宁夏回族自治区'.",
+        "SQLs": [
+            "Select Sum(Area(Shape,1))  , Sum(POPU) from provinces where name like '%自治区'"
+        ],
+        "SQL": "Select Sum(Area(Shape,1))  , Sum(POPU) from provinces where name like '%自治区'",
+        "Evals": [
+            "Select Sum(Area(Shape,1))  , Sum(POPU) from provinces where name like '%自治区'"
+        ],
+        "id": "ada25"
+    },
+    {
+        "question_id": 25,
+        "db_id": "ada",
+        "questionCHI": "中国面积最小的自治区是哪一个？它的人口是多少？",
+        "evidenceCHI": "中国五个自治区是指西藏自治区、内蒙古自治区、新疆维吾尔自治区、广西壮族自治区和宁夏回族自治区。",
+        "nameCHI": "西藏自治区以'西藏自治区'为名称表示，内蒙古自治区以'内蒙古自治区'为名称表示，新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示，广西壮族自治区以'广西壮族自治区'为名称表示，宁夏回族自治区以'宁夏回族自治区'为名称表示。",
+        "question": "Which is the smallest autonomous region by area, and what is its population?",
+        "evidence": "The five autonomous regions of China are the Tibet Autonomous Region, Inner Mongolia Autonomous Region, Xinjiang Uygur Autonomous Region, Guangxi Zhuang Autonomous Region, and Ningxia Hui Autonomous Region.",
+        "name": "The Tibet Autonomous Region is referred to as '西藏自治区', the Inner Mongolia Autonomous Region as '内蒙古自治区', the Xinjiang Uygur Autonomous Region as '新疆维吾尔自治区', the Guangxi Zhuang Autonomous Region as '广西壮族自治区', and the Ningxia Hui Autonomous Region as '宁夏回族自治区'.",
+        "SQLs": [
+            "Select name, POPU from provinces where name like '%自治区' and name = ( Select name from provinces where name like '%自治区' order by Area(Shape, 1) asc limit 1)"
+        ],
+        "SQL": "Select name, POPU from provinces where name like '%自治区' and name = ( Select name from provinces where name like '%自治区' order by Area(Shape, 1) asc limit 1)",
+        "Evals": [
+            "Select name, POPU from provinces where name like '%自治区' and name = ( Select name from provinces where name like '%自治区' order by Area(Shape, 1) asc limit 1)"
+        ],
+        "id": "ada26"
+    },
+    {
+        "question_id": 26,
+        "db_id": "ada",
+        "questionCHI": "哪些省份境内既有长江流经，又有黄河流经？",
+        "evidenceCHI": "一条河流是由名字相同的各河流段组成。",
+        "nameCHI": "长江以'长江'为名称表示，黄河以'黄河'为名称表示。",
+        "question": "Which provinces have both the Yangtze River and the Yellow River flowing through them?",
+        "evidence": "A river is composed of segments with the same name.",
+        "name": "The Yangtze River is represented by the name '长江', and the Yellow River is represented by the name '黄河'.",
+        "SQLs": [
+            "Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'  intersect  Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '黄河'"
+        ],
+        "SQL": "Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'  intersect  Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '黄河'",
+        "Evals": [
+            "Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江'  intersect  Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '黄河'"
+        ],
+        "id": "ada27"
+    },
+    {
+        "question_id": 27,
+        "db_id": "ada",
+        "questionCHI": "长江流域，65岁以上人口的总人口是多少？",
+        "evidenceCHI": "长江流域是指长江流经的省份。长江由名字相同的各河流段组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "What is the total population of people aged 65 and above in the Yangtze River Basin?",
+        "evidence": "The Yangtze River Basin refers to the provinces through which the Yangtze River flows. The Yangtze River is composed of segments with the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select Sum(Pop_65Plus) from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')"
+        ],
+        "SQL": "Select Sum(Pop_65Plus) from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')",
+        "Evals": [
+            "Select Sum(Pop_65Plus) from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')"
+        ],
+        "id": "ada28"
+    },
+    {
+        "question_id": 28,
+        "db_id": "ada",
+        "questionCHI": "长江与哪些铁路交汇？",
+        "evidenceCHI": "长江是由名字相同的各河流段组成，而一条铁路是由名字相同的各铁路段组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which railways intersect with the Yangtze River?",
+        "evidence": "The Yangtze is composed of various river sections that share the same name, just as a railway is made up of different segments with the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select distinct rails.name from rivers inner join rails On Intersects(rails.Shape, rivers.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "SQL": "Select distinct rails.name from rivers inner join rails On Intersects(rails.Shape, rivers.Shape) = 1 where rivers.name = '长江'",
+        "Evals": [
+            "Select distinct rails.name from rivers inner join rails On Intersects(rails.Shape, rivers.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "id": "ada29"
+    },
+    {
+        "question_id": 29,
+        "db_id": "ada",
+        "questionCHI": "长江流域的总面积是多少？",
+        "evidenceCHI": "长江流域是指长江流经的省份。长江由名字相同的各河流段组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "What is the total area of the Yangtze River Basin?",
+        "evidence": "The Yangtze River Basin refers to the provinces through which the Yangtze River flows. The Yangtze River is composed of segments with the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select Sum(Area(provinces.Shape, 1))   from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')"
+        ],
+        "SQL": "Select Sum(Area(provinces.Shape, 1))   from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')",
+        "Evals": [
+            "Select Sum(Area(provinces.Shape, 1))   from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')"
+        ],
+        "id": "ada30"
+    },
+    {
+        "question_id": 30,
+        "db_id": "ada",
+        "questionCHI": "京广线沿线各省份的人口各是多少？",
+        "evidenceCHI": "京广线是由名字相同的各铁路段组成。",
+        "nameCHI": "京广线以'京广线'为名称表示。",
+        "question": "What is the population of each province along the Beijing-Guangzhou railway?",
+        "evidence": "The Beijing-Guangzhou railway is composed of segments with the same name.",
+        "name": "The Beijing-Guangzhou railway is represented by the name '京广线'.",
+        "SQLs": [
+            "Select name, Pop_Urban from provinces where name in (Select distinct provinces.name from provinces inner join rails On Intersects(provinces.Shape, rails.Shape) = 1 where rails.name = '京广线')"
+        ],
+        "SQL": "Select name, Pop_Urban from provinces where name in (Select distinct provinces.name from provinces inner join rails On Intersects(provinces.Shape, rails.Shape) = 1 where rails.name = '京广线')",
+        "Evals": [
+            "Select Sum(Pop_Urban) from provinces where name in (Select distinct provinces.name from provinces inner join rails On Intersects(provinces.Shape, rails.Shape) = 1 where rails.name = '京广线')"
+        ],
+        "id": "ada31"
+    },
+    {
+        "question_id": 31,
+        "db_id": "ada",
+        "questionCHI": "中国最西部的城市是哪座？",
+        "evidenceCHI": "'最西部'是指经度最小的地方。",
+        "nameCHI": "",
+        "question": "Which city is the westernmost in China?",
+        "evidence": "'Westernmost' refers to the location with the lowest longitude.",
+        "name": "",
+        "SQLs": [
+            "Select name from cities order by MbrMinX(Shape) asc limit 1"
+        ],
+        "SQL": "Select name from cities order by MbrMinX(Shape) asc limit 1",
+        "Evals": [
+            "Select name from cities order by MbrMinX(Shape) asc limit 1"
+        ],
+        "id": "ada32"
+    },
+    {
+        "question_id": 32,
+        "db_id": "ada",
+        "questionCHI": "中国最东部的省份是哪一个？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province is the easternmost in China?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name from provinces order by MbrMaxX(Shape) desc limit 1"
+        ],
+        "SQL": "Select name from provinces order by MbrMaxX(Shape) desc limit 1",
+        "Evals": [
+            "Select name from provinces order by MbrMaxX(Shape) desc limit 1"
+        ],
+        "id": "ada33"
+    },
+    {
+        "question_id": 33,
+        "db_id": "ada",
+        "questionCHI": "每个省内1级河流的总长度是多少？",
+        "evidenceCHI": "一条河流由多个同名河段组成，应计算其在各省境内的交汇部分长度。",
+        "nameCHI": "",
+        "question": "What is the total length of all Level 1 rivers within each province?",
+        "evidence": "A river is composed of multiple sections with the same name, and its intersecting lengths within each province should be calculated.",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name",
+        "Evals": [
+            "Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name",
+            "Select provinces.name, Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name"
+        ],
+        "id": "ada34"
+    },
+    {
+        "question_id": 34,
+        "db_id": "ada",
+        "questionCHI": "每个省内有多少个机场？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "How many airports are there in each province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, count(*) from provinces inner join airports On Within(Location, Shape) = 1 group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, count(*) from provinces inner join airports On Within(Location, Shape) = 1 group by provinces.name",
+        "Evals": [
+            "Select provinces.name, count(*) from provinces inner join airports On Within(Location, Shape) = 1 group by provinces.name"
+        ],
+        "id": "ada35"
+    },
+    {
+        "question_id": 35,
+        "db_id": "ada",
+        "questionCHI": "安庆机场方圆200千米内有哪些城市？",
+        "evidenceCHI": "",
+        "nameCHI": "安庆机场以'安庆'为名称表示。",
+        "question": "What cities are within a 200-kilometer radius of Anqing Airport?",
+        "evidence": "",
+        "name": "Anqing Airport is represented by the name '安庆'.",
+        "SQLs": [
+            "Select cities.name from cities inner join airports On Distance(Shape, Location, 1) < 200 * 1000 where airports.name = '安庆'"
+        ],
+        "SQL": "Select cities.name from cities inner join airports On Distance(Shape, Location, 1) < 200 * 1000 where airports.name = '安庆'",
+        "Evals": [
+            "Select cities.name from cities inner join airports On Distance(Shape, Location, 1) < 200 * 1000 where airports.name = '安庆'"
+        ],
+        "id": "ada36"
+    },
+    {
+        "question_id": 36,
+        "db_id": "ada",
+        "questionCHI": "京津冀地区共有多少座机场？",
+        "evidenceCHI": "京津冀地区是指河北省、天津市和北京市。",
+        "nameCHI": "河北省以'河北省'为名称表示，天津市以'天津市'为名称表示，北京市以'北京市'为名称表示。",
+        "question": "What is the total number of airports in the Beijing-Tianjin-Hebei region?",
+        "evidence": "The Beijing-Tianjin-Hebei region refers to Beijing, Tianjin and Hebei.",
+        "name": "Beijing is represented by the name '北京市', Tianjin is represented by the name '天津市', and Hebei is represented by the name '河北省'.",
+        "SQLs": [
+            "Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市')"
+        ],
+        "SQL": "Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市')",
+        "Evals": [
+            "Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市')"
+        ],
+        "id": "ada37"
+    },
+    {
+        "question_id": 37,
+        "db_id": "ada",
+        "questionCHI": "苏州市最近的机场是哪座，距离有多远？",
+        "evidenceCHI": "",
+        "nameCHI": "苏州市以'苏州市'为名称表示。",
+        "question": "Which airport is closest to Suzhou, and how far is it?",
+        "evidence": "",
+        "name": "Suzhou is represented by the name '苏州市'.",
+        "SQLs": [
+            "Select airports.name, min(Distance(cities.Shape, airports.Location, 1))  as distance from cities inner join airports where cities.name = '苏州市' order by distance limit 1"
+        ],
+        "SQL": "Select airports.name, min(Distance(cities.Shape, airports.Location, 1))  as distance from cities inner join airports where cities.name = '苏州市' order by distance limit 1",
+        "Evals": [
+            "Select airports.name, min(Distance(cities.Shape, airports.Location, 1))  as distance from cities inner join airports where cities.name = '苏州市' order by distance limit 1"
+        ],
+        "id": "ada38"
+    },
+    {
+        "question_id": 38,
+        "db_id": "ada",
+        "questionCHI": "人口最多的省份是哪一个？该省有多少个机场？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province has the largest population? How many airports are there in that province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) = 1 where provinces.name = (Select name from provinces order by POPU desc limit 1)"
+        ],
+        "SQL": "Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) = 1 where provinces.name = (Select name from provinces order by POPU desc limit 1)",
+        "Evals": [
+            "Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) = 1 where provinces.name = (Select name from provinces order by POPU desc limit 1)"
+        ],
+        "id": "ada39"
+    },
+    {
+        "question_id": 39,
+        "db_id": "ada",
+        "questionCHI": "京广线方圆10千米内有哪些机场？",
+        "evidenceCHI": "",
+        "nameCHI": "京广线以'京广线'为名称表示。",
+        "question": "What airports are within a 10-kilometer radius of the Beijing-Guangzhou railway?",
+        "evidence": "",
+        "name": "The Beijing-Guangzhou railway is represented by the name '京广线'.",
+        "SQLs": [
+            "Select distinct airports.name from airports inner join rails On Distance(airports.Location, rails.Shape, 1) < 10 * 1000 where rails.name = '京广线'"
+        ],
+        "SQL": "Select distinct airports.name from airports inner join rails On Distance(airports.Location, rails.Shape, 1) < 10 * 1000 where rails.name = '京广线'",
+        "Evals": [
+            "Select distinct airports.name from airports inner join rails On Distance(airports.Location, rails.Shape, 1) < 10 * 1000 where rails.name = '京广线'"
+        ],
+        "id": "ada40"
+    },
+    {
+        "question_id": 40,
+        "db_id": "ada",
+        "questionCHI": "江苏省内距离太湖最近的机场是哪座？",
+        "evidenceCHI": "一个湖泊是由多个名称相同的湖泊区域组成。只需要给出机场名字。",
+        "nameCHI": "太湖以'太湖'为名称表示，江苏省以'江苏省'为名称表示。",
+        "question": "Which airport in Jiangsu Province is closest to Taihu Lake?",
+        "evidence": "A lake is composed of multiple sections of water with the same name. Only provide the name of the airport.",
+        "name": "Taihu Lake is represented by the name '太湖', and Jiangsu Province is represented by the name '江苏省'.",
+        "SQLs": [
+            "Select airports.name from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1"
+        ],
+        "SQL": "Select airports.name from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1",
+        "Evals": [
+            "Select airports.name from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by Distance(airports.Location, lakes.Shape, 1) asc limit 1",
+            "Select airports.name, Distance(airports.Location, lakes.Shape, 1) as d from airports inner join provinces On Within(airports.Location, provinces.Shape) = 1 inner join lakes where provinces.name = '江苏省' and lakes.name = '太湖' order by d asc limit 1"
+        ],
+        "id": "ada41"
+    },
+    {
+        "question_id": 41,
+        "db_id": "ada",
+        "questionCHI": "女性人口最多的省份是哪个？该省的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province has the largest female population? What is the area of that province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, Area(Shape, 1)   from provinces order by Pop_Female desc limit 1"
+        ],
+        "SQL": "Select name, Area(Shape, 1)   from provinces order by Pop_Female desc limit 1",
+        "Evals": [
+            "Select name, Area(Shape, 1)   from provinces order by Pop_Female desc limit 1"
+        ],
+        "id": "ada42"
+    },
+    {
+        "question_id": 42,
+        "db_id": "ada",
+        "questionCHI": "机场数量最多的城市是哪座？该城市共有多少个机场？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which city has the most airports? How many airports are there in that city?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select cities.name, count(*) as count from cities inner join airports On Within(airports.Location, cities.Shape) = 1 group by cities.name order by count desc limit 1"
+        ],
+        "SQL": "Select cities.name, count(*) as count from cities inner join airports On Within(airports.Location, cities.Shape) = 1 group by cities.name order by count desc limit 1",
+        "Evals": [
+            "Select cities.name, count(*) as count from cities inner join airports On Within(airports.Location, cities.Shape) = 1 group by cities.name order by count desc limit 1"
+        ],
+        "id": "ada43"
+    },
+    {
+        "question_id": 43,
+        "db_id": "ada",
+        "questionCHI": "哪条铁路线最长，长度是多少？",
+        "evidenceCHI": "一条铁路是由多个名称相同的铁路区段组成。",
+        "nameCHI": "",
+        "question": "Which railway line is the longest, and what is its length?",
+        "evidence": "A railway is composed of multiple sections with the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(GLength(Shape, 1))   as length from rails group by name order by length desc limit 1"
+        ],
+        "SQL": "Select name, Sum(GLength(Shape, 1))   as length from rails group by name order by length desc limit 1",
+        "Evals": [
+            "Select name, Sum(GLength(Shape, 1))   as length from rails group by name order by length desc limit 1"
+        ],
+        "id": "ada44"
+    },
+    {
+        "question_id": 44,
+        "db_id": "ada",
+        "questionCHI": "男女人数差距最大的省份是哪个？该省有多少个机场？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province has the largest gender population gap? How many airports are there in that province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) =1 where provinces.name = (Select name from provinces order by abs(Pop_Male - Pop_Female) desc limit 1)"
+        ],
+        "SQL": "Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) =1 where provinces.name = (Select name from provinces order by abs(Pop_Male - Pop_Female) desc limit 1)",
+        "Evals": [
+            "Select provinces.name, count(*) from provinces inner join airports On Contains(provinces.Shape, airports.Location) =1 where provinces.name = (Select name from provinces order by abs(Pop_Male - Pop_Female) desc limit 1)"
+        ],
+        "id": "ada45"
+    },
+    {
+        "question_id": 45,
+        "db_id": "ada",
+        "questionCHI": "太湖方圆200千米内有哪些机场？",
+        "evidenceCHI": "",
+        "nameCHI": "太湖以'太湖'为名称表示。",
+        "question": "What airports are within a 200-kilometer radius of Lake Tai?",
+        "evidence": "",
+        "name": "Lake Tai is represented by the name '太湖'.",
+        "SQLs": [
+            "Select distinct airports.name from lakes inner join airports On Distance(lakes.Shape, airports.Location, 1) < 200 * 1000 where lakes.name = '太湖'"
+        ],
+        "SQL": "Select distinct airports.name from lakes inner join airports On Distance(lakes.Shape, airports.Location, 1) < 200 * 1000 where lakes.name = '太湖'",
+        "Evals": [
+            "Select distinct airports.name from lakes inner join airports On Distance(lakes.Shape, airports.Location, 1) < 200 * 1000 where lakes.name = '太湖'"
+        ],
+        "id": "ada46"
+    },
+    {
+        "question_id": 46,
+        "db_id": "ada",
+        "questionCHI": "吉林省最北部的城市是哪座？",
+        "evidenceCHI": "'最北部'指的是纬度最高的地方。",
+        "nameCHI": "吉林省以'吉林省'为名称表示。",
+        "question": "Which city is the northernmost in Jilin Province?",
+        "evidence": "'Northernmost' refers to the location with the highest latitude.",
+        "name": "Jilin Province is represented by the name '吉林省'.",
+        "SQLs": [
+            "Select cities.name from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '吉林省'  order by MbrMaxY(cities.Shape) desc limit 1"
+        ],
+        "SQL": "Select cities.name from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '吉林省'  order by MbrMaxY(cities.Shape) desc limit 1",
+        "Evals": [
+            "Select cities.name from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '吉林省'  order by MbrMaxY(cities.Shape) desc limit 1"
+        ],
+        "id": "ada47"
+    },
+    {
+        "question_id": 47,
+        "db_id": "ada",
+        "questionCHI": "湘桂线经过哪些城市？",
+        "evidenceCHI": "湘桂线是由名字相同的各铁路段组成。",
+        "nameCHI": "湘桂线以'湘桂线'为名称表示。",
+        "question": "Which cities does the Xiang-Gui Railway Line pass through?",
+        "evidence": "The Xiang-Gui Railway Line is composed of segments with the same name.",
+        "name": "The Xiang-Gui Railway Line is represented by the name '湘桂线'.",
+        "SQLs": [
+            "Select distinct cities.name from rails inner join cities On Intersects(rails.Shape, cities.Shape) = 1 where rails.name = '湘桂线'"
+        ],
+        "SQL": "Select distinct cities.name from rails inner join cities On Intersects(rails.Shape, cities.Shape) = 1 where rails.name = '湘桂线'",
+        "Evals": [
+            "Select distinct cities.name from rails inner join cities On Intersects(rails.Shape, cities.Shape) = 1 where rails.name = '湘桂线'"
+        ],
+        "id": "ada48"
+    },
+    {
+        "question_id": 48,
+        "db_id": "ada",
+        "questionCHI": "河南省与湖北省的交界线长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "河南省以'河南省'为名称表示，湖北省以'湖北省'为名称表示。",
+        "question": "What is the length of the border between Henan Province and Hubei Province?",
+        "evidence": "",
+        "name": "Henan Province is represented by the name '河南省', and Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省'"
+        ],
+        "SQL": "Select GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省'",
+        "Evals": [
+            "Select GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省'",
+            "Select GLength(Intersection(b.Shape, a.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省' and b.name = '湖北省'"
+        ],
+        "id": "ada49"
+    },
+    {
+        "question_id": 49,
+        "db_id": "ada",
+        "questionCHI": "湖北省的中心位于哪座城市？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "Which city is at the center of Hubei Province?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select cities.name from provinces inner join cities On Within(Centroid(provinces.Shape), cities.Shape) = 1 where provinces.name = '湖北省'"
+        ],
+        "SQL": "Select cities.name from provinces inner join cities On Within(Centroid(provinces.Shape), cities.Shape) = 1 where provinces.name = '湖北省'",
+        "Evals": [
+            "Select cities.name from provinces inner join cities On Within(Centroid(provinces.Shape), cities.Shape) = 1 where provinces.name = '湖北省'"
+        ],
+        "id": "ada50"
+    },
+    {
+        "question_id": 50,
+        "db_id": "ada",
+        "questionCHI": "河南省与哪个省的边界线最长？边界线的长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "河南省以'河南省'为名称表示。",
+        "question": "Which province shares the longest border with Henan Province, and what is the length of that border?",
+        "evidence": "",
+        "name": "Henan Province is represented by the name '河南省'。",
+        "SQLs": [
+            "Select b.name, GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省'"
+        ],
+        "SQL": "Select b.name, GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省'",
+        "Evals": [
+            "Select b.name, GLength(Intersection(a.Shape, b.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省'",
+            "Select b.name, GLength(Intersection(b.Shape, a.Shape),1)  from provinces a inner join provinces b On Intersects(a.Shape, b.Shape) = 1 where a.name = '河南省'"
+        ],
+        "id": "ada51"
+    },
+    {
+        "question_id": 51,
+        "db_id": "ada",
+        "questionCHI": "距离河南省与湖北省交界最近的机场是哪座？距离有多远？",
+        "evidenceCHI": "",
+        "nameCHI": "河南省以'河南省'为名称表示，湖北省以'湖北省'为名称表示。",
+        "question": "Which airport is closest to the border between Henan Province and Hubei Province, and how far is it?",
+        "evidence": "",
+        "name": "Henan Province is represented by the name '河南省', and Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select airports.name, Distance(airports.Location, Intersection(a.Shape, b.Shape), 1)  as d from provinces a inner join provinces b On a.name = '河南省' and b.name = '湖北省' and Intersects(a.Shape, b.Shape) = 1  inner join airports order by d asc limit 1"
+        ],
+        "SQL": "Select airports.name, Distance(airports.Location, Intersection(a.Shape, b.Shape), 1)  as d from provinces a inner join provinces b On a.name = '河南省' and b.name = '湖北省' and Intersects(a.Shape, b.Shape) = 1  inner join airports order by d asc limit 1",
+        "Evals": [
+            "Select airports.name, Distance(airports.Location, Intersection(a.Shape, b.Shape), 1)  as d from provinces a inner join provinces b On a.name = '河南省' and b.name = '湖北省' and Intersects(a.Shape, b.Shape) = 1  inner join airports order by d asc limit 1"
+        ],
+        "id": "ada52"
+    },
+    {
+        "question_id": 52,
+        "db_id": "ada",
+        "questionCHI": "哪个省的中心坐标不位于本省境内？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province's central coordinates are not located within its own territory?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name from provinces where  Within(Centroid(Shape), Shape) = 0"
+        ],
+        "SQL": "Select name from provinces where  Within(Centroid(Shape), Shape) = 0",
+        "Evals": [
+            "Select name from provinces where  Within(Centroid(Shape), Shape) = 0"
+        ],
+        "id": "ada53"
+    },
+    {
+        "question_id": 53,
+        "db_id": "ada",
+        "questionCHI": "长江和黄河的长度分别是多少？",
+        "evidenceCHI": "一条河流是由名字相同的各河流段组成。",
+        "nameCHI": "长江以'长江'为名称表示，黄河以'黄河'为名称表示。",
+        "question": "What are the lengths of the Yangtze River and the Yellow River?",
+        "evidence": "A river is composed of segments with the same name.",
+        "name": "The Yangtze River is represented by the name '长江', and the Yellow River is represented by the name '黄河'.",
+        "SQLs": [
+            "Select name, Sum(GLength(Shape, 1))  from rivers where name in ('长江', '黄河') group by name"
+        ],
+        "SQL": "Select name, Sum(GLength(Shape, 1))  from rivers where name in ('长江', '黄河') group by name",
+        "Evals": [
+            "Select name, Sum(GLength(Shape, 1))  from rivers where name in ('长江', '黄河') group by name"
+        ],
+        "id": "ada54"
+    },
+    {
+        "question_id": 54,
+        "db_id": "ada",
+        "questionCHI": "拥有城市数量最多的省份是哪个？该省有多少座城市？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province has the most cities, and how many cities are there in that province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, count(*) as c from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name order by count(*) desc limit 1"
+        ],
+        "SQL": "Select provinces.name, count(*) as c from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name order by count(*) desc limit 1",
+        "Evals": [
+            "Select provinces.name, count(*) as c from provinces inner join cities On Contains(provinces.Shape, cities.Shape) = 1 group by provinces.name order by count(*) desc limit 1"
+        ],
+        "id": "ada55"
+    },
+    {
+        "question_id": 55,
+        "db_id": "ada",
+        "questionCHI": "黄河与京广线在哪些省份交汇？",
+        "evidenceCHI": "一条河流是由名字相同的各河流段组成，一条铁路是由名字相同的各铁路段组成。",
+        "nameCHI": "黄河以'黄河'为名称表示，京广线以'京广线'为名称表示。",
+        "question": "In which provinces do the Yellow River and the Beijing-Guangzhou railway intersect?",
+        "evidence": "A river is composed of segments with the same name. A railway is composed of segments with the same name.",
+        "name": "The Yellow River is represented by the name '黄河', and the Beijing-Guangzhou railway is represented by the name '京广线'.",
+        "SQLs": [
+            "Select distinct provinces.name from provinces inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1"
+        ],
+        "SQL": "Select distinct provinces.name from provinces inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1",
+        "Evals": [
+            "Select distinct provinces.name from provinces inner join (Select Intersection(rails.Shape, rivers.Shape) as Location from rails inner join rivers On Intersects(rails.Shape, rivers.Shape) = 1 where rails.name = '京广线' and rivers.name = '黄河') As Inters On Within(Location, Shape) = 1"
+        ],
+        "id": "ada56"
+    },
+    {
+        "question_id": 56,
+        "db_id": "edu",
+        "questionCHI": "我想了解北京市高校的总数。",
+        "evidenceCHI": "",
+        "nameCHI": "北京市以'北京市'为名称表示。",
+        "question": "I would like to know the total number of universities in Beijing.",
+        "evidence": "",
+        "name": "Beijing is represented by the name '北京市'.",
+        "SQLs": [
+            "Select count(*) from universities inner join provinces on Contains(provinces.Shape, universities.Location) = 1 where provinces.Name = '北京市'"
+        ],
+        "SQL": "Select count(*) from universities inner join provinces on Contains(provinces.Shape, universities.Location) = 1 where provinces.Name = '北京市'",
+        "Evals": [
+            "Select count(*) from universities inner join provinces on Contains(provinces.Shape, universities.Location) = 1 where provinces.Name = '北京市'"
+        ],
+        "id": "edu01"
+    },
+    {
+        "question_id": 57,
+        "db_id": "edu",
+        "questionCHI": "我想了解各省高校的数量。",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "I would like to know the number of universities in each province.",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select  provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 group by provinces.Name"
+        ],
+        "SQL": "Select  provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 group by provinces.Name",
+        "Evals": [
+            "Select  provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 group by provinces.Name"
+        ],
+        "id": "edu02"
+    },
+    {
+        "question_id": 58,
+        "db_id": "edu",
+        "questionCHI": "我想了解河北省各城市的面积。",
+        "evidenceCHI": "",
+        "nameCHI": "河北省以'河北省'为名称表示。",
+        "question": "I would like to know the area of each city in Hebei Province.",
+        "evidence": "",
+        "name": "Hebei Province is represented by the name '河北省'.",
+        "SQLs": [
+            "Select cities.name, Area(cities.Shape, 1) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省'",
+            "Select name, Area(Shape, 1) from cities where administrative_division_code like '13%'"
+        ],
+        "SQL": "Select cities.name, Area(cities.Shape, 1) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省'",
+        "Evals": [
+            "Select cities.name, Area(cities.Shape, 1) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省'",
+            "Select name, Area(Shape, 1) from cities where administrative_division_code like '13%'"
+        ],
+        "id": "edu03"
+    },
+    {
+        "question_id": 59,
+        "db_id": "edu",
+        "questionCHI": "北京市的邻省有哪些？",
+        "evidenceCHI": "",
+        "nameCHI": "北京市以'北京市'为名称表示。",
+        "question": "Which provinces are adjacent to Beijing?",
+        "evidence": "",
+        "name": "Beijing is represented by the name '北京市'.",
+        "SQLs": [
+            "Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市'"
+        ],
+        "SQL": "Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市'",
+        "Evals": [
+            "Select b.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name = '北京市'"
+        ],
+        "id": "edu04"
+    },
+    {
+        "question_id": 60,
+        "db_id": "edu",
+        "questionCHI": "我想了解与北京市相邻的省份中，各省的高校数量。",
+        "evidenceCHI": "",
+        "nameCHI": "北京市以'北京市'为名称表示。",
+        "question": "I would like to know the number of universities in the provinces adjacent to Beijing?",
+        "evidence": "",
+        "name": "Beijing is represented by the name '北京市'.",
+        "SQLs": [
+            "Select b.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 inner join universities c  on Within(c.Location, b.Shape) = 1 where a.name = '北京市'  group by b.name"
+        ],
+        "SQL": "Select b.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 inner join universities c  on Within(c.Location, b.Shape) = 1 where a.name = '北京市'  group by b.name",
+        "Evals": [
+            "Select b.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 inner join universities c  on Within(c.Location, b.Shape) = 1 where a.name = '北京市'  group by b.name"
+        ],
+        "id": "edu05"
+    },
+    {
+        "question_id": 61,
+        "db_id": "edu",
+        "questionCHI": "我想了解湖北省的面积。",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。只需给出面积。",
+        "question": "I would like to know the area of Hubei Province.",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'. Only provide the area.",
+        "SQLs": [
+            "Select Area(Shape, 1) from provinces where name = '湖北省'"
+        ],
+        "SQL": "Select Area(Shape, 1) from provinces where name = '湖北省'",
+        "Evals": [
+            "Select Area(Shape, 1) from provinces where name = '湖北省'"
+        ],
+        "id": "edu06"
+    },
+    {
+        "question_id": 62,
+        "db_id": "edu",
+        "questionCHI": "湖北省2020年的人口是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "What was the population of Hubei Province in 2020?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select Sum(POP2020) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'"
+        ],
+        "SQL": "Select Sum(POP2020) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'",
+        "Evals": [
+            "Select Sum(POP2020) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'"
+        ],
+        "id": "edu07"
+    },
+    {
+        "question_id": 63,
+        "db_id": "edu",
+        "questionCHI": "中国最西部的211大学是哪所？",
+        "evidenceCHI": "最西部指经度最小的地点。",
+        "nameCHI": "",
+        "question": "Which 211 university is the westernmost in China?",
+        "evidence": "The westernmost refers to the location with the smallest longitude.",
+        "name": "",
+        "SQLs": [
+            "Select name from universities where project_211 = 1 order by X(Location) asc limit 1"
+        ],
+        "SQL": "Select name from universities where project_211 = 1 order by X(Location) asc limit 1",
+        "Evals": [
+            "Select name from universities where project_211 = 1 order by X(Location) asc limit 1"
+        ],
+        "id": "edu08"
+    },
+    {
+        "question_id": 64,
+        "db_id": "edu",
+        "questionCHI": "湖北省2020年的人口相比2000年增加了多少？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "How much did the population of Hubei Province increase in 2020 compared to 2000?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select Sum(POP2020) - Sum(POP2000) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'"
+        ],
+        "SQL": "Select Sum(POP2020) - Sum(POP2000) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'",
+        "Evals": [
+            "Select Sum(POP2020) - Sum(POP2000) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '湖北省'"
+        ],
+        "id": "edu09"
+    },
+    {
+        "question_id": 65,
+        "db_id": "edu",
+        "questionCHI": "湖北省的重点高校有哪些？",
+        "evidenceCHI": "重点高校是指985大学和211大学",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "Which key universities are located in Hubei Province?",
+        "evidence": "Key universities refer to Project 985 and Project 211 universities.",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)"
+        ],
+        "SQL": "Select universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)",
+        "Evals": [
+            "Select universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '湖北省' and (universities.project_211 = 1 or universities.project_985 = 1)"
+        ],
+        "id": "edu10"
+    },
+    {
+        "question_id": 66,
+        "db_id": "edu",
+        "questionCHI": "湖北省面积最大的城市是哪个？",
+        "evidenceCHI": "只需给出城市的名字。",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "Which is the largest city by area in Hubei Province?",
+        "evidence": "Only provide the name of the city.",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1"
+        ],
+        "SQL": "Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1",
+        "Evals": [
+            "Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1"
+        ],
+        "id": "edu11"
+    },
+    {
+        "question_id": 67,
+        "db_id": "edu",
+        "questionCHI": "内蒙古自治区各城市的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "内蒙古自治区以'内蒙古自治区'为名称表示。",
+        "question": "What are the areas of each city in Inner Mongolia Autonomous Region?",
+        "evidence": "",
+        "name": "Inner Mongolia Autonomous Region is represented by the name '内蒙古自治区'.",
+        "SQLs": [
+            "Select cities.name, Area(cities.Shape, 1) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'"
+        ],
+        "SQL": "Select cities.name, Area(cities.Shape, 1) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'",
+        "Evals": [
+            "Select cities.name, Area(cities.Shape, 1) from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'"
+        ],
+        "id": "edu12"
+    },
+    {
+        "question_id": 68,
+        "db_id": "edu",
+        "questionCHI": "我想知道全国重点高校的分布情况。",
+        "evidenceCHI": "重点高校是指211和985大学；分布情况是指每个省重点高校的数量。",
+        "nameCHI": "",
+        "question": "I would like to know the distribution of key universities nationwide.",
+        "evidence": "Key universities refer to Project 211 and Project 985 universities, distribution refers to the number of key universities in each province.",
+        "name": "",
+        "SQLs": [
+            "Select provinces.name, count(*) from provinces  inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_211 = 1 or universities.project_985 = 1 group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, count(*) from provinces  inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_211 = 1 or universities.project_985 = 1 group by provinces.name",
+        "Evals": [
+            "Select provinces.name, count(*) from provinces  inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_211 = 1 or universities.project_985 = 1 group by provinces.name"
+        ],
+        "id": "edu13"
+    },
+    {
+        "question_id": 69,
+        "db_id": "edu",
+        "questionCHI": "我想了解京津冀地区的总面积是多少。",
+        "evidenceCHI": "",
+        "nameCHI": "京津冀是指北京市、天津市和河北省。",
+        "question": "I would like to know the total area of the Beijing-Tianjin-Hebei region.",
+        "evidence": "",
+        "name": "The Beijing-Tianjin-Hebei region refer to '北京市', '天津市' and '河北省'.",
+        "SQLs": [
+            "Select Sum(Area(provinces.Shape, 1)) from provinces where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'"
+        ],
+        "SQL": "Select Sum(Area(provinces.Shape, 1)) from provinces where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'",
+        "Evals": [
+            "Select Sum(Area(provinces.Shape, 1)) from provinces where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'"
+        ],
+        "id": "edu14"
+    },
+    {
+        "question_id": 70,
+        "db_id": "edu",
+        "questionCHI": "中国最西边的省是哪个？",
+        "evidenceCHI": "'最西边'是指经度最小的位置。",
+        "nameCHI": "",
+        "question": "Which province is the westernmost in China?",
+        "evidence": "'Westernmost' refers to the location with the smallest longitude.",
+        "name": "",
+        "SQLs": [
+            "Select name from provinces order by MbrMinX(Shape) asc limit 1"
+        ],
+        "SQL": "Select name from provinces order by MbrMinX(Shape) asc limit 1",
+        "Evals": [
+            "Select name from provinces order by MbrMinX(Shape) asc limit 1"
+        ],
+        "id": "edu15"
+    },
+    {
+        "question_id": 71,
+        "db_id": "edu",
+        "questionCHI": "郑州市的中心与河南省的中心距离是多少米？",
+        "evidenceCHI": "",
+        "nameCHI": "郑州市以'郑州市'为名称表示，河南省以'河南省'为名称表示。",
+        "question": "What is the distance in meters between the center of Zhengzhou and the center of Henan Province?",
+        "evidence": "",
+        "name": "Zhengzhou is represented by the name '郑州市', and Henan Province is represented by the name '河南省'.",
+        "SQLs": [
+            "Select Distance(Centroid(provinces.Shape), Centroid(cities.Shape), 1)  from provinces inner join cities where provinces.name = '河南省' and cities.name = '郑州市'"
+        ],
+        "SQL": "Select Distance(Centroid(provinces.Shape), Centroid(cities.Shape), 1)  from provinces inner join cities where provinces.name = '河南省' and cities.name = '郑州市'",
+        "Evals": [
+            "Select Distance(Centroid(provinces.Shape), Centroid(cities.Shape), 1)  from provinces inner join cities where provinces.name = '河南省' and cities.name = '郑州市'"
+        ],
+        "id": "edu16"
+    },
+    {
+        "question_id": 72,
+        "db_id": "edu",
+        "questionCHI": "与安阳市相邻的城市有哪些？不包括河南省内的城市。",
+        "evidenceCHI": "",
+        "nameCHI": "安阳市以'安阳市'为名称表示，河南省以'河南省'为名称表示。",
+        "question": "Which cities border Anyang? Excluding those within Henan Province.",
+        "evidence": "",
+        "name": "Anyang is represented by the name '安阳市', and Henan Province is represented by the name '河南省'.",
+        "SQLs": [
+            "Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 inner join provinces on Within(b.Shape, provinces.Shape) = 0 where a.name = '安阳市' and provinces.name = '河南省'"
+        ],
+        "SQL": "Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 inner join provinces on Within(b.Shape, provinces.Shape) = 0 where a.name = '安阳市' and provinces.name = '河南省'",
+        "Evals": [
+            "Select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 inner join provinces on Within(b.Shape, provinces.Shape) = 0 where a.name = '安阳市' and provinces.name = '河南省'"
+        ],
+        "id": "edu17"
+    },
+    {
+        "question_id": 73,
+        "db_id": "edu",
+        "questionCHI": "2020年人口最多的非直辖市是哪座城市？它的面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "直辖市以'直辖市'为名称表示。",
+        "question": "Which city had the largest population among non-municipalities in 2020, and what is its area?",
+        "evidence": "",
+        "name": "Municipalities are indicated by the name '直辖市'.",
+        "SQLs": [
+            "Select name, Area(Shape, 1) from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1)"
+        ],
+        "SQL": "Select name, Area(Shape, 1) from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1)",
+        "Evals": [
+            "Select name, Area(Shape, 1) from cities where name = (Select name from cities where administrative_division_category != '直辖市'  order by POP2020 desc limit 1)"
+        ],
+        "id": "edu18"
+    },
+    {
+        "question_id": 74,
+        "db_id": "edu",
+        "questionCHI": "距离北京大学3000米以内的其它985大学有哪些？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which other 985 universities are located within 3,000 meters of Peking University?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select a.name from universities a inner join universities b on Distance(a.Location, b.Location, 1) < 3000 where a.project_985 = 1 and b.name = '北京大学' and a.name != '北京大学'"
+        ],
+        "SQL": "Select a.name from universities a inner join universities b on Distance(a.Location, b.Location, 1) < 3000 where a.project_985 = 1 and b.name = '北京大学' and a.name != '北京大学'",
+        "Evals": [
+            "Select a.name from universities a inner join universities b on Distance(a.Location, b.Location, 1) < 3000 where a.project_985 = 1 and b.name = '北京大学' and a.name != '北京大学'"
+        ],
+        "id": "edu19"
+    },
+    {
+        "question_id": 75,
+        "db_id": "edu",
+        "questionCHI": "京津冀2020年的总人口是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "京津冀是指北京市、天津市和河北省。",
+        "question": "What was the total population of the Beijing-Tianjin-Hebei region in 2020 in tens of thousands?",
+        "evidence": "",
+        "name": "The Beijing-Tianjin-Hebei region refers to '北京市', '天津市' and '河北省'.",
+        "SQLs": [
+            "Select Sum(POP2020) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'"
+        ],
+        "SQL": "Select Sum(POP2020) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'",
+        "Evals": [
+            "Select Sum(POP2020) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'"
+        ],
+        "id": "edu20"
+    },
+    {
+        "question_id": 76,
+        "db_id": "edu",
+        "questionCHI": "内蒙古自治区各城市2020年的人口是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What was the population of each city in Inner Mongolia Autonomous Region in 2020?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select cities.name, cities.POP2020 from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'"
+        ],
+        "SQL": "Select cities.name, cities.POP2020 from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'",
+        "Evals": [
+            "Select cities.name, cities.POP2020 from cities inner join provinces on Within(cities.Shape, provinces.Shape) = 1 where provinces.name = '内蒙古自治区'"
+        ],
+        "id": "edu21"
+    },
+    {
+        "question_id": 77,
+        "db_id": "edu",
+        "questionCHI": "没有985高校的省都有哪些？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which provinces do not have Project 985 universities?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name from provinces where name not in (Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_985 = 1)"
+        ],
+        "SQL": "Select name from provinces where name not in (Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_985 = 1)",
+        "Evals": [
+            "Select name from provinces where name not in (Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.project_985 = 1)"
+        ],
+        "id": "edu22"
+    },
+    {
+        "question_id": 78,
+        "db_id": "edu",
+        "questionCHI": "哪些城市有985高校或者211高校？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which cities have either Project 985 universities or Project 211 universities?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 or universities.project_211 = 1"
+        ],
+        "SQL": "Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 or universities.project_211 = 1",
+        "Evals": [
+            "Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 or universities.project_211 = 1"
+        ],
+        "id": "edu23"
+    },
+    {
+        "question_id": 79,
+        "db_id": "edu",
+        "questionCHI": "哪些城市同时拥有985和211高校？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which cities have both Project 985 and Project 211 universities?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 and universities.project_211 = 1"
+        ],
+        "SQL": "Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 and universities.project_211 = 1",
+        "Evals": [
+            "Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1 and universities.project_211 = 1"
+        ],
+        "id": "edu24"
+    },
+    {
+        "question_id": 80,
+        "db_id": "edu",
+        "questionCHI": "哪些地级市没有985高校？",
+        "evidenceCHI": "",
+        "nameCHI": "地级市以'地级市'为名称表示。",
+        "question": "Which prefecture-level cities do not have 985 universities?",
+        "evidence": "A prefecture-level city is represented by the term '地级市'.",
+        "name": "",
+        "SQLs": [
+            "Select name from cities where name not in (Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1) and administrative_division_category = '地级市'"
+        ],
+        "SQL": "Select name from cities where name not in (Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1) and administrative_division_category = '地级市'",
+        "Evals": [
+            "Select name from cities where name not in (Select distinct cities.name from cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where universities.project_985 = 1) and administrative_division_category = '地级市'"
+        ],
+        "id": "edu25"
+    },
+    {
+        "question_id": 81,
+        "db_id": "edu",
+        "questionCHI": "哪个省与其它省都不邻接？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which province does not border any other province?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name from provinces where name not in (Select distinct a.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name)"
+        ],
+        "SQL": "Select name from provinces where name not in (Select distinct a.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name)",
+        "Evals": [
+            "Select name from provinces where name not in (Select distinct a.name from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name)"
+        ],
+        "id": "edu26"
+    },
+    {
+        "question_id": 82,
+        "db_id": "edu",
+        "questionCHI": "我想了解各省与其它省接壤的数量。",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "I would like to know the number of provinces each province borders.",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select a.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name group by a.Name"
+        ],
+        "SQL": "Select a.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name group by a.Name",
+        "Evals": [
+            "Select a.name, count(*) from provinces a inner join provinces b on Touches(a.Shape, b.Shape) = 1 where a.name != b.name group by a.Name"
+        ],
+        "id": "edu27"
+    },
+    {
+        "question_id": 83,
+        "db_id": "edu",
+        "questionCHI": "北京市距离北京大学最近的985高校是哪所，距离是多少？",
+        "evidenceCHI": "北京大学除外。",
+        "nameCHI": "北京市以'北京市'为名称表示，北京大学以'北京大学'为名称表示。",
+        "question": "Which 985 university in Beijing is the closest to Peking University, and how many kilometers is it?",
+        "evidence": "Peking University is excluded.",
+        "name": "Beijing is represented by the name '北京市', and Peking University is represented by the name '北京大学'.",
+        "SQLs": [
+            "Select a.name, Distance(a.Location, b.Location, 1) from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where a.name != '北京大学' and b.name = '北京大学' and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 1"
+        ],
+        "SQL": "Select a.name, Distance(a.Location, b.Location, 1) from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where a.name != '北京大学' and b.name = '北京大学' and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 1",
+        "Evals": [
+            "Select a.name, Distance(a.Location, b.Location, 1) from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where a.name != '北京大学' and b.name = '北京大学' and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 1"
+        ],
+        "id": "edu28"
+    },
+    {
+        "question_id": 84,
+        "db_id": "edu",
+        "questionCHI": "列出北京市与北京大学最近的5所重点高校，距离分别是多少？",
+        "evidenceCHI": "重点高校是指211或者985高校。北京大学除外。",
+        "nameCHI": "北京市以'北京市'为名称表示，北京大学以'北京大学'为名称表示。",
+        "question": "List the five key universities closest to Peking University in Beijing, and their respective distances in kilometers.",
+        "evidence": "Key universities refer to Project 211 and Project 985 universities.Peking University is excluded.",
+        "name": "Beijing is represented by the name '北京市', and Peking University is represented by the name '北京大学'.",
+        "SQLs": [
+            "Select a.name,  Distance(a.Location, b.Location, 1) as Dis from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where b.name = '北京大学' and a.name != '北京大学' and (a.project_211 = 1 or a.project_985 = 1)and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 5"
+        ],
+        "SQL": "Select a.name,  Distance(a.Location, b.Location, 1) as Dis from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where b.name = '北京大学' and a.name != '北京大学' and (a.project_211 = 1 or a.project_985 = 1)and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 5",
+        "Evals": [
+            "Select a.name,  Distance(a.Location, b.Location, 1) as Dis from universities a inner join provinces on Within(a.Location, provinces.Shape) = 1 inner join universities b where b.name = '北京大学' and a.name != '北京大学' and (a.project_211 = 1 or a.project_985 = 1)and provinces.name = '北京市' order by Distance(a.Location, b.Location, 1) asc limit 5"
+        ],
+        "id": "edu29"
+    },
+    {
+        "question_id": 85,
+        "db_id": "edu",
+        "questionCHI": "湖北省内教育部属高校有多少？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示，教育部以'教育部'为名称表示。",
+        "question": "How many universities under the Ministry of Education are there in Hubei Province?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省', and the Ministry of Education is represented by the name '教育部'.",
+        "SQLs": [
+            "Select count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 where provinces.name = '湖北省' and universities.affiliation = '教育部'"
+        ],
+        "SQL": "Select count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 where provinces.name = '湖北省' and universities.affiliation = '教育部'",
+        "Evals": [
+            "Select count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1 where provinces.name = '湖北省' and universities.affiliation = '教育部'"
+        ],
+        "id": "edu30"
+    },
+    {
+        "question_id": 86,
+        "db_id": "edu",
+        "questionCHI": "河南省内哪些城市与外省没有接壤？",
+        "evidenceCHI": "",
+        "nameCHI": "河南省以'河南省'为名称表示。",
+        "question": "Which cities in Henan Province do not border other provinces?",
+        "evidence": "",
+        "name": "Henan Province is represented by the name '河南省'.",
+        "SQLs": [
+            "Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省')"
+        ],
+        "SQL": "Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省')",
+        "Evals": [
+            "Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河南省' and cities.name not in (Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省')"
+        ],
+        "id": "edu31"
+    },
+    {
+        "question_id": 87,
+        "db_id": "edu",
+        "questionCHI": "河南省内哪些城市与外省有接壤？",
+        "evidenceCHI": "",
+        "nameCHI": "河南省以'河南省'为名称表示。",
+        "question": "Which cities in Henan Province border other provinces?",
+        "evidence": "",
+        "name": "Henan Province is represented by the name '河南省'.",
+        "SQLs": [
+            "Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省'"
+        ],
+        "SQL": "Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省'",
+        "Evals": [
+            "Select distinct b.name from provinces a inner join cities b on Contains(a.Shape, b.Shape) = 1 inner join provinces c on Intersects(b.Shape,  c.Shape) = 1  where a.name = '河南省' and c.name != '河南省'"
+        ],
+        "id": "edu32"
+    },
+    {
+        "question_id": 88,
+        "db_id": "edu",
+        "questionCHI": "与郑州市相邻接的城市中，2020年人口最多的城市是哪个？",
+        "evidenceCHI": "",
+        "nameCHI": "郑州市以'郑州市'为名称表示。",
+        "question": "Among the cities adjacent to Zhengzhou, which city had the highest population in 2020?",
+        "evidence": "",
+        "name": "Zhengzhou is represented by the name '郑州市'.",
+        "SQLs": [
+            "select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '郑州市' order by b.POP2020 desc limit 1"
+        ],
+        "SQL": "select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '郑州市' order by b.POP2020 desc limit 1",
+        "Evals": [
+            "select b.name from cities a inner join cities b on Touches(a.Shape, b.Shape) = 1 where a.name = '郑州市' order by b.POP2020 desc limit 1"
+        ],
+        "id": "edu33"
+    },
+    {
+        "question_id": 89,
+        "db_id": "edu",
+        "questionCHI": "表universities使用的SRID是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the SRID used for the universities table?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select distinct SRID(Location) from universities"
+        ],
+        "SQL": "Select distinct SRID(Location) from universities",
+        "Evals": [
+            "Select distinct SRID(Location) from universities"
+        ],
+        "id": "edu34"
+    },
+    {
+        "question_id": 90,
+        "db_id": "edu",
+        "questionCHI": "我想知道每个省的民办高校数量。",
+        "evidenceCHI": "",
+        "nameCHI": "民办以'民办'为名称表示。",
+        "question": "I would like to know the number of private universities in each province.",
+        "evidence": "",
+        "name": "private university is represented by the name '民办'.",
+        "SQLs": [
+            "Select provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1  where universities.operation_type = '民办' group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1  where universities.operation_type = '民办' group by provinces.name",
+        "Evals": [
+            "Select provinces.name, count(*) from universities inner join provinces on Within(universities.Location, provinces.Shape) = 1  where universities.operation_type = '民办' group by provinces.name"
+        ],
+        "id": "edu35"
+    },
+    {
+        "question_id": 91,
+        "db_id": "edu",
+        "questionCHI": "河北省内名字含有'职业'的高校有多少所？",
+        "evidenceCHI": "",
+        "nameCHI": "河北省以'河北省'为名称表示。",
+        "question": "How many universities in Hebei Province have 'Vocational' in their names?",
+        "evidence": "",
+        "name": "Hebei Province is represented by the name '河北省'.",
+        "SQLs": [
+            "Select count(*) from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '河北省' and universities.name like '%职业%'"
+        ],
+        "SQL": "Select count(*) from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '河北省' and universities.name like '%职业%'",
+        "Evals": [
+            "Select count(*) from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where provinces.name = '河北省' and universities.name like '%职业%'"
+        ],
+        "id": "edu36"
+    },
+    {
+        "question_id": 92,
+        "db_id": "edu",
+        "questionCHI": "哪些省有以'中国'开头的大学？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which provinces have universities starting with 'China'?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'"
+        ],
+        "SQL": "Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'",
+        "Evals": [
+            "Select distinct provinces.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'"
+        ],
+        "id": "edu37"
+    },
+    {
+        "question_id": 93,
+        "db_id": "edu",
+        "questionCHI": "列出有以'中国'开头的大学的省及相应的大学。",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "List the provinces with universities starting with 'China' and the respective universities.",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select  provinces.name, universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'"
+        ],
+        "SQL": "Select  provinces.name, universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'",
+        "Evals": [
+            "Select  provinces.name, universities.name from provinces inner join universities on Contains(provinces.Shape, universities.Location) = 1 where universities.name like '中国%'"
+        ],
+        "id": "edu38"
+    },
+    {
+        "question_id": 94,
+        "db_id": "edu",
+        "questionCHI": "我想知道河北省2020年人口最多的城市是哪个。",
+        "evidenceCHI": "",
+        "nameCHI": "河北省以'河北省'为名称表示。",
+        "question": "I would like to know which city in Hebei Province had the highest population in 2020.",
+        "evidence": "",
+        "name": "Hebei Province is represented by the name '河北省'.",
+        "SQLs": [
+            "Select name from cities where name in (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省')  order by POP2020 desc limit 1"
+        ],
+        "SQL": "Select name from cities where name in (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省')  order by POP2020 desc limit 1",
+        "Evals": [
+            "Select name from cities where name in (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省')  order by POP2020 desc limit 1"
+        ],
+        "id": "edu39"
+    },
+    {
+        "question_id": 95,
+        "db_id": "edu",
+        "questionCHI": "湖北省面积最大的城市，2020年的人口有多少？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "What is the population of the largest city by area in Hubei Province in 2020?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select cities.name, cities.POP2020 from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1"
+        ],
+        "SQL": "Select cities.name, cities.POP2020 from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1",
+        "Evals": [
+            "Select cities.name, cities.POP2020 from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1"
+        ],
+        "id": "edu40"
+    },
+    {
+        "question_id": 96,
+        "db_id": "edu",
+        "questionCHI": "湖北省面积最大的城市是哪座？这座城市有多少所高校？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "Which city in Hubei Province has the largest area, and how many universities are there in that city?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select cities.name, count(*) from provinces inner join cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.name = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1)"
+        ],
+        "SQL": "Select cities.name, count(*) from provinces inner join cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.name = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1)",
+        "Evals": [
+            "Select cities.name, count(*) from provinces inner join cities inner join universities on Contains(cities.Shape, universities.Location) = 1 where cities.name = (Select cities.name from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '湖北省' order by Area(cities.Shape, 1) desc limit 1)"
+        ],
+        "id": "edu41"
+    },
+    {
+        "question_id": 97,
+        "db_id": "edu",
+        "questionCHI": "江苏省重点高校最多的城市是哪个，高校数量有多少？",
+        "evidenceCHI": "重点高校是指211及985大学。",
+        "nameCHI": "江苏省以'江苏省'为名称表示。",
+        "question": "Which city in Jiangsu Province has the most key universities, and how many universities are there?",
+        "evidence": "Key universities refer to Project 211 and Project 985 universities.",
+        "name": "Jiangsu Province is represented by the name '江苏省'.",
+        "SQLs": [
+            "Select cities.name, count(*) as number from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 inner join universities on Within(universities.Location, cities.Shape) = 1 where provinces.name = '江苏省' and (universities.project_211 = 1 or universities.project_985 = 1) group by cities.name order by count(*) desc limit 1"
+        ],
+        "SQL": "Select cities.name, count(*) as number from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 inner join universities on Within(universities.Location, cities.Shape) = 1 where provinces.name = '江苏省' and (universities.project_211 = 1 or universities.project_985 = 1) group by cities.name order by count(*) desc limit 1",
+        "Evals": [
+            "Select cities.name, count(*) as number from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 inner join universities on Within(universities.Location, cities.Shape) = 1 where provinces.name = '江苏省' and (universities.project_211 = 1 or universities.project_985 = 1) group by cities.name order by count(*) desc limit 1"
+        ],
+        "id": "edu42"
+    },
+    {
+        "question_id": 98,
+        "db_id": "edu",
+        "questionCHI": "内蒙古自治区的面积比河北省大多少？",
+        "evidenceCHI": "",
+        "nameCHI": "内蒙古自治区以'内蒙古自治区'为名称表示，河北省以'河北省'为名称表示。",
+        "question": "How much larger is the area of Inner Mongolia Autonomous Region compared to Hebei Province?",
+        "evidence": "",
+        "name": "Inner Mongolia Autonomous Region is represented by the name '内蒙古自治区', and Hebei Province is represented by the name '河北省'.",
+        "SQLs": [
+            "Select (Select Area(Shape, 1) from provinces where name = '内蒙古自治区') - (Select Area(Shape, 1) from provinces where name = '河北省')"
+        ],
+        "SQL": "Select (Select Area(Shape, 1) from provinces where name = '内蒙古自治区') - (Select Area(Shape, 1) from provinces where name = '河北省')",
+        "Evals": [
+            "Select (Select Area(Shape, 1) from provinces where name = '内蒙古自治区') - (Select Area(Shape, 1) from provinces where name = '河北省')"
+        ],
+        "id": "edu43"
+    },
+    {
+        "question_id": 99,
+        "db_id": "edu",
+        "questionCHI": "哪些省份有国家民委所属的高校？每个省份有多少所？",
+        "evidenceCHI": "",
+        "nameCHI": "国家民委以'国家民委'为名称表示。",
+        "question": "Which provinces have universities under the National Ethnic Affairs Commission, and how many universities are there in each province?",
+        "evidence": "",
+        "name": "The National Ethnic Affairs Commission is represented by the name '国家民委'.",
+        "SQLs": [
+            "Select provinces.name, count(*) from universities inner join provinces On Within(universities.location, provinces.shape) = 1 where universities.affiliation = '国家民委' group by provinces.name"
+        ],
+        "SQL": "Select provinces.name, count(*) from universities inner join provinces On Within(universities.location, provinces.shape) = 1 where universities.affiliation = '国家民委' group by provinces.name",
+        "Evals": [
+            "Select provinces.name, count(*) from universities inner join provinces On Within(universities.location, provinces.shape) = 1 where universities.affiliation = '国家民委' group by provinces.name"
+        ],
+        "id": "edu44"
+    }
+]

@@ -1,0 +1,51 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 北京市都有哪些机场？ */
+Select airports.name from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '北京市'
+
+/* Answer the following: 我想了解玄武区和秦淮区的面积分别是多少？ */
+Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')
+
+/* Answer the following: 天台山位于哪个城市？ */
+Select cities.name  from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where ScenicSpots.name = '天台山景区'
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+POP2020 INTEGER NOT NULL,
+POP2010 INTEGER NOT NULL,
+POP2000 INTEGER NOT NULL,
+shape MULTIPOLYGON NOT NULL,
+Shape_Length DOUBLE)
+
+表"cities"记录中国各个城市的位置及人口信息等。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+pinyin_name TEXT NOT NULL,
+administrative_division_code TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+表"provinces"记录中国各个省份的信息。
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+表"universities"记录中国各个大学的信息。
+
+
+/* Answer the following with no explanation: 河南省内哪些城市与外省有接壤？河南省以'河南省'为名称表示。 */
+SELECT 

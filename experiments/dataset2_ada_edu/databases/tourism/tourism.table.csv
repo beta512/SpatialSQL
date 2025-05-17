@@ -1,0 +1,7 @@
+name,description_CN,description_EN
+GDPs,"表""GDPs""记录中国各个省1992年到2023年的GDP信息","The ""GDPs"" table records GDP information for each province in China from 1992 to 2023"
+airports,"表""airports""记录中国各个机场的信息","The ""airports"" table records information about various airports in China"
+cities,"表""cities""记录中国各个城市的信息","The ""cities"" table records information about various cities in China"
+scenicSpots,"表""scenicSpots""记录中国各个旅游景点的信息","The ""scenicSpots"" table records information about various tourist attractions in China"
+stations,"表""stations""记录中国各个高铁站的信息","The ""stations"" table records information about various high-speed railway stations in China"
+tours,"表""tours""记录中国各个城市的旅游信息","The ""tours"" table records tourism information for various cities in China"

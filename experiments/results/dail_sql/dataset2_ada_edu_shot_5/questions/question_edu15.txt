@@ -1,0 +1,51 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 最西边的省是哪个？最西边的省是指包含最西部城市的省份。'最西边'指的是经度最小的位置。 */
+Select province from cities order by MbrMinX(Shape) asc limit 1
+
+/* Answer the following: 河南省内最北边的城市是哪个？'最北边'指的是纬度最大的位置。 */
+Select name from cities where province = '河南省' order by MbrMaxY(Shape) desc limit 1
+
+/* Answer the following: 中国最南边的省是哪个？最南边的省是指包含最南部城市的省份。'最南边'指的是纬度最小的位置。 */
+Select province from cities order by MbrMinY(Shape) asc limit 1
+
+/* Answer the following: 长江边最近的酒店是哪家？长江是由名字相同的多段河流组成。 */
+Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1
+
+/* Answer the following: 东三省面积最大的省是哪个，面积是多少？东三省指辽宁省、吉林省、黑龙江省。 */
+Select province, Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省') group by province order by Sum(Area(Shape, 1)) desc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+POP2020 INTEGER NOT NULL,
+POP2010 INTEGER NOT NULL,
+POP2000 INTEGER NOT NULL,
+shape MULTIPOLYGON NOT NULL,
+Shape_Length DOUBLE)
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+pinyin_name TEXT NOT NULL,
+administrative_division_code TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+
+/* Answer the following with no explanation: 中国最西边的省是哪个？'最西边'是指经度最小的位置。 */
+SELECT 

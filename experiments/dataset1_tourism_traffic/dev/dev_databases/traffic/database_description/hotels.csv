@@ -1,0 +1,4 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+NAME,NAME,,TEXT,,,
+KIND,KIND,,TEXT,,,
+Location,Location,,POINT,,,

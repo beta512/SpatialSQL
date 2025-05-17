@@ -1,0 +1,1838 @@
+[
+    {
+        "question_id": 0,
+        "db_id": "tourism",
+        "questionCHI": "东三省2020年的国内旅游总收入是多少？",
+        "evidenceCHI": "东三省指辽宁省、吉林省、黑龙江省。",
+        "nameCHI": "辽宁省以'辽宁省'为名称表示，吉林省以'吉林省'为名称表示，黑龙江省以'黑龙江省'为名称表示。",
+        "question": "What was the total domestic tourism revenue of the three northeastern provinces in 2020?",
+        "evidence": "The three northeastern provinces refer to Liaoning, Jilin, and Heilongjiang.",
+        "name": "Liaoning is represented by the name '辽宁省', Jilin is represented by the name '吉林省', and Heilongjiang is represented by the name '黑龙江省'.",
+        "SQLs": [
+            "Select Sum(Domestic_Tourism_Earnings_Wan_Yuan) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020"
+        ],
+        "SQL": "Select Sum(Domestic_Tourism_Earnings_Wan_Yuan) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020",
+        "Evals": [
+            "Select Sum(Domestic_Tourism_Earnings_Wan_Yuan) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020"
+        ],
+        "id": "tourism01"
+    },
+    {
+        "question_id": 1,
+        "db_id": "tourism",
+        "questionCHI": "湖北省2020年的国际旅游收入是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "What was the international tourism revenue of Hubei Province in 2020?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select Sum(international_toursim_earnings_Wan_dollar) from cities inner join tours On cities.name = tours.city and cities.province = '湖北省' where tours.year = 2020"
+        ],
+        "SQL": "Select Sum(international_toursim_earnings_Wan_dollar) from cities inner join tours On cities.name = tours.city and cities.province = '湖北省' where tours.year = 2020",
+        "Evals": [
+            "Select Sum(international_toursim_earnings_Wan_dollar) from cities inner join tours On cities.name = tours.city and cities.province = '湖北省' where tours.year = 2020"
+        ],
+        "id": "tourism02"
+    },
+    {
+        "question_id": 2,
+        "db_id": "tourism",
+        "questionCHI": "湖北省2010年的星级酒店有多少个？",
+        "evidenceCHI": "",
+        "nameCHI": "湖北省以'湖北省'为名称表示。",
+        "question": "How many star-rated hotels were there in Hubei Province in 2010?",
+        "evidence": "",
+        "name": "Hubei Province is represented by the name '湖北省'.",
+        "SQLs": [
+            "Select Sum(star_hotel_number) from cities inner join tours on cities.name = tours.city where year = 2010 and cities.province = '湖北省'"
+        ],
+        "SQL": "Select Sum(star_hotel_number) from cities inner join tours on cities.name = tours.city where year = 2010 and cities.province = '湖北省'",
+        "Evals": [
+            "Select Sum(star_hotel_number) from cities inner join tours on cities.name = tours.city where year = 2010 and cities.province = '湖北省'"
+        ],
+        "id": "tourism03"
+    },
+    {
+        "question_id": 3,
+        "db_id": "tourism",
+        "questionCHI": "哪些城市有机场，数量分别多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which cities have airports, and how many do they have respectively?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select cities.name, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 group by cities.name"
+        ],
+        "SQL": "Select cities.name, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 group by cities.name",
+        "Evals": [
+            "Select cities.name, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 group by cities.name"
+        ],
+        "id": "tourism04"
+    },
+    {
+        "question_id": 4,
+        "db_id": "tourism",
+        "questionCHI": "哪些城市没有机场？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which cities do not have airports?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name from cities where name not in (Select distinct cities.name from cities inner join airports On Contains(cities.Shape, airports.Location) = 1)"
+        ],
+        "SQL": "Select name from cities where name not in (Select distinct cities.name from cities inner join airports On Contains(cities.Shape, airports.Location) = 1)",
+        "Evals": [
+            "Select name from cities where name not in (Select distinct cities.name from cities inner join airports On Contains(cities.Shape, airports.Location) = 1)"
+        ],
+        "id": "tourism05"
+    },
+    {
+        "question_id": 5,
+        "db_id": "tourism",
+        "questionCHI": "每个城市各有多少5A级旅游景点？",
+        "evidenceCHI": "",
+        "nameCHI": "5A级以'5A'为名称表示。",
+        "question": "How many 5A tourist attractions are there in each city?",
+        "evidence": "",
+        "name": "5A is represented by the name '5A'.",
+        "SQLs": [
+            "Select cities.name, count(*) from ScenicSpots inner join cities On Within(ScenicSpots.Location, cities.Shape) = 1 where ScenicSpots.level = '5A' group by cities.name"
+        ],
+        "SQL": "Select cities.name, count(*) from ScenicSpots inner join cities On Within(ScenicSpots.Location, cities.Shape) = 1 where ScenicSpots.level = '5A' group by cities.name",
+        "Evals": [
+            "Select cities.name, count(*) from ScenicSpots inner join cities On Within(ScenicSpots.Location, cities.Shape) = 1 where ScenicSpots.level = '5A' group by cities.name"
+        ],
+        "id": "tourism06"
+    },
+    {
+        "question_id": 6,
+        "db_id": "tourism",
+        "questionCHI": "每个省的面积分别是多少？",
+        "evidenceCHI": "一个省由多个城市构成。",
+        "nameCHI": "",
+        "question": "What is the area of each province?",
+        "evidence": "A province is composed of multiple cities.",
+        "name": "",
+        "SQLs": [
+            "Select province, Sum(Area(Shape, 1)) from cities group by province"
+        ],
+        "SQL": "Select province, Sum(Area(Shape, 1)) from cities group by province",
+        "Evals": [
+            "Select province, Sum(Area(Shape, 1)) from cities group by province"
+        ],
+        "id": "tourism07"
+    },
+    {
+        "question_id": 7,
+        "db_id": "tourism",
+        "questionCHI": "面积最大的省是哪个，面积多少？",
+        "evidenceCHI": "一个省由多个城市构成。",
+        "nameCHI": "",
+        "question": "Which province has the largest area, and what is its size?",
+        "evidence": "A province is composed of multiple cities.",
+        "name": "",
+        "SQLs": [
+            "Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1"
+        ],
+        "SQL": "Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1",
+        "Evals": [
+            "Select province, Sum(Area(Shape, 1)) as area from cities group by province order by area desc limit 1"
+        ],
+        "id": "tourism08"
+    },
+    {
+        "question_id": 8,
+        "db_id": "tourism",
+        "questionCHI": "最西边的省是哪个？",
+        "evidenceCHI": "最西边的省是指包含最西部城市的省份。'最西边'指的是经度最小的位置。",
+        "nameCHI": "",
+        "question": "Which province is the westernmost?",
+        "evidence": "The westernmost province refers to the province that contains the westernmost city. 'Westernmost' refers to the location with the smallest longitude.",
+        "name": "",
+        "SQLs": [
+            "Select province from cities order by MbrMinX(Shape) asc limit 1"
+        ],
+        "SQL": "Select province from cities order by MbrMinX(Shape) asc limit 1",
+        "Evals": [
+            "Select province from cities order by MbrMinX(Shape) asc limit 1"
+        ],
+        "id": "tourism09"
+    },
+    {
+        "question_id": 9,
+        "db_id": "tourism",
+        "questionCHI": "中国最南边的省是哪个？",
+        "evidenceCHI": "最南边的省是指包含最南部城市的省份。'最南边'指的是纬度最小的位置。",
+        "nameCHI": "",
+        "question": "Which province is the southernmost in China?",
+        "evidence": "The southernmostprovince refers to the province that contains the southernmost city. 'southernmost' refers to the location with the smallest latitude.",
+        "name": "",
+        "SQLs": [
+            "Select province from cities order by MbrMinY(Shape) asc limit 1"
+        ],
+        "SQL": "Select province from cities order by MbrMinY(Shape) asc limit 1",
+        "Evals": [
+            "Select province from cities order by MbrMinY(Shape) asc limit 1"
+        ],
+        "id": "tourism10"
+    },
+    {
+        "question_id": 10,
+        "db_id": "tourism",
+        "questionCHI": "河南省内最北边的城市是哪个？",
+        "evidenceCHI": "'最北边'指的是纬度最大的位置。",
+        "nameCHI": "河南省以'河南省'为名称表示。",
+        "question": "Which city is the northernmost in Henan Province?",
+        "evidence": "'Northernmost' refers to the location with the largest latitude.",
+        "name": "Henan Province is represented by the name '河南省'.",
+        "SQLs": [
+            "Select name from cities where province = '河南省' order by MbrMaxY(Shape) desc limit 1"
+        ],
+        "SQL": "Select name from cities where province = '河南省' order by MbrMaxY(Shape) desc limit 1",
+        "Evals": [
+            "Select name from cities where province = '河南省' order by MbrMaxY(Shape) desc limit 1"
+        ],
+        "id": "tourism11"
+    },
+    {
+        "question_id": 11,
+        "db_id": "tourism",
+        "questionCHI": "高铁站六安10千米内有多少个3A级以上旅游景点？",
+        "evidenceCHI": "",
+        "nameCHI": "高铁站六安以'六安'为名称表示，3A级以'3A'为名称表示。",
+        "question": "How many tourist attractions rated 3A or above are within 10 kilometers of Lu'an High-Speed Rail Station?",
+        "evidence": "",
+        "name": "Lu'an High-Speed Rail Station is represented by the name '六安', and 3A is represented by the name '3A'.",
+        "SQLs": [
+            "Select count (*) from stations inner join ScenicSpots On Distance(stations.Location, ScenicSpots.Location, 1) < 10 * 1000 where stations.name = '六安' and ScenicSpots.level > '3A'"
+        ],
+        "SQL": "Select count (*) from stations inner join ScenicSpots On Distance(stations.Location, ScenicSpots.Location, 1) < 10 * 1000 where stations.name = '六安' and ScenicSpots.level > '3A'",
+        "Evals": [
+            "Select count (*) from stations inner join ScenicSpots On Distance(stations.Location, ScenicSpots.Location, 1) < 10 * 1000 where stations.name = '六安' and ScenicSpots.level > '3A'"
+        ],
+        "id": "tourism12"
+    },
+    {
+        "question_id": 12,
+        "db_id": "tourism",
+        "questionCHI": "岳阳东站100公里范围内有哪些5A级旅游景点？这些景点的距离分别是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "岳阳东站以'岳阳东'为名称表示，5A级以'5A'为名称表示。",
+        "question": "What 5A-rated tourist attractions are within 100 kilometers of Yueyang East Railway Station, and what are their respective distances?",
+        "evidence": "",
+        "name": "Yueyang East Railway Station is represented by the name '岳阳东', and 5A is represented by the name '5A'.",
+        "SQLs": [
+            "Select ScenicSpots.name,  Distance(stations.Location, ScenicSpots.Location, 1) from stations inner join ScenicSpots On Distance(stations.Location, ScenicSpots.Location, 1) < 100 * 1000 where stations.name = '岳阳东' and ScenicSpots.level = '5A'"
+        ],
+        "SQL": "Select ScenicSpots.name,  Distance(stations.Location, ScenicSpots.Location, 1) from stations inner join ScenicSpots On Distance(stations.Location, ScenicSpots.Location, 1) < 100 * 1000 where stations.name = '岳阳东' and ScenicSpots.level = '5A'",
+        "Evals": [
+            "Select ScenicSpots.name,  Distance(stations.Location, ScenicSpots.Location, 1) from stations inner join ScenicSpots On Distance(stations.Location, ScenicSpots.Location, 1) < 100 * 1000 where stations.name = '岳阳东' and ScenicSpots.level = '5A'"
+        ],
+        "id": "tourism13"
+    },
+    {
+        "question_id": 13,
+        "db_id": "tourism",
+        "questionCHI": "2023年GDP最高的省份是哪一个？该省有多少座机场？",
+        "evidenceCHI": "一个省由多个城市构成。",
+        "nameCHI": "",
+        "question": "Which province had the highest GDP in 2023? How many airports are there in that province?",
+        "evidence": "A province is composed of multiple cities.",
+        "name": "",
+        "SQLs": [
+            "Select cities.province, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 where cities.province = (Select province from GDPs order by year_2023 desc limit 1)"
+        ],
+        "SQL": "Select cities.province, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 where cities.province = (Select province from GDPs order by year_2023 desc limit 1)",
+        "Evals": [
+            "Select cities.province, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 where cities.province = (Select province from GDPs order by year_2023 desc limit 1)"
+        ],
+        "id": "tourism14"
+    },
+    {
+        "question_id": 14,
+        "db_id": "tourism",
+        "questionCHI": "2023年GDP最高的省是哪个？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Who is the province with the highest GDP in 2023, and how many airports does it have?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select province from GDPs order by year_2023 desc limit 1"
+        ],
+        "SQL": "Select province from GDPs order by year_2023 desc limit 1",
+        "Evals": [
+            "Select province from GDPs order by year_2023 desc limit 1"
+        ],
+        "id": "tourism15"
+    },
+    {
+        "question_id": 15,
+        "db_id": "tourism",
+        "questionCHI": "2011至2020年间，入境外国游客最多的城市是哪个？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which city received the most foreign tourists between 2011 and 2020?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select city from tours where year >= 2011 and year <= 2020 group by city order by Sum(international_tourists_number_Wan) desc limit 1"
+        ],
+        "SQL": "Select city from tours where year >= 2011 and year <= 2020 group by city order by Sum(international_tourists_number_Wan) desc limit 1",
+        "Evals": [
+            "Select city from tours where year >= 2011 and year <= 2020 group by city order by Sum(international_tourists_number_Wan) desc limit 1"
+        ],
+        "id": "tourism16"
+    },
+    {
+        "question_id": 16,
+        "db_id": "tourism",
+        "questionCHI": "哈尔滨市有多少个机场？",
+        "evidenceCHI": "",
+        "nameCHI": "哈尔滨市以'哈尔滨市'为名称表示。",
+        "question": "How many airports are there in Harbin?",
+        "evidence": "",
+        "name": "Harbin is represented by the name 'Harbin'.",
+        "SQLs": [
+            "Select count(*) from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '哈尔滨市'"
+        ],
+        "SQL": "Select count(*) from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '哈尔滨市'",
+        "Evals": [
+            "Select count(*) from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '哈尔滨市'"
+        ],
+        "id": "tourism17"
+    },
+    {
+        "question_id": 17,
+        "db_id": "tourism",
+        "questionCHI": "北京市都有哪些机场？",
+        "evidenceCHI": "",
+        "nameCHI": "北京市以'北京市'为名称表示。",
+        "question": "What airports are there in Beijing?",
+        "evidence": "",
+        "name": "Beijing is represented by the name '北京市'.",
+        "SQLs": [
+            "Select airports.name from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '北京市'"
+        ],
+        "SQL": "Select airports.name from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '北京市'",
+        "Evals": [
+            "Select airports.name from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '北京市'"
+        ],
+        "id": "tourism18"
+    },
+    {
+        "question_id": 18,
+        "db_id": "tourism",
+        "questionCHI": "新疆维吾尔自治区3A级及以上旅游景点有多少个？",
+        "evidenceCHI": "新疆维吾尔自治区是一个省，由多个城市构成。",
+        "nameCHI": "新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示，3A级以'3A'为名称表示。",
+        "question": "How many 3A and above-rated tourist attractions are there in Xinjiang Uygur Autonomous Region?",
+        "evidence": "Xinjiang Uygur Autonomous Region is a province, which is composed of multiple cities.",
+        "name": "Xinjiang Uygur Autonomous Region is represented by the name '新疆维吾尔自治区', and 3A is represented by the name '3A'.",
+        "SQLs": [
+            "Select count(*) from cities inner join ScenicSpots On Within(ScenicSpots.Location, cities.Shape) = 1 where cities.province = '新疆维吾尔自治区'  and ScenicSpots.level >= '3A'"
+        ],
+        "SQL": "Select count(*) from cities inner join ScenicSpots On Within(ScenicSpots.Location, cities.Shape) = 1 where cities.province = '新疆维吾尔自治区'  and ScenicSpots.level >= '3A'",
+        "Evals": [
+            "Select count(*) from cities inner join ScenicSpots On Within(ScenicSpots.Location, cities.Shape) = 1 where cities.province = '新疆维吾尔自治区'  and ScenicSpots.level >= '3A'"
+        ],
+        "id": "tourism19"
+    },
+    {
+        "question_id": 19,
+        "db_id": "tourism",
+        "questionCHI": "西藏自治区的面积是多少？",
+        "evidenceCHI": "西藏自治区是一个省，由多个城市构成。",
+        "nameCHI": "西藏自治区以'西藏自治区'为名称表示。",
+        "question": "What is the area of Tibet?",
+        "evidence": "Tibet is a province, which is composed of multiple cities.",
+        "name": "Tibet is represented by the name '西藏自治区'.",
+        "SQLs": [
+            "Select Sum(Area(Shape, 1)) from cities where province = '西藏自治区'"
+        ],
+        "SQL": "Select Sum(Area(Shape, 1)) from cities where province = '西藏自治区'",
+        "Evals": [
+            "Select Sum(Area(Shape, 1)) from cities where province = '西藏自治区'"
+        ],
+        "id": "tourism20"
+    },
+    {
+        "question_id": 20,
+        "db_id": "tourism",
+        "questionCHI": "东三省2020年的国际旅游总收入是多少？",
+        "evidenceCHI": "东三省指辽宁省、吉林省、黑龙江省。",
+        "nameCHI": "辽宁省以'辽宁省'为名称表示，吉林省以'吉林省'为名称表示，黑龙江省以'黑龙江省'为名称表示。",
+        "question": "What was the domestic tourism revenue of the three northeastern provinces in 2020 in ten thousand yuan?",
+        "evidence": "The three northeastern provinces refer to Liaoning, Jilin, and Heilongjiang.",
+        "name": "Liaoning is represented by the name '辽宁省', Jilin is represented by the name '吉林省', and Heilongjiang is represented by the name '黑龙江省'.",
+        "SQLs": [
+            "Select Sum(international_toursim_earnings_Wan_dollar) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020"
+        ],
+        "SQL": "Select Sum(international_toursim_earnings_Wan_dollar) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020",
+        "Evals": [
+            "Select Sum(international_toursim_earnings_Wan_dollar) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020"
+        ],
+        "id": "tourism21"
+    },
+    {
+        "question_id": 21,
+        "db_id": "tourism",
+        "questionCHI": "东三省的总面积是多少？",
+        "evidenceCHI": "东三省指辽宁省、吉林省、黑龙江省。",
+        "nameCHI": "辽宁省以'辽宁省'为名称表示，吉林省以'吉林省'为名称表示，黑龙江省以'黑龙江省'为名称表示。",
+        "question": "What is the total area of the three northeastern provinces?",
+        "evidence": "The three northeastern provinces refer to Liaoning, Jilin, and Heilongjiang.",
+        "name": "Liaoning is represented by the name '辽宁省', Jilin is represented by the name '吉林省', and Heilongjiang is represented by the name '黑龙江省'.",
+        "SQLs": [
+            "Select Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省')"
+        ],
+        "SQL": "Select Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省')",
+        "Evals": [
+            "Select Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省')"
+        ],
+        "id": "tourism22"
+    },
+    {
+        "question_id": 22,
+        "db_id": "tourism",
+        "questionCHI": "东三省面积最大的省是哪个，面积是多少？",
+        "evidenceCHI": "东三省指辽宁省、吉林省、黑龙江省。",
+        "nameCHI": "辽宁省以'辽宁省'为名称表示，吉林省以'吉林省'为名称表示，黑龙江省以'黑龙江省'为名称表示。",
+        "question": "Which of the three northeastern provinces has the largest area, and what is its size?",
+        "evidence": "The three northeastern provinces refer to Liaoning, Jilin, and Heilongjiang.",
+        "name": "Liaoning is represented by the name '辽宁省', Jilin is represented by the name '吉林省', and Heilongjiang is represented by the name '黑龙江省'.",
+        "SQLs": [
+            "Select province, Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省') group by province order by Sum(Area(Shape, 1)) desc limit 1"
+        ],
+        "SQL": "Select province, Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省') group by province order by Sum(Area(Shape, 1)) desc limit 1",
+        "Evals": [
+            "Select province, Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省') group by province order by Sum(Area(Shape, 1)) desc limit 1"
+        ],
+        "id": "tourism23"
+    },
+    {
+        "question_id": 23,
+        "db_id": "tourism",
+        "questionCHI": "大理机场能够服务多少个城市？",
+        "evidenceCHI": "机场150千米内，属于可以服务的范围。",
+        "nameCHI": "大理机场以'大理'为名称表示。",
+        "question": "How many cities can Dali Airport serve?",
+        "evidence": "Cities within 150 kilometers are considered within the service range.",
+        "name": "Dali Airport is represented by the name '大理'.",
+        "SQLs": [
+            "Select count(distinct cities.name) from cities inner join airports On Distance(airports.Location, cities.Shape, 1) < 150 * 1000 where airports.name = '大理'"
+        ],
+        "SQL": "Select count(distinct cities.name) from cities inner join airports On Distance(airports.Location, cities.Shape, 1) < 150 * 1000 where airports.name = '大理'",
+        "Evals": [
+            "Select count(distinct cities.name) from cities inner join airports On Distance(airports.Location, cities.Shape, 1) < 150 * 1000 where airports.name = '大理'"
+        ],
+        "id": "tourism24"
+    },
+    {
+        "question_id": 24,
+        "db_id": "tourism",
+        "questionCHI": "北京市哪个5A级景点距离市中心距离最远，距离是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "北京市以'北京市'为名称表示，5A级以'5A'为名称表示。",
+        "question": "Which 5A tourist attraction in Beijing is the farthest from the city center, and how far is it?",
+        "evidence": "",
+        "name": "Beijing is represented by the name '北京市', and 5A is represented by the name '5A'.",
+        "SQLs": [
+            "Select ScenicSpots.name, Distance(Centroid(cities.Shape), ScenicSpots.Location, 1) as d from cities inner join ScenicSpots where Contains(cities.Shape, ScenicSpots.Location) =  1 and cities.name = '北京市' and ScenicSpots.level = '5A' order by d desc limit 1"
+        ],
+        "SQL": "Select ScenicSpots.name, Distance(Centroid(cities.Shape), ScenicSpots.Location, 1) as d from cities inner join ScenicSpots where Contains(cities.Shape, ScenicSpots.Location) =  1 and cities.name = '北京市' and ScenicSpots.level = '5A' order by d desc limit 1",
+        "Evals": [
+            "Select ScenicSpots.name, Distance(Centroid(cities.Shape), ScenicSpots.Location, 1) as d from cities inner join ScenicSpots where Contains(cities.Shape, ScenicSpots.Location) =  1 and cities.name = '北京市' and ScenicSpots.level = '5A' order by d desc limit 1"
+        ],
+        "id": "tourism25"
+    },
+    {
+        "question_id": 25,
+        "db_id": "tourism",
+        "questionCHI": "北海公园与恭王府的距离是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "北海公园以'北海公园'为名称表示，恭王府以'恭王府'为名称表示。",
+        "question": "What is the distance between Beihai Park and Prince Gong's Mansion?",
+        "evidence": "",
+        "name": "Beihai Park is represented by the name '北海公园', and Prince Gong's Mansion is represented by the name '恭王府'.",
+        "SQLs": [
+            "Select Distance(a.Location, b.Location, 1)  from ScenicSpots a inner join ScenicSpots b where a.name = '北海公园' and b.name = '恭王府'"
+        ],
+        "SQL": "Select Distance(a.Location, b.Location, 1)  from ScenicSpots a inner join ScenicSpots b where a.name = '北海公园' and b.name = '恭王府'",
+        "Evals": [
+            "Select Distance(a.Location, b.Location, 1)  from ScenicSpots a inner join ScenicSpots b where a.name = '北海公园' and b.name = '恭王府'"
+        ],
+        "id": "tourism26"
+    },
+    {
+        "question_id": 26,
+        "db_id": "tourism",
+        "questionCHI": "距离八大处公园最近的其他5A级旅游景点是哪个？距离是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "八大处公园以'八大处公园'为名称表示，5A级以'5A'为名称表示。",
+        "question": "Which other 5A-rated tourist attraction is closest to Badachu Park, and what is the distance?",
+        "evidence": "",
+        "name": "Badachu Park is represented by the name '八大处公园', and 5A is represented by the name '5A'.",
+        "SQLs": [
+            "Select b.name, Distance(a.Location, b.Location, 1) from ScenicSpots a inner join ScenicSpots b where a.name = '八大处公园' and b.level = '5A' and b.name != a.name order by Distance(a.Location, b.Location, 1)   asc limit 1"
+        ],
+        "SQL": "Select b.name, Distance(a.Location, b.Location, 1) from ScenicSpots a inner join ScenicSpots b where a.name = '八大处公园' and b.level = '5A' and b.name != a.name order by Distance(a.Location, b.Location, 1)   asc limit 1",
+        "Evals": [
+            "Select b.name, Distance(a.Location, b.Location, 1) from ScenicSpots a inner join ScenicSpots b where a.name = '八大处公园' and b.level = '5A' and b.name != a.name order by Distance(a.Location, b.Location, 1)   asc limit 1"
+        ],
+        "id": "tourism27"
+    },
+    {
+        "question_id": 27,
+        "db_id": "tourism",
+        "questionCHI": "温宿机场位于哪个城市？",
+        "evidenceCHI": "",
+        "nameCHI": "温宿机场以'阿克苏/温宿'为名称表示。",
+        "question": "Which city is Wensu Airport located in?",
+        "evidence": "",
+        "name": "Wensu Airport is represented by the name '阿克苏/温宿'.",
+        "SQLs": [
+            "Select cities.name from cities inner join airports on Within(airports.Location, cities.Shape) = 1 where airports.name = '阿克苏/温宿'"
+        ],
+        "SQL": "Select cities.name from cities inner join airports on Within(airports.Location, cities.Shape) = 1 where airports.name = '阿克苏/温宿'",
+        "Evals": [
+            "Select cities.name from cities inner join airports on Within(airports.Location, cities.Shape) = 1 where airports.name = '阿克苏/温宿'"
+        ],
+        "id": "tourism28"
+    },
+    {
+        "question_id": 28,
+        "db_id": "tourism",
+        "questionCHI": "天台山位于哪个城市？",
+        "evidenceCHI": "",
+        "nameCHI": "天台山以'天台山景区' 为名称表示。",
+        "question": "Which city is Tiantai Mountain located in?",
+        "evidence": "",
+        "name": "Tiantai Mountain is represented by the name '天台山景区''.",
+        "SQLs": [
+            "Select cities.name  from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where ScenicSpots.name = '天台山景区'"
+        ],
+        "SQL": "Select cities.name  from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where ScenicSpots.name = '天台山景区'",
+        "Evals": [
+            "Select cities.name  from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where ScenicSpots.name = '天台山景区'"
+        ],
+        "id": "tourism29"
+    },
+    {
+        "question_id": 29,
+        "db_id": "tourism",
+        "questionCHI": "2020年外国入境游客人数排名前十的城市是哪些？这些城市分别有多少5A级旅游景点？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which cities ranked in the top 10 for foreign tourist arrivals in 2020? How many 5A-rated tourist attractions are there in each of these cities?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select cities.name, count(*) from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where cities.name in (Select city from tours where year = 2020 order by international_tourists_number_Wan  desc limit 10) and ScenicSpots.level = '5A' group by cities.name"
+        ],
+        "SQL": "Select cities.name, count(*) from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where cities.name in (Select city from tours where year = 2020 order by international_tourists_number_Wan  desc limit 10) and ScenicSpots.level = '5A' group by cities.name",
+        "Evals": [
+            "Select cities.name, count(*) from cities inner join ScenicSpots On Contains(cities.Shape, ScenicSpots.Location) = 1 where cities.name in (Select city from tours where year = 2020 order by international_tourists_number_Wan  desc limit 10) and ScenicSpots.level = '5A' group by cities.name"
+        ],
+        "id": "tourism30"
+    },
+    {
+        "question_id": 30,
+        "db_id": "tourism",
+        "questionCHI": "东三省2020年的国内旅游收入各是多少？",
+        "evidenceCHI": "东三省指辽宁省、吉林省、黑龙江省。",
+        "nameCHI": "辽宁省以'辽宁省'为名称表示，吉林省以'吉林省'为名称表示，黑龙江省以'黑龙江省'为名称表示。",
+        "question": "What was the domestic tourism revenue of each of the three northeastern provinces in 2020?",
+        "evidence": "The three northeastern provinces refer to Liaoning, Jilin, and Heilongjiang.",
+        "name": "Liaoning is represented by the name '辽宁省', Jilin is represented by the name '吉林省', and Heilongjiang is represented by the name '黑龙江省'.",
+        "SQLs": [
+            "Select cities.province, Sum(Domestic_Tourism_Earnings_Wan_Yuan) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020 group by cities.province"
+        ],
+        "SQL": "Select cities.province, Sum(Domestic_Tourism_Earnings_Wan_Yuan) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020 group by cities.province",
+        "Evals": [
+            "Select cities.province, Sum(Domestic_Tourism_Earnings_Wan_Yuan) from tours inner join cities On cities.name = tours.city and cities.province in ('辽宁省', '吉林省', '黑龙江省') where tours.year = 2020 group by cities.province"
+        ],
+        "id": "tourism31"
+    },
+    {
+        "question_id": 31,
+        "db_id": "tourism",
+        "questionCHI": "2023年GDP高于浙江省的省份有哪些？这些省份的面积分别是多少？",
+        "evidenceCHI": "浙江省由多个城市构成。",
+        "nameCHI": "浙江省以'浙江省'为名称表示。",
+        "question": "Which provinces had a higher GDP than Zhejiang Province in 2023? What are the respective areas of these provinces?",
+        "evidence": "Zhejiang Province is composed of multiple cities.",
+        "name": "Zhejiang Province is represented by the name '浙江省'.",
+        "SQLs": [
+            "Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.province from GDPs a inner join GDPs b where a.province = '浙江省' and b.year_2023 > a.year_2023) group by province"
+        ],
+        "SQL": "Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.province from GDPs a inner join GDPs b where a.province = '浙江省' and b.year_2023 > a.year_2023) group by province",
+        "Evals": [
+            "Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.province from GDPs a inner join GDPs b where a.province = '浙江省' and b.year_2023 > a.year_2023) group by province"
+        ],
+        "id": "tourism32"
+    },
+    {
+        "question_id": 32,
+        "db_id": "tourism",
+        "questionCHI": "在2020年哪个城市的星级酒店数量最多？共有多少家？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which city had the most star-rated hotels in 2020, and how many were there in total?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select city, star_hotel_number from tours where year = 2020 order by star_hotel_number desc limit 1"
+        ],
+        "SQL": "Select city, star_hotel_number from tours where year = 2020 order by star_hotel_number desc limit 1",
+        "Evals": [
+            "Select city, star_hotel_number from tours where year = 2020 order by star_hotel_number desc limit 1"
+        ],
+        "id": "tourism33"
+    },
+    {
+        "question_id": 33,
+        "db_id": "traffic",
+        "questionCHI": "874路公交线路的全程长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "874路公交线路以'874路'为名称表示。",
+        "question": "What is the total length of bus route 874?",
+        "evidence": "",
+        "name": "The bus route 874 is represented by the name '874路'.",
+        "SQLs": [
+            "Select distance from buslines where name = '874路'",
+            "Select GLength(Shape, 1) from buslines where name = '874路'"
+        ],
+        "SQL": "Select distance from buslines where name = '874路'",
+        "Evals": [
+            "Select distance from buslines where name = '874路'",
+            "Select GLength(Shape, 1) from buslines where name = '874路'"
+        ],
+        "id": "traffic01"
+    },
+    {
+        "question_id": 34,
+        "db_id": "traffic",
+        "questionCHI": "我想了解哪条公交线路最长，以及它的具体长度。",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "I would like to know which bus route is the longest and its exact length.",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, distance from buslines order by distance desc limit 1",
+            "Select name, GLength(Shape, 1) as distance from buslines order by distance desc limit 1"
+        ],
+        "SQL": "Select name, distance from buslines order by distance desc limit 1",
+        "Evals": [
+            "Select name, distance from buslines order by distance desc limit 1",
+            "Select name, GLength(Shape, 1) as distance from buslines order by distance desc limit 1"
+        ],
+        "id": "traffic02"
+    },
+    {
+        "question_id": 35,
+        "db_id": "traffic",
+        "questionCHI": "请列出长度最长的10条公交线路，包括起点站、终点站及其具体长度。",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Please list the 10 longest bus routes, including their start and end stops, as well as their exact lengths.",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, start_stop, end_stop, distance from buslines order by distance desc limit 10",
+            "Select name, start_stop, end_stop, GLength(Shape, 1) as distance from buslines order by distance desc limit 10"
+        ],
+        "SQL": "Select name, start_stop, end_stop, distance from buslines order by distance desc limit 10",
+        "Evals": [
+            "Select name, start_stop, end_stop, distance from buslines order by distance desc limit 10",
+            "Select name, start_stop, end_stop, GLength(Shape, 1) as distance from buslines order by distance desc limit 10"
+        ],
+        "id": "traffic03"
+    },
+    {
+        "question_id": 36,
+        "db_id": "traffic",
+        "questionCHI": "南京市每条道路的总长度是多少？",
+        "evidenceCHI": "一条道路由所有名字相同的路段构成。",
+        "nameCHI": "",
+        "question": "What is the total length of each road in Nanjing?",
+        "evidence": "A road is composed of all segments that share the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(length) from roads group by name",
+            "Select name, Sum(GLength(Shape, 1)) from roads group by name"
+        ],
+        "SQL": "Select name, Sum(length) from roads group by name",
+        "Evals": [
+            "Select name, Sum(length) from roads group by name",
+            "Select name, Sum(GLength(Shape, 1)) from roads group by name"
+        ],
+        "id": "traffic04"
+    },
+    {
+        "question_id": 37,
+        "db_id": "traffic",
+        "questionCHI": "南京市最长的道路是哪一条？它的具体长度是多少？",
+        "evidenceCHI": "一条道路由所有名字相同的路段构成。",
+        "nameCHI": "",
+        "question": "Which is the longest road in Nanjing, and what is its exact length?",
+        "evidence": "A road is composed of all segments that share the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(length) as length from roads group by name order by length desc  limit 1",
+            "Select name, Sum(GLength(Shape, 1)) as length from roads group by name order by length desc  limit 1"
+        ],
+        "SQL": "Select name, Sum(length) as length from roads group by name order by length desc  limit 1",
+        "Evals": [
+            "Select name, Sum(length) as length from roads group by name order by length desc  limit 1",
+            "Select name, Sum(GLength(Shape, 1)) as length from roads group by name order by length desc  limit 1"
+        ],
+        "id": "traffic05"
+    },
+    {
+        "question_id": 38,
+        "db_id": "traffic",
+        "questionCHI": "南京市的绿地总面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the total green space area in Nanjing?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select Sum(Shape_Area) from greenspaces",
+            "Select Sum(Area(Shape,1)) from greenspaces"
+        ],
+        "SQL": "Select Sum(Shape_Area) from greenspaces",
+        "Evals": [
+            "Select Sum(Shape_Area) from greenspaces",
+            "Select Sum(Area(Shape,1)) from greenspaces"
+        ],
+        "id": "traffic06"
+    },
+    {
+        "question_id": 39,
+        "db_id": "traffic",
+        "questionCHI": "南京市每块绿地的总面积是多少？",
+        "evidenceCHI": "一块绿地由名字相同的多个区域组成。",
+        "nameCHI": "",
+        "question": "What is the total area of each green space in Nanjing?",
+        "evidence": "A green space consists of multiple areas that share the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(Shape_Area) from greenspaces  group by name",
+            "Select name, Sum(Area(Shape,1)) from greenspaces  group by name"
+        ],
+        "SQL": "Select name, Sum(Shape_Area) from greenspaces  group by name",
+        "Evals": [
+            "Select name, Sum(Shape_Area) from greenspaces  group by name",
+            "Select name, Sum(Area(Shape,1)) from greenspaces  group by name"
+        ],
+        "id": "traffic07"
+    },
+    {
+        "question_id": 40,
+        "db_id": "traffic",
+        "questionCHI": "南京市面积最大的绿地是哪一块？它的具体面积是多少？",
+        "evidenceCHI": "一块绿地由名字相同的多个区域组成。",
+        "nameCHI": "",
+        "question": "Which green space in Nanjing has the largest area, and what is its exact size?",
+        "evidence": "A green space consists of multiple areas that share the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(Shape_Area) as area from greenspaces  group by name order by area desc limit 1",
+            "Select name, Sum(Area(Shape,1))  as area  from greenspaces  group by name order by area desc limit 1"
+        ],
+        "SQL": "Select name, Sum(Shape_Area) as area from greenspaces  group by name order by area desc limit 1",
+        "Evals": [
+            "Select name, Sum(Shape_Area) as area from greenspaces  group by name order by area desc limit 1",
+            "Select name, Sum(Area(Shape,1))  as area  from greenspaces  group by name order by area desc limit 1"
+        ],
+        "id": "traffic08"
+    },
+    {
+        "question_id": 41,
+        "db_id": "traffic",
+        "questionCHI": "玄武湖公园的总面积是多少？",
+        "evidenceCHI": "玄武湖公园由名字相同的多个区域组成。",
+        "nameCHI": "玄武湖公园以'玄武湖公园'为名称表示。",
+        "question": "What is the total area of Xuanwu Lake Park?",
+        "evidence": "Xuanwu Lake Park consists of multiple areas that share the same name.",
+        "name": "Xuanwu Lake Park is represented by the name '玄武湖公园'.",
+        "SQLs": [
+            "Select Sum(Shape_Area) from greenspaces where name = '玄武湖公园'",
+            "Select Sum(Area(Shape, 1)) from greenspaces where name = '玄武湖公园'"
+        ],
+        "SQL": "Select Sum(Shape_Area) from greenspaces where name = '玄武湖公园'",
+        "Evals": [
+            "Select Sum(Shape_Area) from greenspaces where name = '玄武湖公园'",
+            "Select Sum(Area(Shape, 1)) from greenspaces where name = '玄武湖公园'"
+        ],
+        "id": "traffic09"
+    },
+    {
+        "question_id": 42,
+        "db_id": "traffic",
+        "questionCHI": "南京市各区的绿地面积是多少？",
+        "evidenceCHI": "应计算绿地与各区交叠部分的面积。",
+        "nameCHI": "",
+        "question": "What is the green space area in each district of Nanjing?",
+        "evidence": "The area of overlap between the green space and each district should be calculated.",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name",
+            "Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name"
+        ],
+        "SQL": "Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name",
+        "Evals": [
+            "Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name",
+            "Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name",
+            "Select districts.name, Sum(Area(Intersection(greenspaces.Shape, districts.Shape), 1)) from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name"
+        ],
+        "id": "traffic10"
+    },
+    {
+        "question_id": 43,
+        "db_id": "traffic",
+        "questionCHI": "南京市绿地面积最大的区是哪一个？其绿地面积是多少？",
+        "evidenceCHI": "应计算绿地与各区交叠部分的面积。",
+        "nameCHI": "",
+        "question": "Which district in Nanjing has the largest green space area, and what is that area?",
+        "evidence": "The area of overlap between the green space and each district should be calculated.",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1",
+            "Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) as area from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1"
+        ],
+        "SQL": "Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1",
+        "Evals": [
+            "Select districts.name, Sum(greenspaces.Shape_Area) as area from districts inner join greenspaces on Contains(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1",
+            "Select districts.name, Sum(Area(Intersection(districts.Shape, greenspaces.Shape), 1)) as area from districts inner join greenspaces where Intersects(districts.Shape, greenspaces.Shape) = 1 group by districts.name order by area desc limit 1",
+            "Select districts.name, Sum(Area(Intersection(greenspaces.Shape, districts.Shape), 1)) as area from districts inner join greenspaces where Intersects(greenspaces.Shape, districts.Shape) = 1 group by districts.name order by area desc limit 1"
+        ],
+        "id": "traffic11"
+    },
+    {
+        "question_id": 44,
+        "db_id": "traffic",
+        "questionCHI": "每条地铁线设有多少个站点？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "How many stations are there on each subway line?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select line, count(*) from subwaystations group by line order by line"
+        ],
+        "SQL": "Select line, count(*) from subwaystations group by line order by line",
+        "Evals": [
+            "Select line, count(*) from subwaystations group by line order by line"
+        ],
+        "id": "traffic12"
+    },
+    {
+        "question_id": 45,
+        "db_id": "traffic",
+        "questionCHI": "南京市每条地铁线路设有多少个站点？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "How many stations are there on each subway line in Nanjing?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select line, count(*) from subwaystations group by line"
+        ],
+        "SQL": "Select line, count(*) from subwaystations group by line",
+        "Evals": [
+            "Select line, count(*) from subwaystations group by line"
+        ],
+        "id": "traffic13"
+    },
+    {
+        "question_id": 46,
+        "db_id": "traffic",
+        "questionCHI": "哪些公交线路的首班车在始发站于早上5点发车？",
+        "evidenceCHI": "",
+        "nameCHI": "早上5点钟以'0500'为名称表示。",
+        "question": "Which bus routes have their first buses departing from the starting station at 5:00 a.m.?",
+        "evidence": "",
+        "name": "5:00 a.m. is represented by the name '0500'.",
+        "SQLs": [
+            "Select buslines.name from busstops inner join buslines where start_stop = busstops.name and start_time = '0500'"
+        ],
+        "SQL": "Select buslines.name from busstops inner join buslines where start_stop = busstops.name and start_time = '0500'",
+        "Evals": [
+            "Select buslines.name from busstops inner join buslines where start_stop = busstops.name and start_time = '0500'"
+        ],
+        "id": "traffic14"
+    },
+    {
+        "question_id": 47,
+        "db_id": "traffic",
+        "questionCHI": "三元巷公交站附近最近的5家宾馆分别是什么？距离各是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "三元巷公交站以'三元巷'为名称表示。",
+        "question": "What are the five nearest hotels to Sanyuan Lane Bus Stop, and how far are they from it?",
+        "evidence": "",
+        "name": "Sanyuan Lane Bus Stop is represented by the name '三元巷'.",
+        "SQLs": [
+            "Select hotels.name, Distance(busstops.Location, hotels.Location, 1) as d from busstops inner join hotels on busstops.name = '三元巷' order by d asc limit 5"
+        ],
+        "SQL": "Select hotels.name, Distance(busstops.Location, hotels.Location, 1) as d from busstops inner join hotels on busstops.name = '三元巷' order by d asc limit 5",
+        "Evals": [
+            "Select hotels.name, Distance(busstops.Location, hotels.Location, 1) as d from busstops inner join hotels on busstops.name = '三元巷' order by d asc limit 5"
+        ],
+        "id": "traffic15"
+    },
+    {
+        "question_id": 48,
+        "db_id": "traffic",
+        "questionCHI": "哪条地铁线路的站点数量最多？共有多少个站点？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which subway line has the most stations, and how many stations does it have in total?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select line, count(*) as count from subwaystations group by line order by count desc limit 1"
+        ],
+        "SQL": "Select line, count(*) as count from subwaystations group by line order by count desc limit 1",
+        "Evals": [
+            "Select line, count(*) as count from subwaystations group by line order by count desc limit 1"
+        ],
+        "id": "traffic16"
+    },
+    {
+        "question_id": 49,
+        "db_id": "traffic",
+        "questionCHI": "我想了解每条地铁线路经过了多少个区。",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "I would like to know how many districts each subway line passes through.",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select distinct subways.line, count(*) from subways inner join districts on Intersects(subways.Shape, districts.Shape) = 1 group by subways.line"
+        ],
+        "SQL": "Select distinct subways.line, count(*) from subways inner join districts on Intersects(subways.Shape, districts.Shape) = 1 group by subways.line",
+        "Evals": [
+            "Select distinct subways.line, count(*) from subways inner join districts on Intersects(subways.Shape, districts.Shape) = 1 group by subways.line"
+        ],
+        "id": "traffic17"
+    },
+    {
+        "question_id": 50,
+        "db_id": "traffic",
+        "questionCHI": "我想了解地铁4号线的具体长度。",
+        "evidenceCHI": "",
+        "nameCHI": "地铁4号线以'line4'为名称表示。",
+        "question": "I would like to know the exact length of Subway Line 4.",
+        "evidence": "",
+        "name": "The Subway Line 4 is represented by the name 'line4'.",
+        "SQLs": [
+            "Select GLength(Shape, 1) from subways where line = 'line4'"
+        ],
+        "SQL": "Select GLength(Shape, 1) from subways where line = 'line4'",
+        "Evals": [
+            "Select GLength(Shape, 1) from subways where line = 'line4'"
+        ],
+        "id": "traffic18"
+    },
+    {
+        "question_id": 51,
+        "db_id": "traffic",
+        "questionCHI": "地铁十号线二期与哪些其它地铁线路有交汇？",
+        "evidenceCHI": "",
+        "nameCHI": "十号线二期表示为'line10二期'。",
+        "question": "Which other subway lines intersect with the second phase of Subway Line 10?",
+        "evidence": "",
+        "name": "The second phase of Subway Line 10 is represented by the name 'line10二期'.",
+        "SQLs": [
+            "Select distinct b.line from subways a inner join subways b on Intersects(a.Shape, b.Shape) = 1 where a.line = 'line10二期' and b.line != a.line"
+        ],
+        "SQL": "Select distinct b.line from subways a inner join subways b on Intersects(a.Shape, b.Shape) = 1 where a.line = 'line10二期' and b.line != a.line",
+        "Evals": [
+            "Select distinct b.line from subways a inner join subways b on Intersects(a.Shape, b.Shape) = 1 where a.line = 'line10二期' and b.line != a.line"
+        ],
+        "id": "traffic19"
+    },
+    {
+        "question_id": 52,
+        "db_id": "traffic",
+        "questionCHI": "南京市地铁的总长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the total length of the Nanjing subway system?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select Sum(GLength(Shape, 1)) from subways"
+        ],
+        "SQL": "Select Sum(GLength(Shape, 1)) from subways",
+        "Evals": [
+            "Select Sum(GLength(Shape, 1)) from subways"
+        ],
+        "id": "traffic20"
+    },
+    {
+        "question_id": 53,
+        "db_id": "traffic",
+        "questionCHI": "南京市文物局最近的地铁站是哪一站？相距多远？",
+        "evidenceCHI": "",
+        "nameCHI": "南京市文物局以'南京市文物局'为名称表示。",
+        "question": "Which subway station is closest to the Nanjing Municipal Bureau of Cultural Relics, and how far is it?",
+        "evidence": "",
+        "name": "The Nanjing Municipal Bureau of Cultural Relics is represented by the name '南京市文物局'.",
+        "SQLs": [
+            "Select subwaystations.station,  Distance(agencies.Location, subwaystations.Location, 1) as distance from agencies inner join subwaystations where agencies.name = '南京市文物局' order by distance asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station,  Distance(agencies.Location, subwaystations.Location, 1) as distance from agencies inner join subwaystations where agencies.name = '南京市文物局' order by distance asc limit 1",
+        "Evals": [
+            "Select subwaystations.station,  Distance(agencies.Location, subwaystations.Location, 1) as distance from agencies inner join subwaystations where agencies.name = '南京市文物局' order by distance asc limit 1"
+        ],
+        "id": "traffic21"
+    },
+    {
+        "question_id": 54,
+        "db_id": "traffic",
+        "questionCHI": "地铁4号线鼓楼站一公里范围内有哪些宾馆？它们各自的距离是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "地铁4号线以'line4'为名称表示，鼓楼站以'鼓楼'为名称表示。",
+        "question": "What hotels are located within one kilometer of Gulou Station on Subway Line 4, and how far is each of them?",
+        "evidence": "",
+        "name": "The Subway Line 4 is represented by the name 'line4,' and Gulou Station is represented by the name '鼓楼'.",
+        "SQLs": [
+            "Select hotels.name, Distance(subwaystations.Location, hotels.Location, 1) from subwaystations inner join hotels on Distance(subwaystations.Location, hotels.Location, 1) < 1000 where subwaystations.station = '鼓楼' and subwaystations.line = 'line4'"
+        ],
+        "SQL": "Select hotels.name, Distance(subwaystations.Location, hotels.Location, 1) from subwaystations inner join hotels on Distance(subwaystations.Location, hotels.Location, 1) < 1000 where subwaystations.station = '鼓楼' and subwaystations.line = 'line4'",
+        "Evals": [
+            "Select hotels.name, Distance(subwaystations.Location, hotels.Location, 1) from subwaystations inner join hotels on Distance(subwaystations.Location, hotels.Location, 1) < 1000 where subwaystations.station = '鼓楼' and subwaystations.line = 'line4'"
+        ],
+        "id": "traffic22"
+    },
+    {
+        "question_id": 55,
+        "db_id": "traffic",
+        "questionCHI": "公交874路与711路交汇处最近的地铁站是哪一站？",
+        "evidenceCHI": "",
+        "nameCHI": "公交874路表以'874路'为名称表示，711路以'711路'为名称表示。",
+        "question": "Which subway station is closest to the intersection of Bus Routes 874 and 711?",
+        "evidence": "",
+        "name": "Bus Route 874 is represented by the name '874路', and Bus Route 711 is represented by the name '711路'.",
+        "SQLs": [
+            "Select subwaystations.station from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) asc limit 1",
+        "Evals": [
+            "Select subwaystations.station from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) asc limit 1",
+            "Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as d from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by d asc limit 1",
+            "Select subwaystations.station, Distance(Intersection(b.Shape, a.Shape), subwaystations.Location, 1) as d from buslines a inner join buslines b on a.name = '874路' and b.name = '711路' inner join subwaystations where Intersects(b.Shape, a.Shape) = 1 order by d asc limit 1"
+        ],
+        "id": "traffic23"
+    },
+    {
+        "question_id": 56,
+        "db_id": "traffic",
+        "questionCHI": "秦淮路与将军大道交汇处最近的地铁站是哪一站？相距多远？",
+        "evidenceCHI": "",
+        "nameCHI": "秦淮路以'秦淮路'为名称表示，将军大道以'将军大道'为名称表示。",
+        "question": "Which subway station is closest to the intersection of Qinhuai Road and General Avenue, and how far is it?",
+        "evidence": "",
+        "name": "Qinhuai Road is represented by the name '秦淮路', and General Avenue is represented by the name '将军大道'.",
+        "SQLs": [
+            "Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1",
+        "Evals": [
+            "Select subwaystations.station, Distance(Intersection(a.Shape, b.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1",
+            "Select subwaystations.station, Distance(Intersection(b.Shape, a.Shape), subwaystations.Location, 1) as distance from roads a inner join roads b on a.name = '秦淮路' and b.name = '将军大道' inner join subwaystations where Intersects(a.Shape, b.Shape) = 1 order by distance asc limit 1"
+        ],
+        "id": "traffic24"
+    },
+    {
+        "question_id": 57,
+        "db_id": "traffic",
+        "questionCHI": "南京市内每条铁路线的长度是多少？",
+        "evidenceCHI": "一条铁路由所有名称相同的路段组成。",
+        "nameCHI": "",
+        "question": "What is the length of each railway line within Nanjing?",
+        "evidence": "A railway line is composed of all sections with the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(GLength(Shape, 1))  from rails group by name"
+        ],
+        "SQL": "Select name, Sum(GLength(Shape, 1))  from rails group by name",
+        "Evals": [
+            "Select name, Sum(GLength(Shape, 1))  from rails group by name"
+        ],
+        "id": "traffic25"
+    },
+    {
+        "question_id": 58,
+        "db_id": "traffic",
+        "questionCHI": "南京市内最长的铁路线是哪一条？长度是多少？",
+        "evidenceCHI": "一条铁路由所有名称相同的路段组成。",
+        "nameCHI": "",
+        "question": "Which railway line is the longest within Nanjing, and how long is it?",
+        "evidence": "A railway line is composed of all sections with the same name.",
+        "name": "",
+        "SQLs": [
+            "Select name, Sum(GLength(Shape, 1)) as length from rails group by name order by length desc limit 1"
+        ],
+        "SQL": "Select name, Sum(GLength(Shape, 1)) as length from rails group by name order by length desc limit 1",
+        "Evals": [
+            "Select name, Sum(GLength(Shape, 1)) as length from rails group by name order by length desc limit 1"
+        ],
+        "id": "traffic26"
+    },
+    {
+        "question_id": 59,
+        "db_id": "traffic",
+        "questionCHI": "南京市内铁路的总长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the total length of the railway system within Nanjing?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select Sum(GLength(Shape, 1)) from rails"
+        ],
+        "SQL": "Select Sum(GLength(Shape, 1)) from rails",
+        "Evals": [
+            "Select Sum(GLength(Shape, 1)) from rails"
+        ],
+        "id": "traffic27"
+    },
+    {
+        "question_id": 60,
+        "db_id": "traffic",
+        "questionCHI": "哪个区的政府机构数量最多？具体有多少个？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which district has the most government institutions, and how many are there exactly?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, count(*) as count from districts inner join agencies on Contains(districts.Shape, agencies.Location) = 1 group by districts.name order by count desc limit 1"
+        ],
+        "SQL": "Select districts.name, count(*) as count from districts inner join agencies on Contains(districts.Shape, agencies.Location) = 1 group by districts.name order by count desc limit 1",
+        "Evals": [
+            ""
+        ],
+        "id": "traffic28"
+    },
+    {
+        "question_id": 61,
+        "db_id": "traffic",
+        "questionCHI": "大行宫地铁站位于哪个区？",
+        "evidenceCHI": "",
+        "nameCHI": "大行宫地铁站以'大行宫'为名称表示。",
+        "question": "Which district is Daxinggong Subway Station located in?",
+        "evidence": "",
+        "name": "Daxinggong Subway Station is represented by the name '大行宫'.",
+        "SQLs": [
+            "Select distinct districts.name from districts inner join subwaystations on Within(subwaystations.Location, districts.Shape) = 1 where subwaystations.station = '大行宫'"
+        ],
+        "SQL": "Select distinct districts.name from districts inner join subwaystations on Within(subwaystations.Location, districts.Shape) = 1 where subwaystations.station = '大行宫'",
+        "Evals": [
+            "Select distinct districts.name from districts inner join subwaystations on Within(subwaystations.Location, districts.Shape) = 1 where subwaystations.station = '大行宫'"
+        ],
+        "id": "traffic29"
+    },
+    {
+        "question_id": 62,
+        "db_id": "traffic",
+        "questionCHI": "江苏省海事局位于哪个区？",
+        "evidenceCHI": "",
+        "nameCHI": "江苏省海事局以'江苏省海事局'为名称表示。",
+        "question": "Which district is the Jiangsu Maritime Bureau located in?",
+        "evidence": "",
+        "name": "The Jiangsu Maritime Bureau is represented by the name '江苏省海事局'.",
+        "SQLs": [
+            "Select districts.name from districts inner join agencies on Within(agencies.Location, districts.Shape) = 1 where agencies.name = '江苏省海事局'"
+        ],
+        "SQL": "Select districts.name from districts inner join agencies on Within(agencies.Location, districts.Shape) = 1 where agencies.name = '江苏省海事局'",
+        "Evals": [
+            "Select districts.name from districts inner join agencies on Within(agencies.Location, districts.Shape) = 1 where agencies.name = '江苏省海事局'"
+        ],
+        "id": "traffic30"
+    },
+    {
+        "question_id": 63,
+        "db_id": "traffic",
+        "questionCHI": "南京市面积最大的区是哪一区？面积是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which district in Nanjing has the largest area, and what is its size?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select name, Area(Shape, 1) as area from districts order by area desc limit 1"
+        ],
+        "SQL": "Select name, Area(Shape, 1) as area from districts order by area desc limit 1",
+        "Evals": [
+            "Select name, Area(Shape, 1) as area from districts order by area desc limit 1"
+        ],
+        "id": "traffic31"
+    },
+    {
+        "question_id": 64,
+        "db_id": "traffic",
+        "questionCHI": "南京市各区的面积分别是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "What is the area of each district in Nanjing?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, Area(Shape, 1) from districts"
+        ],
+        "SQL": "Select districts.name, Area(Shape, 1) from districts",
+        "Evals": [
+            "Select districts.name, Area(Shape, 1) from districts"
+        ],
+        "id": "traffic32"
+    },
+    {
+        "question_id": 65,
+        "db_id": "traffic",
+        "questionCHI": "南京市各区有多少条地铁线路经过？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "How many subway lines pass through each district in Nanjing?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "SELECT districts.name, count(distinct subwaystations.Line)  from districts inner join subwaystations On districts.administrative_division_code = subwaystations.adcode group by districts.name",
+            "Select districts.name, count(*)  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name"
+        ],
+        "SQL": "SELECT districts.name, count(distinct subwaystations.Line)  from districts inner join subwaystations On districts.administrative_division_code = subwaystations.adcode group by districts.name",
+        "Evals": [
+            "SELECT districts.name, count(distinct subwaystations.Line)  from districts inner join subwaystations On districts.administrative_division_code = subwaystations.adcode group by districts.name",
+            "Select districts.name, count(*)  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name"
+        ],
+        "id": "traffic33"
+    },
+    {
+        "question_id": 66,
+        "db_id": "traffic",
+        "questionCHI": "广州路一公里范围内有哪些宾馆？",
+        "evidenceCHI": "",
+        "nameCHI": "广州路以'广州路'为名称表示。",
+        "question": "What hotels are located within one kilometer of Guangzhou Road?",
+        "evidence": "",
+        "name": "Guangzhou Road is represented by the name '广州路'.",
+        "SQLs": [
+            "Select distinct hotels.name from roads inner join hotels On Distance(roads.Shape, hotels.Location, 1) < 1000 where roads.name = '广州路'"
+        ],
+        "SQL": "Select distinct hotels.name from roads inner join hotels On Distance(roads.Shape, hotels.Location, 1) < 1000 where roads.name = '广州路'",
+        "Evals": [
+            "Select distinct hotels.name from roads inner join hotels On Distance(roads.Shape, hotels.Location, 1) < 1000 where roads.name = '广州路'"
+        ],
+        "id": "traffic34"
+    },
+    {
+        "question_id": 67,
+        "db_id": "traffic",
+        "questionCHI": "南京市房产局附近最近的地铁站是哪一个，距离多远？",
+        "evidenceCHI": "",
+        "nameCHI": "南京市房产局以'南京市房产局'为名称表示。",
+        "question": "Which subway station is the closest to the Nanjing Housing Authority, and how far is it?",
+        "evidence": "",
+        "name": "The Nanjing Housing Authority is represented by the name '南京市房产局'.",
+        "SQLs": [
+            "Select subwaystations.station, Distance(subwaystations.Location, agencies.Location, 1) as d from subwaystations inner join agencies On agencies.name = '南京市房产局' order by d asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station, Distance(subwaystations.Location, agencies.Location, 1) as d from subwaystations inner join agencies On agencies.name = '南京市房产局' order by d asc limit 1",
+        "Evals": [
+            "Select subwaystations.station, Distance(subwaystations.Location, agencies.Location, 1) as d from subwaystations inner join agencies On agencies.name = '南京市房产局' order by d asc limit 1"
+        ],
+        "id": "traffic35"
+    },
+    {
+        "question_id": 68,
+        "db_id": "traffic",
+        "questionCHI": "玄武区有多少条地铁线路经过？",
+        "evidenceCHI": "",
+        "nameCHI": "玄武区以'玄武区'为名称表示。",
+        "question": "How many subway lines pass through Xuanwu District?",
+        "evidence": "",
+        "name": "Xuanwu District is represented by the name '玄武区'.",
+        "SQLs": [
+            "Select count (*) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'"
+        ],
+        "SQL": "Select count (*) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'",
+        "Evals": [
+            "Select count (*) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'"
+        ],
+        "id": "traffic36"
+    },
+    {
+        "question_id": 69,
+        "db_id": "traffic",
+        "questionCHI": "六合区有哪些公交线路在早上5点发车？",
+        "evidenceCHI": "",
+        "nameCHI": "六合区以'六合区'为名称表示，早上5点钟以'0500'为名称表示。",
+        "question": "Which bus routes in Liuhe District start operating at 5 a.m.?",
+        "evidence": "",
+        "name": "Luhe District is represented by the name '六合区', and 5 a.m. is represented by the name '0500'.",
+        "SQLs": [
+            "Select buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 and districts.name = '六合区' inner join buslines where buslines.start_stop = busstops.name and buslines.start_time = '0500'"
+        ],
+        "SQL": "Select buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 and districts.name = '六合区' inner join buslines where buslines.start_stop = busstops.name and buslines.start_time = '0500'",
+        "Evals": [
+            "Select buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 and districts.name = '六合区' inner join buslines where buslines.start_stop = busstops.name and buslines.start_time = '0500'"
+        ],
+        "id": "traffic37"
+    },
+    {
+        "question_id": 70,
+        "db_id": "traffic",
+        "questionCHI": "哪些区的哪些公交线路在早上5点前发车？",
+        "evidenceCHI": "",
+        "nameCHI": "早上5点钟以'0500'为名称表示。",
+        "question": "Which bus routes in which districts start operating before 5 a.m.?",
+        "evidence": "",
+        "name": "5 a.m. is represented by the name '0500'.",
+        "SQLs": [
+            "Select distinct districts.name, buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 inner join buslines where buslines.start_stop = busstops.name and buslines.start_time < '0500'"
+        ],
+        "SQL": "Select distinct districts.name, buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 inner join buslines where buslines.start_stop = busstops.name and buslines.start_time < '0500'",
+        "Evals": [
+            "Select distinct districts.name, buslines.name from districts inner join busstops on Within(busstops.Location, districts.Shape) = 1 inner join buslines where buslines.start_stop = busstops.name and buslines.start_time < '0500'"
+        ],
+        "id": "traffic38"
+    },
+    {
+        "question_id": 71,
+        "db_id": "traffic",
+        "questionCHI": "709路公交线路最近的地铁站是哪一站？相距多远？",
+        "evidenceCHI": "",
+        "nameCHI": "709路公交线路以'709路'为名称表示。",
+        "question": "Which subway station is closest to the 709 bus route, and how far is it?",
+        "evidence": "",
+        "name": "The 709 bus route is represented by the name '709路'.",
+        "SQLs": [
+            "Select subwaystations.station, Distance(subwaystations.Location, buslines.Shape, 1) as d from buslines inner join subwaystations On buslines.name = '709路' order by d asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station, Distance(subwaystations.Location, buslines.Shape, 1) as d from buslines inner join subwaystations On buslines.name = '709路' order by d asc limit 1",
+        "Evals": [
+            "Select subwaystations.station, Distance(subwaystations.Location, buslines.Shape, 1) as d from buslines inner join subwaystations On buslines.name = '709路' order by d asc limit 1"
+        ],
+        "id": "traffic39"
+    },
+    {
+        "question_id": 72,
+        "db_id": "traffic",
+        "questionCHI": "请列出南京市文物局附近500米以内最近的5家宾馆及其距离。",
+        "evidenceCHI": "",
+        "nameCHI": "南京市文物局以'南京市文物局'为名称表示。",
+        "question": "Please list the five closest hotels within 500 meters of the Nanjing Municipal Bureau of Cultural Relics and their respective distances.",
+        "evidence": "",
+        "name": "The Nanjing Municipal Bureau of Cultural Relics is represented by the name '南京市文物局'.",
+        "SQLs": [
+            "Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as d from agencies inner join hotels On d < 500 where agencies.NAME = '南京市文物局' order by Distance(agencies.Location, hotels.Location, 1) asc limit 5"
+        ],
+        "SQL": "Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as d from agencies inner join hotels On d < 500 where agencies.NAME = '南京市文物局' order by Distance(agencies.Location, hotels.Location, 1) asc limit 5",
+        "Evals": [
+            "Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as d from agencies inner join hotels On d < 500 where agencies.NAME = '南京市文物局' order by Distance(agencies.Location, hotels.Location, 1) asc limit 5"
+        ],
+        "id": "traffic40"
+    },
+    {
+        "question_id": 73,
+        "db_id": "traffic",
+        "questionCHI": "经过建康路的公交线路有哪些？",
+        "evidenceCHI": "",
+        "nameCHI": "建康路以'建康路'为名称表示。",
+        "question": "Which bus routes pass through Jiankang Road?",
+        "evidence": "",
+        "name": "Jiankang Road is represented by the name '健康路'.",
+        "SQLs": [
+            "Select distinct buslines.name from buslines inner join roads On Intersects(buslines.Shape, roads.Shape) = 1 where roads.name = '建康路'"
+        ],
+        "SQL": "Select distinct buslines.name from buslines inner join roads On Intersects(buslines.Shape, roads.Shape) = 1 where roads.name = '建康路'",
+        "Evals": [
+            "Select distinct buslines.name from buslines inner join roads On Intersects(buslines.Shape, roads.Shape) = 1 where roads.name = '建康路'"
+        ],
+        "id": "traffic41"
+    },
+    {
+        "question_id": 74,
+        "db_id": "traffic",
+        "questionCHI": "哪个区的政府机构最多？有多少个？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which district has the most government institutions, and how many are there?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, count(*) as count from agencies inner join districts On Within(agencies.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1"
+        ],
+        "SQL": "Select districts.name, count(*) as count from agencies inner join districts On Within(agencies.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1",
+        "Evals": [
+            "Select districts.name, count(*) as count from agencies inner join districts On Within(agencies.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1"
+        ],
+        "id": "traffic42"
+    },
+    {
+        "question_id": 75,
+        "db_id": "traffic",
+        "questionCHI": "江宁区内距离南京南站地铁站最近的宾馆是哪一家？相距多远？",
+        "evidenceCHI": "",
+        "nameCHI": "南京南站地铁站以'南京南站'为名称表示，江宁区以'江宁区'为名称表示。",
+        "question": "Which hotel is closest to Nanjing South Subway Station in Jiangning District, and how far is it?",
+        "evidence": "",
+        "name": "The Nanjing South Subway Station is represented by the name '南京南站', and Jiangning District is represented by the name '江宁区'.",
+        "SQLs": [
+            "Select hotels.name, Distance(hotels.Location, subwaystations.Location, 1) as distance from hotels inner join districts on Within(hotels.Location, districts.Shape) = 1 and districts.name = '江宁区' inner join subwaystations on subwaystations.station = '南京南站' order by distance asc limit 1"
+        ],
+        "SQL": "Select hotels.name, Distance(hotels.Location, subwaystations.Location, 1) as distance from hotels inner join districts on Within(hotels.Location, districts.Shape) = 1 and districts.name = '江宁区' inner join subwaystations on subwaystations.station = '南京南站' order by distance asc limit 1",
+        "Evals": [
+            "Select hotels.name, Distance(hotels.Location, subwaystations.Location, 1) as distance from hotels inner join districts on Within(hotels.Location, districts.Shape) = 1 and districts.name = '江宁区' inner join subwaystations on subwaystations.station = '南京南站' order by distance asc limit 1"
+        ],
+        "id": "traffic43"
+    },
+    {
+        "question_id": 76,
+        "db_id": "traffic",
+        "questionCHI": "南京市各区的地铁线路长度分别是多少？",
+        "evidenceCHI": "应该计算地铁线路与各区交叠部分的长度。",
+        "nameCHI": "",
+        "question": "What is the length of the subway lines in each district of Nanjing?",
+        "evidence": "The length of overlap between the subway lines and each district should be calculated.",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name"
+        ],
+        "SQL": "Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name",
+        "Evals": [
+            "Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name",
+            "Select districts.name, Sum(GLength(Intersection(subways.Shape, districts.Shape), 1)) from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name"
+        ],
+        "id": "traffic44"
+    },
+    {
+        "question_id": 77,
+        "db_id": "traffic",
+        "questionCHI": "南京市哪个区的地铁总长度最长？总长度是多少？",
+        "evidenceCHI": "应该计算地铁线路与各区交叠部分的长度。",
+        "nameCHI": "",
+        "question": "Which district in Nanjing has the longest total subway line length, and what is the total length?",
+        "evidence": "The length of overlap between the subway lines and each district should be calculated.",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1"
+        ],
+        "SQL": "Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1",
+        "Evals": [
+            "Select districts.name, Sum(GLength(Intersection(districts.Shape, subways.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1",
+            "Select districts.name, Sum(GLength(Intersection(subways.Shape, districts.Shape), 1)) as length  from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 group by districts.name order by length desc limit 1"
+        ],
+        "id": "traffic45"
+    },
+    {
+        "question_id": 78,
+        "db_id": "traffic",
+        "questionCHI": "玄武区有哪些地铁线路经过？",
+        "evidenceCHI": "",
+        "nameCHI": "玄武区以'玄武区'为名称表示。",
+        "question": "How many subway lines pass through Xuanwu District?",
+        "evidence": "",
+        "name": "Xuanwu District is represented by the name '玄武区'.",
+        "SQLs": [
+            "Select subways.Line from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'"
+        ],
+        "SQL": "Select subways.Line from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'",
+        "Evals": [
+            "Select subways.Line from districts inner join subways On Intersects(districts.Shape, subways.Shape) = 1 where districts.name = '玄武区'"
+        ],
+        "id": "traffic46"
+    },
+    {
+        "question_id": 79,
+        "db_id": "traffic",
+        "questionCHI": "南京市哪些区有铁路经过？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which districts in Nanjing have railways passing through?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select distinct districts.name from rails inner join districts On Intersects(rails.Shape, districts.Shape) = 1"
+        ],
+        "SQL": "Select distinct districts.name from rails inner join districts On Intersects(rails.Shape, districts.Shape) = 1",
+        "Evals": [
+            "Select distinct districts.name from rails inner join districts On Intersects(rails.Shape, districts.Shape) = 1"
+        ],
+        "id": "traffic47"
+    },
+    {
+        "question_id": 80,
+        "db_id": "traffic",
+        "questionCHI": "我想知道玄武区的宾馆总数是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "玄武区以'玄武区'为名称表示。",
+        "question": "I would like to know the total number of hotels in Xuanwu District.",
+        "evidence": "",
+        "name": "Xuanwu District is represented by the name '玄武区'.",
+        "SQLs": [
+            "Select count(*) from districts inner join hotels On Contains(districts.Shape, hotels.Location) = 1 where districts.name = '玄武区'"
+        ],
+        "SQL": "Select count(*) from districts inner join hotels On Contains(districts.Shape, hotels.Location) = 1 where districts.name = '玄武区'",
+        "Evals": [
+            "Select count(*) from districts inner join hotels On Contains(districts.Shape, hotels.Location) = 1 where districts.name = '玄武区'"
+        ],
+        "id": "traffic48"
+    },
+    {
+        "question_id": 81,
+        "db_id": "traffic",
+        "questionCHI": "地铁S7号线周边500米范围内有多少家宾馆？",
+        "evidenceCHI": "",
+        "nameCHI": "地铁S7号线以'S7'为名称表示。",
+        "question": "How many hotels are located within 500 meters of Subway Line S7?",
+        "evidence": "",
+        "name": "The Subway Line S7 is represented by the name 'S7'.",
+        "SQLs": [
+            "Select count(distinct hotels.name) from subways inner join hotels On Distance(subways.Shape, hotels.Location, 1) < 500 where subways.line = 'S7'"
+        ],
+        "SQL": "Select count(distinct hotels.name) from subways inner join hotels On Distance(subways.Shape, hotels.Location, 1) < 500 where subways.line = 'S7'",
+        "Evals": [
+            "Select count(distinct hotels.name) from subways inner join hotels On Distance(subways.Shape, hotels.Location, 1) < 500 where subways.line = 'S7'"
+        ],
+        "id": "traffic49"
+    },
+    {
+        "question_id": 82,
+        "db_id": "traffic",
+        "questionCHI": "钟山风景区位于哪个区？",
+        "evidenceCHI": "钟山风景区由名字相同的多个区域组成。",
+        "nameCHI": "钟山风景区以'钟山风景区'为名称表示。",
+        "question": "Which district is Zhongshan Scenic Area located in?",
+        "evidence": "Zhongshan Scenic Area consists of multiple areas that share the same name.",
+        "name": "Zhongshan Scenic Area is represented by the name '钟山风景区'.",
+        "SQLs": [
+            "Select distinct districts.name from districts inner join greenspaces On Intersects(greenspaces.Shape, districts.Shape) = 1 where greenspaces.name = '钟山风景区'"
+        ],
+        "SQL": "Select distinct districts.name from districts inner join greenspaces On Intersects(greenspaces.Shape, districts.Shape) = 1 where greenspaces.name = '钟山风景区'",
+        "Evals": [
+            "Select distinct districts.name from districts inner join greenspaces On Intersects(greenspaces.Shape, districts.Shape) = 1 where greenspaces.name = '钟山风景区'"
+        ],
+        "id": "traffic50"
+    },
+    {
+        "question_id": 83,
+        "db_id": "traffic",
+        "questionCHI": "郑和公园附近最近的地铁站是哪一站？相距多远？",
+        "evidenceCHI": "郑和公园由名字相同的多个区域组成。",
+        "nameCHI": "郑和公园以'郑和公园'为名称表示。",
+        "question": "Which subway station is closest to Zheng He Park, and how far is it?",
+        "evidence": "Zheng He Park consists of multiple areas that share the same name.",
+        "name": "Zheng He Park is represented by the name '郑和公园'.",
+        "SQLs": [
+            "Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1",
+        "Evals": [
+            "Select subwaystations.station, Distance(greenspaces.Shape, subwaystations.Location, 1) as distance from greenspaces inner join subwaystations On greenspaces.name = '郑和公园' order by distance asc limit 1"
+        ],
+        "id": "traffic51"
+    },
+    {
+        "question_id": 84,
+        "db_id": "traffic",
+        "questionCHI": "距离上海路地铁站最近的公园是哪一座？",
+        "evidenceCHI": "公园指的是名称中含有'公园'字样的地点，并且公园由名字相同的多个区域组成。",
+        "nameCHI": "上海路地铁站以'上海路'为名称表示。",
+        "question": "Which park is closest to Shanghai Road Subway Station?",
+        "evidence": "A park refers to a place with the word '公园' in its name, and it consists of multiple areas with the same name.",
+        "name": "Shanghai Road Subway Station is represented by the name '上海路'.",
+        "SQLs": [
+            "Select greenspaces.name from subwaystations inner join greenspaces on subwaystations.station = '上海路' where greenspaces.name like '%公园%' order by Distance(subwaystations.Location, greenspaces.Shape, 1) asc limit 1"
+        ],
+        "SQL": "Select greenspaces.name from subwaystations inner join greenspaces on subwaystations.station = '上海路' where greenspaces.name like '%公园%' order by Distance(subwaystations.Location, greenspaces.Shape, 1) asc limit 1",
+        "Evals": [
+            "Select greenspaces.name from subwaystations inner join greenspaces on subwaystations.station = '上海路' where greenspaces.name like '%公园%' order by Distance(subwaystations.Location, greenspaces.Shape, 1) asc limit 1"
+        ],
+        "id": "traffic52"
+    },
+    {
+        "question_id": 85,
+        "db_id": "traffic",
+        "questionCHI": "南京市境内长江水域的面积有多大？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "What is the area of the Yangtze River waters within Nanjing's boundaries?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select Sum(Area(Shape, 1)) from rivers where name = '长江'"
+        ],
+        "SQL": "Select Sum(Area(Shape, 1)) from rivers where name = '长江'",
+        "Evals": [
+            "Select Sum(Area(Shape, 1)) from rivers where name = '长江'"
+        ],
+        "id": "traffic53"
+    },
+    {
+        "question_id": 86,
+        "db_id": "traffic",
+        "questionCHI": "有哪些地铁线路穿越长江？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which subway lines cross the Yangtze River?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select distinct subways.line from subways inner join rivers on Crosses(rivers.Shape, subways.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "SQL": "Select distinct subways.line from subways inner join rivers on Crosses(rivers.Shape, subways.Shape) = 1 where rivers.name = '长江'",
+        "Evals": [
+            "Select distinct subways.line from subways inner join rivers on Crosses(rivers.Shape, subways.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "id": "traffic54"
+    },
+    {
+        "question_id": 87,
+        "db_id": "traffic",
+        "questionCHI": "长江流经南京的哪些区？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which districts in Nanjing does the Yangtze River flow through?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select distinct districts.name from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "SQL": "Select distinct districts.name from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江'",
+        "Evals": [
+            "Select distinct districts.name from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "id": "traffic55"
+    },
+    {
+        "question_id": 88,
+        "db_id": "traffic",
+        "questionCHI": "南京各区的长江水域面积分别是多少？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。应该计算长江与各区交叠部分的面积。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "What is the area of the Yangtze River waters in each district of Nanjing?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name. The area of overlap between the Yangtze River and each district should be calculated.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select districts.name,  Sum(Area(Intersection(rivers.Shape, districts.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name"
+        ],
+        "SQL": "Select districts.name,  Sum(Area(Intersection(rivers.Shape, districts.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name",
+        "Evals": [
+            "Select districts.name,  Sum(Area(Intersection(rivers.Shape, districts.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name",
+            "Select districts.name,  Sum(Area(Intersection(districts.Shape, rivers.Shape), 1)) from rivers inner join districts On Intersects(rivers.Shape, districts.Shape) = 1 where rivers.name = '长江' group by districts.name"
+        ],
+        "id": "traffic56"
+    },
+    {
+        "question_id": 89,
+        "db_id": "traffic",
+        "questionCHI": "距离长江1公里范围内有哪些地铁站？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which subway stations are located within 1 kilometer of the Yangtze River?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select distinct subwaystations.station from subwaystations inner join rivers On Distance(subwaystations.Location, rivers.Shape, 1) < 1000 where rivers.name = '长江'"
+        ],
+        "SQL": "Select distinct subwaystations.station from subwaystations inner join rivers On Distance(subwaystations.Location, rivers.Shape, 1) < 1000 where rivers.name = '长江'",
+        "Evals": [
+            "Select distinct subwaystations.station from subwaystations inner join rivers On Distance(subwaystations.Location, rivers.Shape, 1) < 1000 where rivers.name = '长江'"
+        ],
+        "id": "traffic57"
+    },
+    {
+        "question_id": 90,
+        "db_id": "traffic",
+        "questionCHI": "有哪些公交线路经过长江？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which bus routes cross the Yangtze River?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select buslines.name from buslines inner join rivers On Crosses(buslines.Shape, rivers.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "SQL": "Select buslines.name from buslines inner join rivers On Crosses(buslines.Shape, rivers.Shape) = 1 where rivers.name = '长江'",
+        "Evals": [
+            "Select buslines.name from buslines inner join rivers On Crosses(buslines.Shape, rivers.Shape) = 1 where rivers.name = '长江'"
+        ],
+        "id": "traffic58"
+    },
+    {
+        "question_id": 91,
+        "db_id": "traffic",
+        "questionCHI": "长江边最近的酒店是哪家？",
+        "evidenceCHI": "长江是由名字相同的多段河流组成。",
+        "nameCHI": "长江以'长江'为名称表示。",
+        "question": "Which hotel is the closest to the Yangtze River?",
+        "evidence": "The Yangtze River is composed of multiple sections of the same name.",
+        "name": "The Yangtze River is represented by the name '长江'.",
+        "SQLs": [
+            "Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1"
+        ],
+        "SQL": "Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1",
+        "Evals": [
+            "Select hotels.name from hotels inner join rivers On rivers.name = '长江' order by Distance(rivers.Shape, hotels.Location, 1) asc limit 1"
+        ],
+        "id": "traffic59"
+    },
+    {
+        "question_id": 92,
+        "db_id": "traffic",
+        "questionCHI": "高淳县教育委员会最近的酒店是哪家，距离多远？",
+        "evidenceCHI": "",
+        "nameCHI": "高淳县教育委员会以'高淳县教育局委员会'为名称表示。",
+        "question": "Which hotel is the closest to the Gaochun County Education Committee, and how far is it?",
+        "evidence": "",
+        "name": "The Gaochun County Education Committee is represented by the name '高淳县教育局委员会'.",
+        "SQLs": [
+            "Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as distance from agencies inner join hotels On agencies.name = '高淳县教育局委员会' order by distance asc limit 1"
+        ],
+        "SQL": "Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as distance from agencies inner join hotels On agencies.name = '高淳县教育局委员会' order by distance asc limit 1",
+        "Evals": [
+            "Select hotels.name, Distance(agencies.Location, hotels.Location, 1) as distance from agencies inner join hotels On agencies.name = '高淳县教育局委员会' order by distance asc limit 1"
+        ],
+        "id": "traffic60"
+    },
+    {
+        "question_id": 93,
+        "db_id": "traffic",
+        "questionCHI": "地铁1号线最近的公园是哪一个，距离多远？",
+        "evidenceCHI": "公园指的是名称中含有'公园'字样的地点，并且公园由名字相同的多个区域组成。",
+        "nameCHI": "地铁1号线以'line1'为名称表示。",
+        "question": "Which park is the closest to Subway Line 1, and how far is it?",
+        "evidence": "A park refers to a place with the word '公园' in its name, and it consists of multiple areas with the same name.",
+        "name": "The Subway Line 1 is represented by the name 'line1'.",
+        "SQLs": [
+            "Select greenspaces.name, Distance(subways.Shape, greenspaces.Shape, 1) as distance from subways inner join greenspaces On subways.line = 'line1' where greenspaces.name like '%公园%' order by distance asc limit 1"
+        ],
+        "SQL": "Select greenspaces.name, Distance(subways.Shape, greenspaces.Shape, 1) as distance from subways inner join greenspaces On subways.line = 'line1' where greenspaces.name like '%公园%' order by distance asc limit 1",
+        "Evals": [
+            "Select greenspaces.name, Distance(subways.Shape, greenspaces.Shape, 1) as distance from subways inner join greenspaces On subways.line = 'line1' where greenspaces.name like '%公园%' order by distance asc limit 1"
+        ],
+        "id": "traffic61"
+    },
+    {
+        "question_id": 94,
+        "db_id": "traffic",
+        "questionCHI": "每个区内有多少个地铁站？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "How many subway stations are there in each district?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, count(*) from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode",
+            "Select districts.name, count(*) from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name"
+        ],
+        "SQL": "Select districts.name, count(*) from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode",
+        "Evals": [
+            "Select districts.name, count(*) from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode",
+            "Select districts.name, count(*) from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name"
+        ],
+        "id": "traffic62"
+    },
+    {
+        "question_id": 95,
+        "db_id": "traffic",
+        "questionCHI": "哪个区拥有最多的地铁站，数量是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which district has the most subway stations, and how many are there?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select districts.name, count(*) as count from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode order by count desc limit 1",
+            "Select districts.name, count(*) as count from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1"
+        ],
+        "SQL": "Select districts.name, count(*) as count from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode order by count desc limit 1",
+        "Evals": [
+            "Select districts.name, count(*) as count from subwaystations inner join districts On subwaystations.adcode = districts.administrative_division_code group by subwaystations.adcode order by count desc limit 1",
+            "Select districts.name, count(*) as count from subwaystations inner join districts On Within(subwaystations.Location, districts.Shape) = 1 group by districts.name order by count desc limit 1"
+        ],
+        "id": "traffic63"
+    },
+    {
+        "question_id": 96,
+        "db_id": "traffic",
+        "questionCHI": "南京市最长的地铁线路是哪一条，长度是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "",
+        "question": "Which is the longest subway line in Nanjing, and how long is it?",
+        "evidence": "",
+        "name": "",
+        "SQLs": [
+            "Select Line, GLength(Shape, 1) as length from subways order by length desc limit 1"
+        ],
+        "SQL": "Select Line, GLength(Shape, 1) as length from subways order by length desc limit 1",
+        "Evals": [
+            "Select Line, GLength(Shape, 1) as length from subways order by length desc limit 1"
+        ],
+        "id": "traffic64"
+    },
+    {
+        "question_id": 97,
+        "db_id": "traffic",
+        "questionCHI": "与东风路相交的其它道路有哪些？",
+        "evidenceCHI": "一条道路由所有名字相同的路段构成。",
+        "nameCHI": "东风路以'东风路'为名称表示。",
+        "question": "Which other roads intersect with Dongfeng Road?",
+        "evidence": "A road is composed of all segments with the same name.",
+        "name": "Dongfeng Road is represented by the name '东风路'.",
+        "SQLs": [
+            "Select distinct b.Name from roads a inner join roads b On Intersects(a.Shape, b.Shape) = 1 where a.Name = '东风路' and a.Name != b.Name"
+        ],
+        "SQL": "Select distinct b.Name from roads a inner join roads b On Intersects(a.Shape, b.Shape) = 1 where a.Name = '东风路' and a.Name != b.Name",
+        "Evals": [
+            "Select distinct b.Name from roads a inner join roads b On Intersects(a.Shape, b.Shape) = 1 where a.Name = '东风路' and a.Name != b.Name"
+        ],
+        "id": "traffic65"
+    },
+    {
+        "question_id": 98,
+        "db_id": "traffic",
+        "questionCHI": "距离金龙大酒店最近的地铁站是哪一个，距离多远？",
+        "evidenceCHI": "",
+        "nameCHI": "金龙大酒店以'金龙大酒店'为名称表示。",
+        "question": "Which subway station is the closest to Jinlong Hotel, and how far is it?",
+        "evidence": "",
+        "name": "Jinlong Hotel is represented by the name '金龙大酒店'.",
+        "SQLs": [
+            "Select subwaystations.station, Distance(subwaystations.Location, hotels.Location, 1) as d from subwaystations inner join hotels where hotels.name = '金龙大酒店' order by d asc limit 1"
+        ],
+        "SQL": "Select subwaystations.station, Distance(subwaystations.Location, hotels.Location, 1) as d from subwaystations inner join hotels where hotels.name = '金龙大酒店' order by d asc limit 1",
+        "Evals": [
+            "Select subwaystations.station, Distance(subwaystations.Location, hotels.Location, 1) as d from subwaystations inner join hotels where hotels.name = '金龙大酒店' order by d asc limit 1"
+        ],
+        "id": "traffic66"
+    },
+    {
+        "question_id": 99,
+        "db_id": "traffic",
+        "questionCHI": "我想了解玄武区和秦淮区的面积分别是多少？",
+        "evidenceCHI": "",
+        "nameCHI": "玄武区以'玄武区'为名称表示，秦淮区以'秦淮区'为名称表示。",
+        "question": "I would like to know the respective areas of Xuanwu District and Qinhuai District.",
+        "evidence": "",
+        "name": "Xuanwu District is represented by the name '玄武区', and Qinhuai District is represented by the name '秦淮区'.",
+        "SQLs": [
+            "Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')"
+        ],
+        "SQL": "Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')",
+        "Evals": [
+            "Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')"
+        ],
+        "id": "traffic67"
+    }
+]

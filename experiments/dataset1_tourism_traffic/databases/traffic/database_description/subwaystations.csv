@@ -1,0 +1,6 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+station,station,,TEXT,,,
+Line,Line,,TEXT,,,
+address,address,,TEXT,,,
+adcode,administrative division code,"The field ""adcode""  is used to record the administrative division code of the district where this station is located",TEXT,,"字段""adcode""用于记录这个站点所在区的行政区划码",
+Location,Location,,POINT,,,

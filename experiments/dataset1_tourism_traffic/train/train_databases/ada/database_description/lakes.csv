@@ -1,0 +1,8 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+HYD1_4M_ID,HYD1_4M_ID,,INTEGER,,,
+Perimeter,Perimeter,"The field ""Perimeter"" records the perimeter of the lake",DOUBLE,,"字段""Perimeter""记录这个湖泊的周长",
+Area,Area,"The field ""Area"" records the area of the lake",DOUBLE,,"字段""Area""记录这个湖泊的面积",
+GBCODE,GBCODE,,TEXT,,,
+name,name,,TEXT,,,
+level_lake,level lake,,INTEGER,,,
+shape,shape,,POLYGON,,,

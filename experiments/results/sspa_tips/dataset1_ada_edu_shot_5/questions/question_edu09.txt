@@ -1,0 +1,72 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 湖北省2020年的国际旅游收入是多少？ */
+Select Sum(international_toursim_earnings_Wan_dollar) from cities inner join tours On cities.name = tours.city and cities.province = '湖北省' where tours.year = 2020
+
+/* Answer the following: 湖北省2010年的星级酒店有多少个？ */
+Select Sum(star_hotel_number) from cities inner join tours on cities.name = tours.city where year = 2010 and cities.province = '湖北省'
+
+/* Answer the following: 2023年GDP最高的省份是哪一个？该省有多少座机场？一个省由多个城市构成。 */
+Select cities.province, count(*) from cities inner join airports On Contains(cities.Shape, airports.Location) = 1 where cities.province = (Select province from GDPs order by year_2023 desc limit 1)
+
+/* Answer the following: 哈尔滨市有多少个机场？ */
+Select count(*) from cities inner join airports On Within(airports.Location, cities.Shape) = 1 where cities.name = '哈尔滨市'
+
+/* Answer the following: 2023年GDP高于浙江省的省份有哪些？这些省份的面积分别是多少？浙江省由多个城市构成。 */
+Select province, Sum(Area(Shape, 1)) from cities where province in (Select b.province from GDPs a inner join GDPs b where a.province = '浙江省' and b.year_2023 > a.year_2023) group by province
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT NOT NULL, 
+administrative_division_category TEXT NOT NULL, 
+POP2020 INTEGER NOT NULL, 
+POP2010 INTEGER NOT NULL, 
+POP2000 INTEGER NOT NULL, 
+shape MULTIPOLYGON NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+Shape_Area DOUBLE, 
+Shape_Length DOUBLE)
+
+表"cities"记录中国各个城市的位置及人口信息等。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY, 
+pinyin_name TEXT NOT NULL, 
+administrative_division_code TEXT NOT NULL, 
+shape MULTIPOLYGON NOT NULL)
+
+表"provinces"记录中国各个省份的信息。
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+province TEXT REFERENCES provinces (name), 
+city TEXT REFERENCES cities (name), 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+表"universities"记录中国各个大学的信息。
+
+
+/* Answer the following with no explanation: 湖北省2020年的人口相比2000年增加了多少？湖北省以'湖北省'为名称表示。 */
+SELECT 

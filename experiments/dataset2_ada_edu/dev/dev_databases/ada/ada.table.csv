@@ -1,0 +1,7 @@
+name,description_CN,description_EN
+airports,"表""airports""记录中国各个机场的信息","The table ""airports"" records information about various airports in China"
+cities,"表""cities""记录中国各个城市的信息","The table ""cities"" records information about various cities in China"
+lakes,"表""lakes""记录中国各块湖泊的信息","The table ""lakes"" records information about various lakes in China"
+provinces,"表""provinces""记录中国各个省的GDP及人口等信息","The table ""provinces"" records information about the GDP, population, and other details of various provinces in China"
+rails,"表""rails""记录中国各段铁路的信息","The table ""rails"" records information about various railway segments in China"
+rivers,"表""rivers""记录中国各段河流的信息","The table ""rivers"" records information about various river segments in China"

@@ -1,0 +1,113 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 我想了解各省境内河流的总长度。应计算河流在各省境内交汇部分的长度。 */
+Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 group by provinces.name
+
+/* Answer the following: 每个省内1级河流的总长度是多少？一条河流由多个同名河段组成，应计算其在各省境内的交汇部分长度。 */
+Select provinces.name, Sum(GLength(Intersection(provinces.Shape, rivers.Shape), 1))  from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where level_river = 1 group by provinces.name
+
+/* Answer the following: 新疆维吾尔自治区境内河流的总长度是多少？应计算河流与新疆维吾尔自治区交集的长度。 */
+Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'
+
+/* Given the following database schema: */
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT,
+Location POINT)
+
+表"agencies"记录了南京市各政府机构的信息。
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+表"buslines"记录了南京市各公交线路的信息。
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+表"busstops"记录了南京市各公交站点的信息。
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+表"districts"记录了南京市各区的信息。
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape POLYGON)
+
+表"greenspaces"记录南京市各块绿地的信息；绿地包含公园、风景名胜、旅游景点等。
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+表"hotels"记录南京市内各个宾馆的信息。
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTILINESTRING)
+
+表"rails"记录南京市内各段铁路的信息。
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTIPOLYGON)
+
+表"rivers"记录南京市各个水系的信息；水系包含湖泊、河流、水库等。
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+表"roads"记录南京市内各段道路的信息。
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY,
+Shape LINESTRING)
+
+表"subways"记录南京市内各条地铁线的信息。
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+Location POINT,
+primary key(station, Line),
+foreign key(Line) references subways(Line))
+
+表"subwaystations"记录南京市各个地铁站点的信息。
+
+
+/* Answer the following with no explanation: 我想了解地铁4号线的具体长度。地铁4号线以'line4'为名称表示。 */
+SELECT 

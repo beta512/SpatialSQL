@@ -1,0 +1,90 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 中国面积最大的省份是哪一个？它的面积是多少？ */
+Select name, Area(Shape, 1) as area from provinces order by area desc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+distance DOUBLE,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape_Area DOUBLE, 
+Shape POLYGON)
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTILINESTRING)
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTIPOLYGON)
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+length DOUBLE,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY, 
+Shape LINESTRING)
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+adcode TEXT, 
+Location POINT,
+primary key(station, Line),
+foreign key(adcode) references districts(administrative_division_code),
+foreign key(Line) references subways(Line))
+
+
+/* Answer the following with no explanation: 南京市面积最大的区是哪一区？面积是多少？ */
+SELECT 

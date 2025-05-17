@@ -1,0 +1,83 @@
+CREATE TABLE "GDPs" (
+province TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+year_2023 DOUBLE, 
+year_2022 DOUBLE, 
+year_2021 DOUBLE, 
+year_2020 DOUBLE, 
+year_2019 DOUBLE, 
+year_2018 DOUBLE, 
+year_2017 DOUBLE, 
+year_2016 DOUBLE, 
+year_2015 DOUBLE, 
+year_2014 DOUBLE, 
+year_2013 DOUBLE, 
+year_2012 DOUBLE, 
+year_2011 DOUBLE, 
+year_2010 DOUBLE, 
+year_2009 DOUBLE, 
+year_2008 DOUBLE, 
+year_2007 DOUBLE, 
+year_2006 DOUBLE, 
+year_2005 DOUBLE, 
+year_2004 DOUBLE, 
+year_2003 DOUBLE, 
+year_2002 DOUBLE, 
+year_2001 DOUBLE, 
+year_2000 DOUBLE, 
+year_1999 DOUBLE, 
+year_1998 DOUBLE, 
+year_1997 DOUBLE, 
+year_1996 DOUBLE, 
+year_1995 DOUBLE, 
+year_1994 DOUBLE, 
+year_1993 DOUBLE, 
+year_1992 DOUBLE)
+
+The "GDPs" table records GDP information for each province in China from 1992 to 2023.
+
+CREATE TABLE "airports" (
+IATA TEXT PRIMARY KEY,
+runway_number INTEGER,
+airfield_area_class TEXT,
+Name TEXT,
+Location POINT)
+
+The "airports" table records information about various airports in China.
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+province TEXT REFERENCES "GDPs" (province), 
+Shape MULTIPOLYGON)
+
+The "cities" table records information about various cities in China.
+
+CREATE TABLE "scenicSpots" (
+name TEXT PRIMARY KEY,
+level TEXT, 
+address TEXT, 
+Location POINT)
+
+The "scenicSpots" table records information about various tourist attractions in China.
+
+CREATE TABLE "stations" (
+name TEXT PRIMARY KEY,
+address TEXT,
+Location POIINT)
+
+The "stations" table records information about various high-speed railway stations in China.
+
+CREATE TABLE "tours" (
+city TEXT, 
+year INTEGER, 
+international_tourists_number_Wan DOUBLE, 
+international_toursim_earnings_Wan_dollar DOUBLET, 
+domestic_tourists_number_Wan DOUBLE, 
+Domestic_Tourism_Earnings_Wan_Yuan DOUBLE, 
+star_hotel_number INTEGER, 
+FOREIGN KEY (city) REFERENCES "cities" (name), 
+PRIMARY KEY (city, year))
+
+The "tours" table records tourism information for various cities in China.
+

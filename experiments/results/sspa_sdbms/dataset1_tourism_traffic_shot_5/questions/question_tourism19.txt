@@ -1,0 +1,103 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 新疆维吾尔自治区境内河流的总长度是多少？应计算河流与新疆维吾尔自治区交集的长度。 */
+Select Sum(GLength(Intersection(rivers.Shape, provinces.Shape), 1))  from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'
+
+/* Answer the following: 哪些河流流经新疆维吾尔自治区？一条河流是由名字相同的各河流段组成。 */
+Select distinct rivers.name from rivers inner join provinces On Intersects(rivers.Shape, provinces.Shape) =1 where provinces.name = '新疆维吾尔自治区'
+
+/* Answer the following: 中国五个自治区的总面积和总人口分别是多少？中国五个自治区是指西藏自治区、内蒙古自治区、新疆维吾尔自治区、广西壮族自治区和宁夏回族自治区。 */
+Select Sum(Area(Shape,1))  , Sum(POPU) from provinces where name like '%自治区'
+
+/* Answer the following: 京津冀地区共有多少座机场？京津冀地区是指河北省、天津市和北京市。 */
+Select count(*) from provinces inner join airports On Within(Location, Shape) = 1 where provinces.name in ('北京市', '河北省', '天津市')
+
+/* Answer the following: 长江流域，65岁以上人口的总人口是多少？长江流域是指长江流经的省份。长江由名字相同的各河流段组成。 */
+Select Sum(Pop_65Plus) from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')
+
+/* Given the following database schema: */
+CREATE TABLE "GDPs" (
+province TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+year_2023 DOUBLE, 
+year_2022 DOUBLE, 
+year_2021 DOUBLE, 
+year_2020 DOUBLE, 
+year_2019 DOUBLE, 
+year_2018 DOUBLE, 
+year_2017 DOUBLE, 
+year_2016 DOUBLE, 
+year_2015 DOUBLE, 
+year_2014 DOUBLE, 
+year_2013 DOUBLE, 
+year_2012 DOUBLE, 
+year_2011 DOUBLE, 
+year_2010 DOUBLE, 
+year_2009 DOUBLE, 
+year_2008 DOUBLE, 
+year_2007 DOUBLE, 
+year_2006 DOUBLE, 
+year_2005 DOUBLE, 
+year_2004 DOUBLE, 
+year_2003 DOUBLE, 
+year_2002 DOUBLE, 
+year_2001 DOUBLE, 
+year_2000 DOUBLE, 
+year_1999 DOUBLE, 
+year_1998 DOUBLE, 
+year_1997 DOUBLE, 
+year_1996 DOUBLE, 
+year_1995 DOUBLE, 
+year_1994 DOUBLE, 
+year_1993 DOUBLE, 
+year_1992 DOUBLE)
+
+表"GDPs"记录中国各个省1992年到2023年的GDP信息。
+
+CREATE TABLE "airports" (
+IATA TEXT PRIMARY KEY,
+runway_number INTEGER,
+airfield_area_class TEXT,
+Name TEXT, 
+Location POINT)
+
+表"airports"记录中国各个机场的信息。
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY, 
+administrative_division_code TEXT, 
+province TEXT REFERENCES GDPs (province), 
+Shape MULTIPOLYGON)
+
+表"cities"记录中国各个城市的信息。
+
+CREATE TABLE "scenicSpots" (
+name TEXT PRIMARY KEY,
+level TEXT, 
+address TEXT, 
+Location POINT)
+
+表"scenicSpots"记录中国各个旅游景点的信息。
+
+CREATE TABLE "stations" (
+name TEXT PRIMARY KEY, 
+address TEXT, 
+Location POIINT)
+
+表"stations"记录中国各个高铁站的信息。
+
+CREATE TABLE "tours" (
+city TEXT, 
+year INTEGER, 
+international_tourists_number_Wan DOUBLE, 
+international_toursim_earnings_Wan_dollar DOUBLET, 
+domestic_tourists_number_Wan DOUBLE, 
+Domestic_Tourism_Earnings_Wan_Yuan DOUBLE, 
+star_hotel_number INTEGER, 
+FOREIGN KEY (city) REFERENCES cities (name), 
+PRIMARY KEY (city, year))
+
+表"tours"记录中国各个城市的旅游信息。
+
+
+/* Answer the following with no explanation: 新疆维吾尔自治区3A级及以上旅游景点有多少个？新疆维吾尔自治区是一个省，由多个城市构成。新疆维吾尔自治区以'新疆维吾尔自治区'为名称表示，3A级以'3A'为名称表示。 */
+SELECT 

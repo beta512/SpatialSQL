@@ -1,0 +1,81 @@
+/* Given the following database schema: */
+CREATE TABLE "airports" (
+IATA TEXT  not null,
+runway_number INTEGER  not null,
+airfield_area_class TEXT not null,
+name TEXT PRIMARY KEY, 
+location POINT  not null)
+
+表"airports"记录中国各个机场的信息。
+
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+province TEXT REFERENCES provinces (name),
+administrative_division_code TEXT not null,
+administrative_division_category TEXT  not null,
+eng_name TEXT  not null,
+shape MULTIPOLYGON  not null)
+
+表"cities"记录中国各个城市的信息。
+
+CREATE TABLE "lakes" (
+HYD1_4M_ID INTEGER PRIMARY KEY,
+Perimeter DOUBLE not null,
+Area DOUBLE,
+GBCODE TEXT  not null,
+name TEXT not null,
+level_lake INTEGER  not null, 
+shape POLYGON  not null)
+
+表"lakes"记录中国各块湖泊的信息。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+GDP_1994 DOUBLE not null,
+GDP_1997 DOUBLE not null,
+GDP_1998 DOUBLE not null,
+GDP_1999 DOUBLE not null,
+GDP_2000 DOUBLE not null,
+pinyin_name TEXT not null,
+Pop_0_14 DOUBLE not null,
+Pop_15_64 DOUBLE not null,
+Pop_65Plus DOUBLE not null,
+Pop_Female DOUBLE not null,
+Pop_Han DOUBLE not null,
+Pop_Male DOUBLE not null,
+Pop_Minori DOUBLE not null,
+Pop_Rural DOUBLE not null,
+Pop_Urban DOUBLE not null,
+POPU DOUBLE not null,
+administrative_divison_code TEXT not null,
+shape MULTIPOLYGON not null)
+
+表"provinces"记录中国各个省的GDP及人口等信息。
+
+CREATE TABLE "rails" (
+objectID INTEGER PRIMARY KEY,
+Shape_Length DOUBLE not null,
+entityID TEXT not null,
+name TEXT not null,
+classID TEXT  not null, 
+shape MULTILINESTRING not null)
+
+表"rails"记录中国各段铁路的信息。
+
+CREATE TABLE "rivers" (
+HYD1_4M_ID INTEGER PRIMARY KEY,
+length DOUBLE not null,
+fnode INTEGER  not null ,
+tnode INTEGER not null ,
+lpoly INTEGER not null ,
+rpoly INTEGER not null ,
+GBCODE TEXT not null ,
+name TEXT not null,
+level_river INTEGER  not null, 
+shape LINESTRING  not null)
+
+表"rivers"记录中国各段河流的信息。
+
+
+/* Answer the following with no explanation: 距离河南省与湖北省交界最近的机场是哪座？距离有多远？河南省以'河南省'为名称表示，湖北省以'湖北省'为名称表示。 */
+SELECT 

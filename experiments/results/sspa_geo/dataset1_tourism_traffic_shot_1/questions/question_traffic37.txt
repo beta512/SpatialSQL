@@ -1,0 +1,101 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 京广线方圆10千米内有哪些机场？ */
+Select distinct airports.name from airports inner join rails On Distance(airports.Location, rails.Shape, 1) < 10 * 1000 where rails.name = '京广线'
+
+/* Given the following database schema: */
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+distance DOUBLE,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape_Area DOUBLE, 
+Shape POLYGON)
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTILINESTRING)
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT, 
+Shape MULTIPOLYGON)
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+length DOUBLE,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY, 
+Shape LINESTRING)
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+adcode TEXT, 
+Location POINT,
+primary key(station, Line),
+foreign key(adcode) references districts(administrative_division_code),
+foreign key(Line) references subways(Line))
+
+
+/* Answer the following with no explanation: 六合区有哪些公交线路在早上5点发车？六合区以'六合区'为名称表示，早上5点钟以'0500'为名称表示。 */
+SELECT 

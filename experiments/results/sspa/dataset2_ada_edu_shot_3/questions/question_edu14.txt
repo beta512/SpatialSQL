@@ -1,0 +1,62 @@
+You are an expert in the SpatiLite spatial database and highly skilled in writing SQL queries.
+
+In SpatiLite,
+	The function Distance(geom1 Geometry, geom2 Geometry, 1) returns the distance between geom1 and geom2, measured in meters.
+	The function Area( s Surface , 1) returns the area of s, measured in meters.
+	The function GLength( c Curve , 1) returns the length of c, measured in meters.
+	The function Centroid( s Surface ) returns the centroid of s, which may lie outside s.
+
+	函数 Touches(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相邻（邻接）。
+	函数 Intersects(geom1 Geometry, geom2 Geometry) 判断 geom1 和 geom2 是否相交。
+
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 东三省的总面积是多少？东三省指辽宁省、吉林省、黑龙江省。 */
+Select Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省')
+
+/* Answer the following: 我想了解玄武区和秦淮区的面积分别是多少？ */
+Select name, Area(Shape, 1) from districts where name in ('玄武区', '秦淮区')
+
+/* Answer the following: 东三省面积最大的省是哪个，面积是多少？东三省指辽宁省、吉林省、黑龙江省。 */
+Select province, Sum(Area(Shape, 1)) from cities where province in ('辽宁省', '吉林省', '黑龙江省') group by province order by Sum(Area(Shape, 1)) desc limit 1
+
+/* Given the following database schema: */
+CREATE TABLE "cities" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT NOT NULL,
+administrative_division_category TEXT NOT NULL,
+POP2020 INTEGER NOT NULL,
+POP2010 INTEGER NOT NULL,
+POP2000 INTEGER NOT NULL,
+shape MULTIPOLYGON NOT NULL,
+Shape_Length DOUBLE)
+
+表"cities"记录中国各个城市的位置及人口信息等。
+
+CREATE TABLE "provinces" (
+name TEXT PRIMARY KEY,
+pinyin_name TEXT NOT NULL,
+administrative_division_code TEXT NOT NULL,
+shape MULTIPOLYGON NOT NULL)
+
+表"provinces"记录中国各个省份的信息。
+
+CREATE TABLE "universities" (
+name TEXT PRIMARY KEY, 
+academic_discipline_category TEXT NOT NULL, 
+operation_type TEXT NOT NULL, 
+educational_level TEXT NOT NULL, 
+project_985 INTEGER NOT NULL, 
+project_211 INTEGER NOT NULL, 
+double_tops INTEGER NOT NULL, 
+affiliation TEXT, 
+address TEXT, 
+location POINT NOT NULL, 
+CONSTRAINT check_985 CHECK (project_985 = 1 or project_985 = 0), 
+CONSTRAINT check_211 CHECK (project_211 = 1 or project_211 = 0), 
+CONSTRAINT check_double CHECK (double_tops = 1 or double_tops = 0))
+
+表"universities"记录中国各个大学的信息。
+
+
+/* Answer the following with no explanation: 我想了解京津冀地区的总面积是多少。 京津冀是指北京市、天津市和河北省。 */
+SELECT 

@@ -1,0 +1,8 @@
+original_column_name,column_name,column_description,data_format,value_description,column_description_CN,value_description_CN
+city,city,,TEXT,,,
+year,year,,INTEGER,,,
+international_tourists_number_Wan,international tourists number Wan,"The field ""international_tourists_number_Wan"" records the number of international tourists",DOUBLE,,"字段international_tourists_number_Wan记录国外旅游人数",
+international_toursim_earnings_Wan_dollar,international toursim earnings Wan dollar,"The field ""international_tourism_earnings_Wan_dollar"" records international tourism revenue",DOUBLET,,"字段""international_toursim_earnings_Wan_dollar""记录国外旅游收入",
+domestic_tourists_number_Wan,domestic tourists number Wan,"The field ""domestic_tourists_number_Wan"" records the number of domestic tourists",DOUBLE,,"字段""domestic_tourists_number_Wan""记录国内旅游人数",
+Domestic_Tourism_Earnings_Wan_Yuan,Domestic Tourism Earnings Wan Yuan,"The field ""Domestic_Tourism_Earnings_Wan_Yuan"" records domestic tourism revenue",DOUBLE,,"字段""Domestic_Tourism_Earnings_Wan_Yuan""记录国内旅游收入",
+star_hotel_number,star hotel number,The field star_hotel_number records the number of star-rated hotels,INTEGER,,"字段""star_hotel_number""记录星级酒店数目",

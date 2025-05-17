@@ -1,0 +1,97 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: 我想了解河北省各城市的面积。 */
+Select cities.name, Area(cities.Shape, 1) from provinces inner join cities on Contains(provinces.Shape, cities.Shape) = 1 where provinces.name = '河北省'
+
+/* Answer the following: 长江流域的总面积是多少？长江流域是指长江流经的省份。长江由名字相同的各河流段组成。 */
+Select Sum(Area(provinces.Shape, 1))   from provinces where name in (Select distinct provinces.name from provinces inner join rivers On Intersects(provinces.Shape, rivers.Shape) = 1 where rivers.name = '长江')
+
+/* Answer the following: 请问太湖的面积是多少？太湖是由多个名称相同的湖泊区域组成。只需给出面积。 */
+Select Sum(Area(Shape, 1))   from lakes where name = '太湖'
+
+/* Answer the following: 我想了解京津冀地区的总面积是多少。  */
+Select Sum(Area(provinces.Shape, 1)) from provinces where provinces.name = '北京市' or provinces.name = '天津市' or provinces.name = '河北省'
+
+/* Answer the following: 全国1级湖泊的总面积是多少？ */
+Select  Sum(Area(Shape, 1))   from lakes where level_lake = 1
+
+/* Given the following database schema: */
+CREATE TABLE "agencies" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT,
+Location POINT)
+
+CREATE TABLE "buslines" (
+lineID TEXT PRIMARY KEY,
+name TEXT UNIQUE,
+type TEXT,
+start_stop TEXT,
+end_stop TEXT,
+start_time TEXT,
+end_time TEXT, 
+Shape LINESTRING,
+foreign key (start_stop) references busstops (name),
+foreign key (end_stop) references busstops (name))
+
+CREATE TABLE "busstops" (
+stopID TEXT PRIMARY KEY,
+name TEXT Unique,
+X DOUBLE,
+Y DOUBLE,
+lineIDs TEXT, 
+Location POINT)
+
+CREATE TABLE "districts" (
+name TEXT PRIMARY KEY,
+administrative_division_code TEXT Unique,
+ENG_NAME TEXT, 
+Shape POLYGON)
+
+CREATE TABLE "greenspaces" (
+PK_UID INTEGER PRIMARY KEY AUTOINCREMENT,
+NAME TEXT,
+KIND TEXT,
+Shape_Leng DOUBLE,
+Shape POLYGON)
+
+CREATE TABLE "hotels" (
+NAME TEXT PRIMARY KEY,
+KIND TEXT, 
+Location POINT)
+
+CREATE TABLE "rails" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTILINESTRING)
+
+CREATE TABLE "rivers" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+fclass TEXT,
+Shape MULTIPOLYGON)
+
+CREATE TABLE "roads" (
+gml_id TEXT PRIMARY KEY,
+Name TEXT,
+pyname TEXT,
+kind_num INTEGER,
+kind TEXT,
+width INTEGER,
+speedclass INTEGER, 
+Shape LINESTRING)
+
+CREATE TABLE "subways" (
+Line TEXT PRIMARY KEY,
+Shape LINESTRING)
+
+CREATE TABLE "subwaystations" (
+station TEXT,
+Line TEXT,
+address TEXT,
+Location POINT,
+primary key(station, Line),
+foreign key(Line) references subways(Line))
+
+
+/* Answer the following with no explanation: 南京市每块绿地的总面积是多少？一块绿地由名字相同的多个区域组成。 */
+SELECT 
